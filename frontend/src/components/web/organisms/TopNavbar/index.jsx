@@ -1,16 +1,17 @@
 import React from "react";
 import * as S from "./styles";
-import SearchBar from "../../molecules/SearchBar";
-import IconButton from "../../atoms/iconButton";
-import ProfileBlock from "../../molecules/ProfileBlock";
+import SearchBar from "../../molecules/SearchBar/index";
+// import IconButton from "../../ atoms/";
+import ProfileBlock from "../../molecules/ProfileBlock/index";
+import PageHeader from "../../molecules/Pageheader";
 
 const TopNavbar = () => {
   return (
     <S.Container>
-      <SearchBar placeholder="Search transactions..." />
-
+      <PageHeader title="Dahsboard gg!!" description="gshgjkjkbkjsbkbvjsbk" ></PageHeader>
       <S.Actions>
-        <IconButton icon="🔔" />
+      <SearchBar placeholder="Search transactions..." />
+        {/* <IconButton icon="🔔" /> */}
         <ProfileBlock
           name="Adaline"
           email="adaline@mail.com"

@@ -100,6 +100,64 @@ body {
 
   --danger-500: #e83838;
   --danger-200: #ffebeb;
+
+    /* FONT WEIGHTS - fw */
+  --fw-bolder: 800;
+  --fw-bold: 600;
+  --fw-regular: 400;
+
+  /* WIDTHS */
+  --width-100: 100%;
+  --width-50: 50%;
+
+  /* HEIGHTS */
+  --height-100-pt: 100%;
+  --height-100-vp: 100vh;
+
+  /* z-index */
+  --slider-arrow-z-index: 8;
+  --navbar-z-index: 10;
+  --sidebar-z-index: 11;
+  --dropdown-z-index: 12;
+  --button-m-fixed-z-index: 13;
+  --drawer-backdrop-z-index: 20;
+  --drawer-content-z-index: 21;
+  --drawer-close-z-index: 22;
+  --modal-backdrop-z-index: 20;
+  --modal-content-z-index: 21;
+  --modal-close-z-index: 22;
+
+  /* MARGINS - m */
+  --m-4: 4px;
+  --m-6: 6px;
+  --m-8: 8px;
+  --m-10: 10px;
+  --m-12: 12px;
+  --m-16: 16px;
+  --m-20: 20px;
+  --m-24: 24px;
+  --m-32: 32px;
+  --m-36: 36px;
+  --m-40: 40px;
+  --m-48: 48px;
+  --m-60: 60px;
+  --m-72: 72px;
+
+  /* height */
+  
+  --navbar-height: 80px;
+  --navbar-height-landing: 104px;
+  --navbar-height-m: 48px;
+  --input-height: 44px;
+  --select-dropdown-height: 44px;
+  --bottom-navbar-height-m: 48px;
+
+  /* width */
+  --sidebar-width: 60px;
+  --sidebar-width-expanded: 220px;
+
+  /* Main section max-width */
+  --main-max-width: 1600px;
 }
 
 @media (max-width: 1279px) {
@@ -117,3 +175,4 @@ body {
     --btn-font-size: var(--btn-font-size-sm);
   }
 }
+

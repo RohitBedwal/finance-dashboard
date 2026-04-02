@@ -4,6 +4,9 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+  border-radius: 20px;
+  padding:0px 10px;
+  border: 0.1px solid black;
 `;
 
 export const Info = styled.div`

@@ -4,16 +4,16 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
 `;
 
 export const Left = styled.div`
   display: flex;
   flex-direction: column;
+  
 `;
 
-export const Title = styled.h1`
-  font-size: var(--fs-2xl);
+export const Title = styled.h2`
+  font-size: var(--fs-xl);
   font-weight: var(--fw-medium);
   color: var(--gray-900);
 `;
@@ -21,7 +21,6 @@ export const Title = styled.h1`
 export const Description = styled.p`
   font-size: var(--fs-sm);
   color: var(--gray-500);
-  margin-top: 4px;
 `;
 
 export const Right = styled.div`
