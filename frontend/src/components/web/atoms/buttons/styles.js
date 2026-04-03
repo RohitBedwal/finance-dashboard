@@ -1,10 +1,13 @@
 import styled, { css } from "styled-components";
 
 export const IconWrapper = styled.span`
-  display: flex;
+  
   align-items: center;
-  justify-content: center;
+
   font-size: 16px;
+  overflow hidden;
+  width:30px;
+  height:30px;
 `;
 
 const sizeStyles = {
@@ -33,7 +36,7 @@ const variants = {
   primary: css`
     background: var(--primary-600);
     color: var(--white);
-    border-radius: 12px;
+    border-radius: 30px;
     ${withButtonSize}
 
     &:hover {
@@ -45,7 +48,7 @@ const variants = {
     background: var(--white);
     color: var(--gray-900);
     border: 1px solid var(--gray-200);
-    border-radius: 12px;
+    border-radius: 30px;
     ${withButtonSize}
 
     &:hover {
@@ -110,7 +113,7 @@ export const StyledButton = styled.button`
   justify-content: center;
   gap: 8px;
   font-family: var(--font-primary);
-  font-weight: var(--fw-medium);
+  font-weight:200;
   cursor: pointer;
   transition: all 0.25s ease;
   border: none;

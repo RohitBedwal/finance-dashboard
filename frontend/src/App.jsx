@@ -7,6 +7,7 @@ import ProtectedRouter from "./components/web/routes/ProtectedRouter";
 import theme from "./theme";
 import { CloseButton } from "./components/web/atoms/toaster";
 import PageNotFound from "./components/web/pages/PageNotFound";
+import { Toaster } from "react-hot-toast";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,6 +28,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={{ ...theme.default }}>
+       <Toaster position="top-right" />
       <Routes location={location}>
         <Route
           path="/*"

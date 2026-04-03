@@ -21,5 +21,6 @@ export const Title = styled.span`
 export const Amount = styled.h3`
   margin: 10px 0;
   font-size: var(--fs-xl);
+  font-weight: 500;
 
 `;

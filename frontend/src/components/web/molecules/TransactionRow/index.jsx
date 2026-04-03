@@ -4,19 +4,29 @@ import Badge from "../../atoms/badge";
 
 const TransactionRow = ({
   date,
-  category,
   amount,
   type,
+  name,
+  method,
+  category,
+  status,
 }) => {
   return (
     <S.Row>
       <td>{date}</td>
+
+      <td className={type}>
+        {type === "Income" ? "+" : "-"} ₹{amount}
+      </td>
+
+      <td>{name}</td>
+
+      <td>{method}</td>
+
       <td>{category}</td>
-      <td>{amount}</td>
+
       <td>
-        <Badge type={type === "income" ? "success" : "danger"}>
-          {type}
-        </Badge>
+        <Badge type={status}>{status}</Badge>
       </td>
     </S.Row>
   );

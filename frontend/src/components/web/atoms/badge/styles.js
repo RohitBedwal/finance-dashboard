@@ -1,15 +1,15 @@
 import styled, { css } from "styled-components";
 
 const types = {
-  success: css`
+  Successful: css`
     background: var(--success-200);
     color: var(--success-800);
   `,
-  danger: css`
+  Failed: css`
     background: var(--danger-200);
     color: var(--danger-500);
   `,
-  warning: css`
+  Pending: css`
     background: var(--warning-200);
     color: var(--warning-500);
   `,
