@@ -14,7 +14,7 @@ export const Layout = styled.div`
     "sidebar navbar"
     "sidebar main";
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1400px) {
     grid-template-columns: var(--sidebar-width) 1fr;
   }
 

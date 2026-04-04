@@ -12,7 +12,10 @@ const Sidebar = () => {
   
   return (
     <S.Container>
-      <S.Logo>Finance</S.Logo>
+      <S.Logo>
+        <S.LogoShort>F</S.LogoShort>
+        <S.LogoFull>Finance</S.LogoFull>
+      </S.Logo>
 
       <S.Menu>
         {menu.map((item) => (

@@ -6,7 +6,21 @@ export const Container = styled.aside`
   height: 100%;
   background-color: var(--primary-100);
   padding: 0px 24px;
+  position: relative;
+  z-index: var(--sidebar-z-index);
+  transition: width 0.25s ease, padding 0.25s ease;
 
+  @media (max-width: 1400px) {
+    width: var(--sidebar-width);
+    padding: 0 10px;
+    overflow: visible;
+
+    &:hover {
+      width: var(--sidebar-width-expanded);
+      padding: 0 24px;
+      box-shadow: 8px 0 20px rgba(0, 0, 0, 0.06);
+    }
+  }
 
   @media (max-width: 768px) {
     display: none;
@@ -15,10 +29,47 @@ export const Container = styled.aside`
 
 export const Logo = styled.h2`
   font-size: var(--fs-lg);
-  margin-bottom: 40px;
-  align-items:center;
-  display:flex;
+  margin-bottom: 28px;
+  align-items: center;
+  display: flex;
+  gap: 10px;
   height: 80px;
+  white-space: nowrap;
+`;
+
+export const LogoShort = styled.span`
+  display: none;
+
+  @media (max-width: 1400px) {
+    display: inline-flex;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-600);
+    color: var(--white);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    flex-shrink: 0;
+  }
+`;
+
+export const LogoFull = styled.span`
+  @media (max-width: 1400px) {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transition: opacity 0.2s ease;
+  }
+
+  ${Container}:hover & {
+    @media (max-width: 1400px) {
+      opacity: 1;
+      width: auto;
+      overflow: visible;
+    }
+  }
 
 `;
 
@@ -26,6 +77,17 @@ export const Menu = styled.div`
   display: flex;
   flex-direction: column;
   gap: 18px;
+
+  @media (max-width: 1400px) {
+    align-items: center;
+    gap: 16px;
+  }
+
+  ${Container}:hover & {
+    @media (max-width: 1400px) {
+      align-items: stretch;
+    }
+  }
 `;
 
 export const MenuItem = styled.button`
@@ -41,8 +103,30 @@ export const MenuItem = styled.button`
   align-items: center;
   cursor: pointer;
   font-size: var(--fs-sm);
+  width: 100%;
+  transition: background-color 0.2s ease, color 0.2s ease;
 
   color: var(--gray-600);
+
+  @media (max-width: 1400px) {
+    justify-content: center;
+    gap: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 999px;
+  }
+
+  ${Container}:hover & {
+    @media (max-width: 1400px) {
+      justify-content: flex-start;
+      gap: 12px;
+      width: 100%;
+      height: auto;
+      padding: 10px 12px;
+      border-radius: 25px;
+    }
+  }
 
   ${({ $active }) =>
     $active
@@ -63,6 +147,7 @@ export const MenuItemIcon = styled.span`
   justify-content: center;
   width: 24px;
   height: 24px;
+  flex-shrink: 0;
 
   svg {
     display: block;
@@ -81,4 +166,20 @@ export const MenuItemIcon = styled.span`
 export const MenuItemLabel = styled.span`
   font-size: var(--fs-sm);
   font-weight: ${({ $active }) => ($active ? "var(--fw-medium)" : "var(--fw-regular)")};
+
+  @media (max-width: 1400px) {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+
+  ${Container}:hover & {
+    @media (max-width: 1400px) {
+      opacity: 1;
+      width: auto;
+      overflow: visible;
+    }
+  }
 `;
