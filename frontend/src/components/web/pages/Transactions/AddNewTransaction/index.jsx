@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import * as S from "./styles";
-import { defaultCategories } from "./defaultCategories";
+import { categoryOptionsByType } from "./defaultCategories";
 import { useTransactionForm } from "./useTransactionForm";
 import Button from "../../../atoms/buttons";
 
@@ -20,8 +20,11 @@ const AddNewTransaction = ({ onClose }) => {
     const { form, handleChange, saveTransaction } =
         useTransactionForm();
 
-    const [categories, setCategories] =
-        useState(defaultCategories);
+    const [selectedType, setSelectedType] =
+        useState(form.type || "Income");
+
+    const categories =
+        categoryOptionsByType[selectedType] || [];
 
     const handleSubmit = () => {
         const success = saveTransaction();
@@ -52,9 +55,15 @@ const AddNewTransaction = ({ onClose }) => {
                                 { value: "Income", label: "Income" },
                                 { value: "Expense", label: "Expense" },
                             ]}
-                            onChange={(e) =>
-                                handleChange("type", e.value)
-                            }
+                            defaultValue={{
+                                value: selectedType,
+                                label: selectedType,
+                            }}
+                            onChange={(e) => {
+                                setSelectedType(e.value);
+                                handleChange("type", e.value);
+                                handleChange("category", "");
+                            }}
                         />
                     </S.Field>
 

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Select = styled.select`
-  height: 42px;
-  border-radius: 10px;
+  // height: 42px;
+  border-radius: 30px;
   border: 1px solid var(--gray-200);
-  padding: 0 12px;
+  padding: 5px 15px;
   font-family: var(--font-primary);
 
   &:focus {

@@ -1,6 +1,16 @@
-export const defaultCategories = [
-  "Food",
-  "Movie",
-  "Shopping",
-  "Others",
-];
+export const categoryOptionsByType = {
+  Expense: [
+    "Food",
+    "Bills",
+    "Shopping",
+    "Entertainment",
+    "Others",
+  ],
+  Income: [
+    "Salary",
+    "Business",
+    "Freelance",
+    "Investment",
+    "Other",
+  ],
+};

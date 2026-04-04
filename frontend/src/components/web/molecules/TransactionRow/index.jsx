@@ -13,7 +13,11 @@ const TransactionRow = ({
 }) => {
   return (
     <S.Row>
-      <td>{date}</td>
+      <td> {new Date(date).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })}</td>
 
       <td className={type}>
         {type === "Income" ? "+" : "-"} ₹{amount}

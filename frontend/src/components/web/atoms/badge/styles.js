@@ -13,6 +13,18 @@ const types = {
     background: var(--warning-200);
     color: var(--warning-500);
   `,
+  success: css`
+    background: var(--success-200);
+    color: var(--success-800);
+  `,
+  danger: css`
+    background: var(--danger-200);
+    color: var(--danger-500);
+  `,
+  warning: css`
+    background: var(--warning-200);
+    color: var(--warning-500);
+  `,
 };
 
 export const Badge = styled.span`

@@ -8,7 +8,7 @@ import PageHeader from "../../molecules/Pageheader";
 const TopNavbar = () => {
   return (
     <S.Container>
-      <PageHeader title="Dahsboard gg!!" description="gshgjkjkbkjsbkbvjsbk" ></PageHeader>
+      <PageHeader title="Dahsboard]" description="gg" ></PageHeader>
       <S.Actions>
       <SearchBar placeholder="Search transactions..." />
         {/* <IconButton icon="🔔" /> */}
