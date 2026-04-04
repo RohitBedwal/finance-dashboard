@@ -146,7 +146,7 @@ const Dashboard = () => {
       title: "Total Balance",
       amount: `₹${allTimeTotals.balance}`,
       change: balanceChange,
-      icon: "wallet",
+      icon: "goal",
     },
     {
       title: "Income",

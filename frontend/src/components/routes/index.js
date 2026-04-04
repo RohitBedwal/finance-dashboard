@@ -11,7 +11,7 @@ export const errorRoutes = {
 export const protectedRoutes = {
   dashboard: '/dashboard',
   transactions: '/transactions',
-  wallet: '/wallet',
+  goal: '/goal',
   analytics: '/analytics',
   settings: '/settings'
   

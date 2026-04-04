@@ -4,6 +4,7 @@ import SummaryCardsGrid from "../../organisms/SummaryCardsGrid";
 import MonthlyIncomeExpenseChart from "../../organisms/MonthlyIncomeExpenseChart";
 import SavingsOverviewChart from "../../organisms/SavingsOverviewChart";
 import StatisticsPieChart from "../../organisms/StatisticsPieChart";
+import YearlyCalendarTable from "../../organisms/YearlyCalendarTable";
 import * as S from "./styles";
 import { useAnalyticsData } from "./useAnalyticsData";
 
@@ -20,6 +21,13 @@ const Analytics = () => {
     statisticsMonthLabel,
     statisticsData,
     statisticsTotal,
+    yearlyIncomeRows,
+    yearlyExpenseRows,
+    yearlyIncomeTotals,
+    yearlyExpenseTotals,
+    yearlyIncomeTotal,
+    yearlyExpenseTotal,
+    yearlyBalanceTotal,
     halfYearMonths,
     summaryData,
     monthlyBarData,
@@ -59,6 +67,21 @@ const Analytics = () => {
           chartData={statisticsData}
         />
       </S.ChartGrid>
+
+      <S.BottomSection>
+        <YearlyCalendarTable
+          year={moneyFlowYear}
+          years={years}
+          onYearChange={setMoneyFlowYear}
+          incomeRows={yearlyIncomeRows}
+          expenseRows={yearlyExpenseRows}
+          incomeTotals={yearlyIncomeTotals}
+          expenseTotals={yearlyExpenseTotals}
+          yearlyIncomeTotal={yearlyIncomeTotal}
+          yearlyExpenseTotal={yearlyExpenseTotal}
+          yearlyBalanceTotal={yearlyBalanceTotal}
+        />
+      </S.BottomSection>
     </Main>
   );
 };

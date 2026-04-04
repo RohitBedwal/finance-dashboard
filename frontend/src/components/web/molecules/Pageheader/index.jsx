@@ -11,8 +11,8 @@ const HEADER_CONFIG = {
     title: "Transactions",
     description: "Track and manage all your financial activity",
   },
-  "/wallet": {
-    title: "Wallet",
+  "/goal": {
+    title: "goal",
     description: "Monitor your balances and accounts",
   },
   "/analytics": {

@@ -17,3 +17,7 @@ export const LeftCharts = styled.div`
 	grid-template-columns: 1fr;
 	gap: 20px;
 `;
+
+export const BottomSection = styled.div`
+	margin-top: 20px;
+`;

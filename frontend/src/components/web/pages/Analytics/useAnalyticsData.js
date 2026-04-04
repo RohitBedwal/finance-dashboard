@@ -165,7 +165,7 @@ export const useAnalyticsData = () => {
       title: "Total Balance",
       amount: `₹${selectedSavings}`,
       change: calculateChange(selectedSavings, compareSavings),
-      icon: "wallet",
+      icon: "goal",
     },
     {
       title: "Expenses",
@@ -281,6 +281,78 @@ export const useAnalyticsData = () => {
 
   const statisticsTotal = statisticsData.reduce((sum, item) => sum + item.value, 0);
 
+  const buildYearlyRows = (targetType) => {
+    const selectedCategories = categoryOptionsByType[targetType] || [];
+    const fallbackCategory = selectedCategories[selectedCategories.length - 1] || "Others";
+
+    const rowMap = selectedCategories.reduce((acc, category) => {
+      acc[category] = new Array(12).fill(0);
+      return acc;
+    }, {});
+
+    transactions.forEach((tx) => {
+      const txDate = parseTransactionDate(tx.date);
+      if (!txDate || txDate.getFullYear() !== moneyFlowYear) return;
+      if (normalizeType(tx.type) !== targetType) return;
+
+      const amount = parseAmount(tx.amount);
+      const monthIndex = txDate.getMonth();
+      const rawCategory = String(tx.category || "").trim();
+      const matchedCategory = selectedCategories.find(
+        (category) => category.toLowerCase() === rawCategory.toLowerCase()
+      );
+
+      const category = matchedCategory || fallbackCategory;
+
+      if (!rowMap[category]) {
+        rowMap[category] = new Array(12).fill(0);
+      }
+
+      rowMap[category][monthIndex] += amount;
+    });
+
+    return selectedCategories.map((category) => ({
+      name: category,
+      monthly: rowMap[category] || new Array(12).fill(0),
+    }));
+  };
+
+  const yearlyIncomeRows = useMemo(
+    () => buildYearlyRows("Income"),
+    [transactions, moneyFlowYear]
+  );
+
+  const yearlyExpenseRows = useMemo(
+    () => buildYearlyRows("Expense"),
+    [transactions, moneyFlowYear]
+  );
+
+  const sumMonthlyTotals = (rows) => {
+    const totals = new Array(12).fill(0);
+
+    rows.forEach((row) => {
+      row.monthly.forEach((value, monthIndex) => {
+        totals[monthIndex] += value;
+      });
+    });
+
+    return totals;
+  };
+
+  const yearlyIncomeTotals = useMemo(
+    () => sumMonthlyTotals(yearlyIncomeRows),
+    [yearlyIncomeRows]
+  );
+
+  const yearlyExpenseTotals = useMemo(
+    () => sumMonthlyTotals(yearlyExpenseRows),
+    [yearlyExpenseRows]
+  );
+
+  const yearlyIncomeTotal = yearlyIncomeTotals.reduce((sum, value) => sum + value, 0);
+  const yearlyExpenseTotal = yearlyExpenseTotals.reduce((sum, value) => sum + value, 0);
+  const yearlyBalanceTotal = yearlyIncomeTotal - yearlyExpenseTotal;
+
   return {
     years,
     moneyFlowYear,
@@ -293,6 +365,13 @@ export const useAnalyticsData = () => {
     statisticsMonthLabel,
     statisticsData,
     statisticsTotal,
+    yearlyIncomeRows,
+    yearlyExpenseRows,
+    yearlyIncomeTotals,
+    yearlyExpenseTotals,
+    yearlyIncomeTotal,
+    yearlyExpenseTotal,
+    yearlyBalanceTotal,
     halfYearMonths,
     summaryData,
     monthlyBarData,

@@ -50,10 +50,10 @@ const menu = [
     activePath: protectedRoutes.transactions.split("/")[1],
   },
   {
-    label: "Wallet",
+    label: "Goal",
     icon: "products",
-    path: protectedRoutes.wallet,
-    activePath: protectedRoutes.wallet.split("/")[1],
+    path: protectedRoutes.goal,
+    activePath: protectedRoutes.goal.split("/")[1],
   },
   {
     label: "Analytics",

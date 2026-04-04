@@ -1,10 +1,11 @@
 import { lazy } from "react";
 import PageNotFound from "../web/pages/PageNotFound";
 import { errorRoutes, protectedRoutes } from "./index";
+import Goal from "../web/pages/Goal";
 
 const Dashboard = lazy(() => import("../web/pages/Dashboard"));
 const Transactions = lazy(() => import("../web/pages/Transactions"));
-const Wallet = lazy(() => import("../web/pages/Wallet"));
+// const Goal = lazy(() => import("../web/pages/Goal"));
 const Analytics = lazy(() => import("../web/pages/Analytics"));
 const Settings = lazy(() => import("../web/pages/Settings"));
 
@@ -23,10 +24,10 @@ export const PROTECTED_ROUTES = {
     path: protectedRoutes.transactions,
     component: Transactions,
   },
-  wallet: {
+  goal: {
     exact: true,
-    path: protectedRoutes.wallet,
-    component: Wallet,
+    path: protectedRoutes.goal,
+    component: Goal,
   },
   analytics: {
     exact: true,
