@@ -5,6 +5,7 @@ import Goal from "../web/pages/Goal";
 
 const Dashboard = lazy(() => import("../web/pages/Dashboard"));
 const Transactions = lazy(() => import("../web/pages/Transactions"));
+const Budget = lazy(() => import("../web/pages/Budget"));
 // const Goal = lazy(() => import("../web/pages/Goal"));
 const Analytics = lazy(() => import("../web/pages/Analytics"));
 const Settings = lazy(() => import("../web/pages/Settings"));
@@ -23,6 +24,11 @@ export const PROTECTED_ROUTES = {
     exact: true,
     path: protectedRoutes.transactions,
     component: Transactions,
+  },
+  budget: {
+    exact: true,
+    path: protectedRoutes.budget,
+    component: Budget,
   },
   goal: {
     exact: true,

@@ -11,13 +11,29 @@ import "react-datepicker/dist/react-datepicker.css";// import { exportToCSV } fr
 import TransactionFiltersBar from "../TransactionFiltersBar";
 import { useTransactionFilters } from "../../../../context/TransactionFilterContext.jsx";
 
-const TransactionsToolbar = ({ transactions, onDateFilter }) => {
+const TransactionsToolbar = ({
+    transactions,
+    onDateFilter,
+    showExportCsv = true,
+    addButtonLabel = "+ Add new",
+    onAddClick,
+    filterBarProps = {},
+}) => {
     const [openModal, setOpenModal] = useState(false);
     const [dateRange, setDateRange] = useState([null, null]);
 
     const [startDate, endDate] = dateRange;
 
     const { filtersOpen, setFiltersOpen } = useTransactionFilters();
+
+    const handleAddClick = () => {
+        if (typeof onAddClick === "function") {
+            onAddClick();
+            return;
+        }
+
+        setOpenModal(true);
+    };
 
     return (
         <>
@@ -50,21 +66,22 @@ const TransactionsToolbar = ({ transactions, onDateFilter }) => {
                 </S.Left>
 
                 <S.Right>
-
-                    <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => exportToCSV(transactions)}
-                    >
-                        Export CSV
-                    </Button>
+                    {showExportCsv && (
+                        <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => exportToCSV(transactions)}
+                        >
+                            Export CSV
+                        </Button>
+                    )}
 
                     <Button
                         variant="primary"
                         size="sm"
-                        onClick={() => setOpenModal(true)}
+                        onClick={handleAddClick}
                     >
-                        + Add new
+                        {addButtonLabel}
                     </Button>
 
                 </S.Right>
@@ -77,7 +94,7 @@ const TransactionsToolbar = ({ transactions, onDateFilter }) => {
 
             </S.Container>
 
-            {filtersOpen && <TransactionFiltersBar />}
+            {filtersOpen && <TransactionFiltersBar {...filterBarProps} />}
         </>
     );
 };

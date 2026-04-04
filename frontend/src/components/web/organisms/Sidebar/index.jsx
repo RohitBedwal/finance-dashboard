@@ -56,6 +56,12 @@ const menu = [
     activePath: protectedRoutes.goal.split("/")[1],
   },
   {
+    label: "Budget",
+    icon: "banner",
+    path: protectedRoutes.budget,
+    activePath: protectedRoutes.budget.split("/")[1],
+  },
+  {
     label: "Analytics",
     icon: "performance",
     path: protectedRoutes.analytics,

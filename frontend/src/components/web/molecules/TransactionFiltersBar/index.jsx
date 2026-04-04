@@ -1,7 +1,7 @@
 import React from "react";
-import Select from "react-select";
 import styled from "styled-components";
 import { useTransactionFilters } from "../../../../context/TransactionFilterContext";
+import Select from "../../atoms/select";
 
 const Bar = styled.div`
   display: flex;
@@ -40,69 +40,12 @@ const ResetButton = styled.button`
   cursor: pointer;
 `;
 
-const customSelectStyles = {
-  control: (base, state) => ({
-    ...base,
-    borderRadius: 999,
-    minHeight: 40,
-    padding: "0 6px",
-    borderColor: state.hasValue ? "var(--primary-600)" : "var(--gray-200)",
-    backgroundColor: state.hasValue
-      ? "var(--primary-100)"
-      : "var(--white)",
-    boxShadow: "none",
-    fontSize: "14px",
-    "&:hover": {
-      borderColor: state.hasValue ? "var(--primary-600)" : "var(--gray-300)",
-    },
-  }),
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-  singleValue: (base) => ({
-    ...base,
-    color: "var(--primary-600)",
-    fontWeight: "var(--fw-medium)",
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: "var(--gray-500)",
-  }),
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "0 6px",
-    color: "var(--gray-500)",
-    display: state.hasValue ? "none" : "flex",
-  }),
-  clearIndicator: (base) => ({
-    ...base,
-    padding: "0 6px",
-    color: "var(--primary-600)",
-    cursor: "pointer",
-    ":hover": {
-      color: "var(--primary-700)",
-    },
-  }),
-  menu: (base) => ({
-    ...base,
-    zIndex: "var(--dropdown-z-index)",
-  }),
-  menuPortal: (base) => ({
-    ...base,
-    zIndex: "var(--drawer-close-z-index)",
-  }),
-};
-
-const typeOptions = [
+const defaultTypeOptions = [
   { value: "Income", label: "Income" },
   { value: "Expense", label: "Expense" },
 ];
 
-const amountOptions = [
+const defaultAmountOptions = [
   { value: "1-200", label: "1–200" },
   { value: "200-500", label: "200–500" },
   { value: "500-1000", label: "500–1000" },
@@ -110,29 +53,47 @@ const amountOptions = [
 ];
 
 
-const methodOptions = [
+const defaultMethodOptions = [
   { value: "Card", label: "Card" },
   { value: "UPI", label: "UPI" },
   { value: "Cash", label: "Cash" },
 ];
 
-const categoryOptions = [
+const defaultCategoryOptions = [
   { value: "Food", label: "Food" },
   { value: "Refund", label: "Refund" },
   { value: "Cashback", label: "Cashback" },
   { value: "Movie", label: "Movie" },
 ];
 
-const statusOptions = [
+const defaultStatusOptions = [
   { value: "Successful", label: "Successful" },
   { value: "Pending", label: "Pending" },
   { value: "Failed", label: "Failed" },
 ];
 
-const TransactionFiltersBar = () => {
-  const { filters, setFilters } = useTransactionFilters();
-  const menuPortalTarget = typeof document !== "undefined" ? document.body : null;
-
+const TransactionFiltersBar = ({
+  filters: controlledFilters,
+  setFilters: controlledSetFilters,
+  typeOptions = defaultTypeOptions,
+  amountOptions = defaultAmountOptions,
+  methodOptions = defaultMethodOptions,
+  categoryOptions = defaultCategoryOptions,
+  statusOptions = defaultStatusOptions,
+  typePlaceholder = "Type",
+  amountPlaceholder = "Amount",
+  methodPlaceholder = "Method",
+  categoryPlaceholder = "Category",
+  statusPlaceholder = "Status",
+  showType = true,
+  showAmount = true,
+  showMethod = true,
+  showCategory = true,
+  showStatus = true,
+}) => {
+  const context = useTransactionFilters();
+  const filters = controlledFilters || context.filters;
+  const setFilters = controlledSetFilters || context.setFilters;
   const resetAll = () => {
     setFilters({
       type: null,
@@ -146,80 +107,75 @@ const TransactionFiltersBar = () => {
 
   return (
     <Bar>
-      <FilterItem>
-        <Select
-          placeholder="Type"
-          styles={customSelectStyles}
-          menuPortalTarget={menuPortalTarget}
-          menuPosition="fixed"
-          options={typeOptions}
-          value={filters.type}
-          isClearable
-          onChange={(selected) =>
-            setFilters((prev) => ({ ...prev, type: selected }))
-          }
-        />
-      </FilterItem>
+      {showType && (
+        <FilterItem>
+          <Select
+            placeholder={typePlaceholder}
+            options={typeOptions}
+            value={filters.type?.value || ""}
+            isClearable
+            onChange={(_, selected) =>
+              setFilters((prev) => ({ ...prev, type: selected || null }))
+            }
+          />
+        </FilterItem>
+      )}
 
-      <FilterItem>
-        <Select
-          placeholder="Amount"
-          styles={customSelectStyles}
-          menuPortalTarget={menuPortalTarget}
-          menuPosition="fixed"
-          options={amountOptions}
-          value={filters.amount}
-          isClearable
-          onChange={(selected) =>
-            setFilters((prev) => ({ ...prev, amount: selected }))
-          }
-        />
-      </FilterItem>
+      {showAmount && (
+        <FilterItem>
+          <Select
+            placeholder={amountPlaceholder}
+            options={amountOptions}
+            value={filters.amount?.value || ""}
+            isClearable
+            onChange={(_, selected) =>
+              setFilters((prev) => ({ ...prev, amount: selected || null }))
+            }
+          />
+        </FilterItem>
+      )}
 
-      <FilterItem>
-        <Select
-          placeholder="Method"
-          styles={customSelectStyles}
-          menuPortalTarget={menuPortalTarget}
-          menuPosition="fixed"
-          options={methodOptions}
-          value={filters.method}
-          isClearable
-          onChange={(selected) =>
-            setFilters((prev) => ({ ...prev, method: selected }))
-          }
-        />
-      </FilterItem>
+      {showMethod && (
+        <FilterItem>
+          <Select
+            placeholder={methodPlaceholder}
+            options={methodOptions}
+            value={filters.method?.value || ""}
+            isClearable
+            onChange={(_, selected) =>
+              setFilters((prev) => ({ ...prev, method: selected || null }))
+            }
+          />
+        </FilterItem>
+      )}
 
-      <FilterItem>
-        <Select
-          placeholder="Category"
-          styles={customSelectStyles}
-          menuPortalTarget={menuPortalTarget}
-          menuPosition="fixed"
-          options={categoryOptions}
-          value={filters.category}
-          isClearable
-          onChange={(selected) =>
-            setFilters((prev) => ({ ...prev, category: selected }))
-          }
-        />
-      </FilterItem>
+      {showCategory && (
+        <FilterItem>
+          <Select
+            placeholder={categoryPlaceholder}
+            options={categoryOptions}
+            value={filters.category?.value || ""}
+            isClearable
+            onChange={(_, selected) =>
+              setFilters((prev) => ({ ...prev, category: selected || null }))
+            }
+          />
+        </FilterItem>
+      )}
 
-      <FilterItem>
-        <Select
-          placeholder="Status"
-          styles={customSelectStyles}
-          menuPortalTarget={menuPortalTarget}
-          menuPosition="fixed"
-          options={statusOptions}
-          value={filters.status}
-          isClearable
-          onChange={(selected) =>
-            setFilters((prev) => ({ ...prev, status: selected }))
-          }
-        />
-      </FilterItem>
+      {showStatus && (
+        <FilterItem>
+          <Select
+            placeholder={statusPlaceholder}
+            options={statusOptions}
+            value={filters.status?.value || ""}
+            isClearable
+            onChange={(_, selected) =>
+              setFilters((prev) => ({ ...prev, status: selected || null }))
+            }
+          />
+        </FilterItem>
+      )}
 
       <ResetButton onClick={resetAll} type="button">
         ↻

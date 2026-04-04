@@ -15,6 +15,10 @@ const HEADER_CONFIG = {
     title: "goal",
     description: "Monitor your balances and accounts",
   },
+  "/budget": {
+    title: "Budget",
+    description: "Create and track your budgets",
+  },
   "/analytics": {
     title: "Analytics",
     description: "Understand your spending behavior",
