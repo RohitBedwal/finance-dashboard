@@ -83,8 +83,8 @@ export const MonthlyStatus = styled.span`
   padding: 4px 10px;
   border-radius: 999px;
   font-size: var(--fs-xs);
-  color: var(--success-800);
-  background: var(--success-200);
+  color: var(--badge-success-text);
+  background: var(--badge-success-bg);
 `;
 
 export const MonthlyProgress = styled.div`
@@ -97,7 +97,7 @@ export const MonthlyProgressTip = styled.div`
   position: absolute;
   
   z-index: 1;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   background: var(--color-bg);
   padding: 8px 10px;
@@ -164,7 +164,7 @@ export const MostList = styled.ul`
     justify-content: space-between;
     gap: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--gray-100);
+    border-bottom: 1px solid var(--border-color);
 
     &:last-child {
       border-bottom: 0;
@@ -193,8 +193,8 @@ export const ChangePill = styled.span`
   padding: 4px 8px;
   border-radius: 999px;
   background: ${({ $negative }) =>
-    $negative ? "var(--success-200)" : "var(--danger-200)"};
+    $negative ? "var(--badge-success-bg)" : "var(--badge-danger-bg)"};
   color: ${({ $negative }) =>
-    $negative ? "var(--success-800)" : "var(--danger-500)"};
+    $negative ? "var(--badge-success-text)" : "var(--badge-danger-text)"};
   font-size: var(--fs-xs);
 `;

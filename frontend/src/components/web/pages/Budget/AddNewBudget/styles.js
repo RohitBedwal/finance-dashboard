@@ -25,8 +25,9 @@ export const CloseButton = styled.button`
   width: 38px;
   height: 38px;
   border-radius: 999px;
-  border: 1px solid var(--gray-300);
-  background: var(--color-bg);
+  border: 1px solid var(--border-color);
+  background: var(--surface-hover);
+  color: var(--text-color);
   cursor: pointer;
 `;
 
@@ -35,7 +36,7 @@ export const Header = styled.div`
   margin-bottom: 20px;
 
   p {
-    color: var(--gray-500);
+    color: var(--muted-text);
     font-size: var(--fs-sm);
     margin-top: 2px;
   }
@@ -54,15 +55,17 @@ export const Field = styled.div`
 
   label {
     font-size: var(--fs-sm);
-    color: var(--gray-700);
+    color: var(--muted-text);
   }
 `;
 
 export const Input = styled.input`
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   border-radius: 999px;
+  background: var(--color-bg);
+  color: var(--text-color);
 `;
 
 export const Footer = styled.div`

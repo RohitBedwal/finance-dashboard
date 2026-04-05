@@ -16,12 +16,21 @@ export const ActionButton = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 999px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   background: var(--color-bg);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: var(--text-color);
   cursor: pointer;
+
+  &:hover {
+    background: var(--surface-hover);
+  }
+
+  svg {
+    fill: currentColor;
+  }
 `;
 
 export const Content = styled.div`
@@ -98,13 +107,13 @@ export const Status = styled.span`
   border-radius: 999px;
   font-size: var(--fs-xs);
   background: ${({ $danger, $warning }) => {
-    if ($danger) return "var(--danger-200)";
-    if ($warning) return "var(--warning-200)";
-    return "var(--success-200)";
+    if ($danger) return "var(--badge-danger-bg)";
+    if ($warning) return "var(--badge-warning-bg)";
+    return "var(--badge-success-bg)";
   }};
   color: ${({ $danger, $warning }) => {
-    if ($danger) return "var(--danger-500)";
-    if ($warning) return "var(--warning-500)";
-    return "var(--success-800)";
+    if ($danger) return "var(--badge-danger-text)";
+    if ($warning) return "var(--badge-warning-text)";
+    return "var(--badge-success-text)";
   }};
 `;

@@ -301,7 +301,7 @@ const Budget = () => {
                     cornerRadius={12}
 
                   >
-                    <Cell fill="var(--primary-100)" />
+                    <Cell fill="var(--surface-hover)" />
                   </Pie>
 
                   <Pie

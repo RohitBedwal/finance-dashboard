@@ -11,7 +11,7 @@ const BudgetCard = ({ title, spent, budget, status = "on track", onEditClick }) 
   const leftAmount = Math.max(0, budgetAmount - spentAmount);
   const progress = budgetAmount > 0 ? Math.min(100, Math.round((spentAmount / budgetAmount) * 100)) : 0;
   const spentData = [{ name: "Spent", value: spentAmount, color: "var(--primary-600)" }];
-  const backgroundData = [{ name: "Budget", value: budgetAmount || 1, color: "var(--primary-100)" }];
+  const backgroundData = [{ name: "Budget", value: budgetAmount || 1, color: "var(--surface-hover)" }];
   const statusText = String(status || "on track").toLowerCase();
   const isDanger = statusText === "over budget";
   const isWarning = statusText !== "on track" && !isDanger;
