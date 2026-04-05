@@ -102,6 +102,12 @@ body {
   --badge-warning-bg: var(--warning-200);
   --badge-warning-text: var(--warning-500);
   --border-color: var(--primary-200);
+  --checkbox-bg: var(--white);
+  --checkbox-border: var(--primary-400);
+  --checkbox-border-hover: var(--primary-600);
+  --checkbox-checked-bg: var(--primary-600);
+  --checkbox-check-color: var(--white);
+  --checkbox-focus-ring: var(--primary-300);
   --black: #000000;
   --white: #ffffff;
 
@@ -197,6 +203,12 @@ body {
   --badge-warning-bg: rgba(249, 151, 12, 0.22);
   --badge-warning-text: #ffd18a;
   --border-color: var(--gray-700);
+  --checkbox-bg: var(--gray-800);
+  --checkbox-border: var(--gray-500);
+  --checkbox-border-hover: var(--primary-400);
+  --checkbox-checked-bg: var(--primary-500);
+  --checkbox-check-color: var(--gray-900);
+  --checkbox-focus-ring: var(--primary-500);
 }
 
 @media (max-width: 1279px) {

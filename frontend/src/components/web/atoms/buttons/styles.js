@@ -47,12 +47,24 @@ const variants = {
   secondary: css`
     background: var(--color-bg);
     color: var(--text-color);
-    border: 1px solid var(--gray-300);
+    border: 1px solid var(--border-color);
     border-radius: 30px;
     ${withButtonSize}
 
     &:hover {
-      background: var(--gray-100);
+      background: var(--surface-hover);
+    }
+  `,
+
+  danger: css`
+    background: var(--danger-500);
+    color: var(--white);
+    border-radius: 30px;
+    ${withButtonSize}
+
+    &:hover {
+      background: #d02d2d;
+      box-shadow: 0 2px 8px rgba(232, 56, 56, 0.3);
     }
   `,
 
@@ -61,11 +73,11 @@ const variants = {
     height: 42px;
     border-radius: 50%;
     background: var(--color-bg);
-    border: 1px solid var(--gray-300);
+    border: 1px solid var(--border-color);
     padding: 0;
 
     &:hover {
-      background: var(--gray-100);
+      background: var(--surface-hover);
     }
   `,
 
@@ -96,7 +108,7 @@ const variants = {
   filter: css`
     background: var(--color-bg);
     color: var(--gray-700);
-    border: 1px solid var(--gray-300);
+    border: 1px solid var(--border-color);
     border-radius: 999px;
     ${withButtonSize}
 

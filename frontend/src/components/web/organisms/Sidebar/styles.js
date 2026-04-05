@@ -196,37 +196,118 @@ export const ThemeToggleWrap = styled.div`
 
 export const ThemeToggleButton = styled.button`
   position: relative;
-  width: 68px;
-  height: 34px;
+  width: 96px;
+  height: 44px;
   border-radius: 999px;
-  border: 1px solid var(--gray-300);
-  background: ${({ $active }) => ($active ? "var(--gray-700)" : "var(--color-bg)")};
+  border: 1px solid var(--gray-200);
+  background: var(--gray-100);
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 8px;
+  padding: 0 15px;
   cursor: pointer;
-  transition: background-color 0.25s ease, border-color 0.25s ease;
+  transition: background-color 0.24s ease, border-color 0.24s ease,
+    box-shadow 0.24s ease;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--primary-300);
+  }
+
+  :root[data-theme="dark"] & {
+    background: var(--gray-800);
+    border-color: var(--gray-600);
+  }
+
+  @media (max-width: 1400px) {
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
+        width: 44px;
+        padding: 0;
+        justify-content: center;
+      `}
+  }
+
+  ${Container}:hover & {
+    @media (max-width: 1400px) {
+      width: 96px;
+      padding: 0 15px;
+      justify-content: space-between;
+    }
+  }
 `;
 
 export const ThemeIcon = styled.span`
-  font-size: 12px;
+  font-size: 20px;
   line-height: 1;
-  opacity: ${({ $active }) => ($active ? 1 : 0.45)};
+  width: 20px;
+  text-align: center;
+  color: ${({ $active }) => ($active ? "var(--white)" : "var(--gray-900)")};
+  opacity: ${({ $active }) => ($active ? 1 : 0.95)};
   z-index: 1;
-  transition: opacity 0.25s ease;
+  transition: color 0.24s ease, opacity 0.24s ease;
+
+  :root[data-theme="dark"] & {
+    color: ${({ $active }) => ($active ? "var(--white)" : "var(--gray-200)")};
+  }
+
+  @media (max-width: 1400px) {
+    ${({ $mobileDrawer, $active }) =>
+      !$mobileDrawer &&
+      css`
+        display: ${$active ? "inline-block" : "none"};
+        position: static;
+        transform: none;
+        opacity: 1;
+      `}
+  }
+
+  ${Container}:hover & {
+    @media (max-width: 1400px) {
+      position: static;
+      transform: none;
+      opacity: ${({ $active }) => ($active ? 1 : 0.95)};
+    }
+  }
 `;
 
 export const ThemeToggleThumb = styled.span`
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 26px;
-  height: 26px;
+  top: 2px;
+  left: 2px;
+  width: 40px;
+  height: 40px;
   border-radius: 999px;
   background: var(--primary-600);
-  transform: ${({ $active }) => ($active ? "translateX(34px)" : "translateX(0)")};
-  transition: transform 0.25s ease;
+  transform: ${({ $active }) => ($active ? "translateX(52px)" : "translateX(0)")};
+  transition: transform 0.24s ease, background-color 0.24s ease;
+
+  :root[data-theme="dark"] & {
+    background: var(--primary-500);
+  }
+
+  @media (max-width: 1400px) {
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
+        width: 38px;
+        height: 38px;
+        top: 2px;
+        left: 2px;
+        transform: translateX(0);
+      `}
+  }
+
+  ${Container}:hover & {
+    @media (max-width: 1400px) {
+      width: 40px;
+      height: 40px;
+      top: 2px;
+      left: 2px;
+      transform: ${({ $active }) => ($active ? "translateX(52px)" : "translateX(0)")};
+    }
+  }
 `;
 
 export const MenuItem = styled.button`

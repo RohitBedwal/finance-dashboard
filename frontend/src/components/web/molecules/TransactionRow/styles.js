@@ -22,3 +22,9 @@ export const Row = styled.tr`
     font-weight: var(--fw-medium);
   }
 `;
+export const CheckboxCell = styled.td`
+  padding: 16px 10px !important;
+  text-align: center;
+  width: 50px;
+  min-width: 50px;
+`;

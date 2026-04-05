@@ -10,14 +10,21 @@ const TransactionRow = ({
   method,
   category,
   status,
+  checkbox,
 }) => {
   return (
     <S.Row>
-      <td> {new Date(date).toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      })}</td>
+      <S.CheckboxCell>
+        {checkbox}
+      </S.CheckboxCell>
+
+      <td>
+        {new Date(date).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        })}
+      </td>
 
       <td className={type}>
         {type === "Income" ? "+" : "-"} ₹{amount}

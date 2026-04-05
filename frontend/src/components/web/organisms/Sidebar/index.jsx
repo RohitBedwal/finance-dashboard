@@ -58,13 +58,14 @@ const Sidebar = ({ isMobileDrawer = false, onNavigate }) => {
         <S.ThemeToggleButton
           type="button"
           $active={isDarkMode}
+          $mobileDrawer={isMobileDrawer}
           onClick={() => setIsDarkMode((value) => !value)}
           aria-label="Toggle dark mode"
           title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
         >
-          <S.ThemeIcon $active={!isDarkMode} $position="left">☀</S.ThemeIcon>
-          <S.ThemeIcon $active={isDarkMode} $position="right">🌙</S.ThemeIcon>
-          <S.ThemeToggleThumb $active={isDarkMode} />
+          <S.ThemeIcon $active={!isDarkMode} $position="left" $mobileDrawer={isMobileDrawer}>☼</S.ThemeIcon>
+          <S.ThemeIcon $active={isDarkMode} $position="right" $mobileDrawer={isMobileDrawer}>☾</S.ThemeIcon>
+          <S.ThemeToggleThumb $active={isDarkMode} $mobileDrawer={isMobileDrawer} />
         </S.ThemeToggleButton>
       </S.ThemeToggleWrap>
     </S.Container>
