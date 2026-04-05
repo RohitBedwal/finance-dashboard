@@ -9,15 +9,15 @@ export const Header = styled.div`
 
 export const Title = styled.h4`
   font-size: var(--fs-lg);
-  color: var(--black);
+  color: var(--text-color);
 `;
 
 export const ActionButton = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 999px;
-  border: 1px solid var(--gray-200);
-  background: var(--white);
+  border: 1px solid var(--gray-300);
+  background: var(--color-bg);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -53,7 +53,7 @@ export const ProgressInner = styled.div`
   height: 100%;
   border-radius: 50%;
   background: transparent;
-//   border: 1px solid var(--gray-200);
+//   border: 1px solid var(--gray-300);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,7 +66,7 @@ export const ProgressInner = styled.div`
 
   strong {
     font-size: var(--fs-xl);
-    color: var(--black);
+    color: var(--text-color);
   }
 `;
 
@@ -79,7 +79,7 @@ export const BudgetMeta = styled.div`
   h4 {
     margin-top: 2px;
     font-size:30px;
-    color: var(--black);
+    color: var(--text-color);
     font-weight:500;
 
     span {

@@ -8,7 +8,7 @@ export const Container = styled.header`
   width: 100%;
   height: var(--navbar-height);
   padding: 0 var(--m-24);
-  background-color: var(--white);
+  background-color: var(--color-bg);
 `;
 
 export const Actions = styled.div`
@@ -21,8 +21,8 @@ export const IconButton = styled.button`
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid var(--gray-200);
-  background: var(--white);
+  border: 1px solid var(--gray-300);
+  background: var(--color-bg);
   display: inline-flex;
   align-items: center;
   justify-content: center;

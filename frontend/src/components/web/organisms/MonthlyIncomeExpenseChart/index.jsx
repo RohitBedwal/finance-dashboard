@@ -66,7 +66,7 @@ const MonthlyIncomeExpenseChart = ({
         <ResponsiveContainer width="100%" height={170}>
           <BarChart data={monthlyData} >
             <CartesianGrid
-              stroke="var(--gray-100)"
+              stroke="var(--chart-grid-stroke)"
               vertical={false}
               
             />
@@ -75,7 +75,7 @@ const MonthlyIncomeExpenseChart = ({
               dataKey="month"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "var(--gray-300)", fontSize: 12 }}
+              tick={{ fill: "var(--muted-text)", fontSize: 12 }}
             />
 
             <YAxis
@@ -84,7 +84,7 @@ const MonthlyIncomeExpenseChart = ({
               tickFormatter={(v) =>
                 `₹${Math.round(v / 1000)}k`
               }
-              tick={{ fill: "var(--gray-300)", fontSize: 12 }}
+              tick={{ fill: "var(--muted-text)", fontSize: 12 }}
                width={30}
             />
 

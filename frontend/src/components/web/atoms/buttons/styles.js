@@ -35,7 +35,7 @@ const withButtonSize = ({ size }) =>
 const variants = {
   primary: css`
     background: var(--primary-600);
-    color: var(--white);
+    color: var(--color-bg);
     border-radius: 30px;
     ${withButtonSize}
 
@@ -45,9 +45,9 @@ const variants = {
   `,
 
   secondary: css`
-    background: var(--white);
+    background: var(--color-bg);
     color: var(--gray-900);
-    border: 1px solid var(--gray-200);
+    border: 1px solid var(--gray-300);
     border-radius: 30px;
     ${withButtonSize}
 
@@ -60,8 +60,8 @@ const variants = {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: var(--white);
-    border: 1px solid var(--gray-200);
+    background: var(--color-bg);
+    border: 1px solid var(--gray-300);
     padding: 0;
 
     &:hover {
@@ -82,7 +82,7 @@ const variants = {
 
   widget: css`
     background: var(--primary-600);
-    color: var(--white);
+    color: var(--color-bg);
     border-radius: 999px;
     ${withButtonSize}
     display: flex;
@@ -94,9 +94,9 @@ const variants = {
   `,
 
   filter: css`
-    background: var(--white);
+    background: var(--color-bg);
     color: var(--gray-700);
-    border: 1px solid var(--gray-200);
+    border: 1px solid var(--gray-300);
     border-radius: 999px;
     ${withButtonSize}
 

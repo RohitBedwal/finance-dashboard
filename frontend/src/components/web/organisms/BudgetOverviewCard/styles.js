@@ -10,7 +10,7 @@ export const Header = styled.div`
 
 export const Title = styled.h3`
   font-size: var(--fs-lg);
-  color: var(--black);
+  color: var(--text-color);
 `;
 
 export const Actions = styled.div`
@@ -20,7 +20,7 @@ export const Actions = styled.div`
 
   select {
     border-radius: 999px;
-    border: 1px solid var(--gray-200);
+    border: 1px solid var(--gray-300);
     padding: 8px 14px;
     font-size: var(--fs-sm);
     color: var(--gray-900);
@@ -28,18 +28,18 @@ export const Actions = styled.div`
 `;
 
 export const DetailsButton = styled.button`
-  border: 1px solid var(--gray-200);
-  background: var(--white);
+  border: 1px solid var(--gray-300);
+  background: var(--color-bg);
   border-radius: 999px;
   padding: 8px 14px;
   font-size: var(--fs-sm);
-  color: var(--gray-900);
+  color: var(--text-color);
   cursor: pointer;
 `;
 
 export const Subtitle = styled.p`
   margin-top: 10px;
-  color: var(--gray-300);
+  color: var(--muted-text);
   font-size: var(--fs-sm);
   line-height: 1.35;
   max-width: 360px;
@@ -58,17 +58,17 @@ export const ChartWrap = styled.div`
 `;
 
 export const TooltipBubble = styled.div`
-  background-color: var(--white);
-  border: 1px solid var(--primary-300);
+  background-color: var(--color-bg);
+  border: 0.1px solid var(--primary-300);
   border-radius: 14px;
   padding: 8px 14px;
-  color: var(--black);
+  color: var(--text-color);
   box-shadow: 0px 8px 24px rgba(17, 17, 19, 0.08);
 `;
 
 export const TooltipTitle = styled.div`
   font-size: var(--fs-xs);
-  color: var(--gray-500);
+  color: var(--muted-text);
   margin-bottom: 4px;
 `;
 
@@ -99,7 +99,7 @@ export const CenterLabel = styled.div`
   pointer-events: none;
 
   p {
-    color: var(--gray-300);
+    color: var(--muted-text);
     font-size: var(--fs-sm);
     margin-bottom: 4px;
   }
@@ -107,7 +107,7 @@ export const CenterLabel = styled.div`
   h3 {
     font-size: 23px;
     font-weight: 500;
-    color: var(--black);
+    color: var(--text-color);
     line-height: 1;
 
     span {
@@ -122,23 +122,23 @@ export const Callout = styled.div`
   position: absolute;
   right: 16px;
   top: 72px;
-  border: 1px solid var(--primary-300);
+  border: 0.1px solid var(--primary-300);
   border-radius: 16px;
   padding: 10px 16px;
-  background: var(--white);
+  background: var(--color-bg);
   box-shadow: 0px 4px 10px rgba(17, 17, 19, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
 
   strong {
-    color: var(--gray-500);
+    color: var(--muted-text);
     font-size: var(--fs-lg);
     line-height: 1.2;
   }
 
   span {
-    color: var(--black);
+    color: var(--text-color);
     font-size: var(--fs-xl);
     font-weight: var(--fw-medium);
     line-height: 1.3;
@@ -158,7 +158,7 @@ export const LegendItem = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--black);
+  color: var(--text-color);
   font-size: var(--fs-sm);
 `;
 

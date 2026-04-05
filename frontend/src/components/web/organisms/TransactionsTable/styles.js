@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background: var(--white);
+  background: var(--color-bg);
   // padding: 20px;
   margin-top: 20px;
   
@@ -12,7 +12,7 @@ export const TableScroll = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  border: 1px solid var(--primary-200);
+  border: 0.1px solid var(--primary-200);
   border-radius: 30px;
 
   /* Firefox */
@@ -73,7 +73,7 @@ export const Table = styled.table`
 
   /* Data rows */
   tbody tr {
-    background: var(--white);
+    background: var(--color-bg);
     box-shadow: inset 0 -1px 0 var(--primary-200); /* bottom border only */
     transition: background 0.2s ease;
     border-radius: 30px;

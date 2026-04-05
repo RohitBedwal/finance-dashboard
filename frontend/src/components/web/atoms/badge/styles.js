@@ -2,28 +2,28 @@ import styled, { css } from "styled-components";
 
 const types = {
   Successful: css`
-    background: var(--success-200);
-    color: var(--success-800);
+    background: var(--badge-success-bg);
+    color: var(--badge-success-text);
   `,
   Failed: css`
-    background: var(--danger-200);
-    color: var(--danger-500);
+    background: var(--badge-danger-bg);
+    color: var(--badge-danger-text);
   `,
   Pending: css`
-    background: var(--warning-200);
-    color: var(--warning-500);
+    background: var(--badge-warning-bg);
+    color: var(--badge-warning-text);
   `,
   success: css`
-    background: var(--success-200);
-    color: var(--success-800);
+    background: var(--badge-success-bg);
+    color: var(--badge-success-text);
   `,
   danger: css`
-    background: var(--danger-200);
-    color: var(--danger-500);
+    background: var(--badge-danger-bg);
+    color: var(--badge-danger-text);
   `,
   warning: css`
-    background: var(--warning-200);
-    color: var(--warning-500);
+    background: var(--badge-warning-bg);
+    color: var(--badge-warning-text);
   `,
 };
 

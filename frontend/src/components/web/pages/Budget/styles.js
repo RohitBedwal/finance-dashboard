@@ -10,7 +10,7 @@ export const Header = styled.div`
 export const TitleWrap = styled.div`
   h2 {
     font-size: var(--fs-2xl);
-    color: var(--black);
+    color: var(--text-color);
   }
 
   p {
@@ -59,14 +59,14 @@ export const Right = styled.div`
 
 export const MonthlyTitle = styled.h4`
   font-size: var(--fs-lg);
-  color: var(--black);
+  color: var(--text-color);
   
 `;
 
 export const MonthlyBudgetValue = styled.h3`
   margin-top: 20px;
   font-size: 30px;
-  color: var(--black);
+  color: var(--text-color);
   font-weight:500;
 
   span {
@@ -97,9 +97,9 @@ export const MonthlyProgressTip = styled.div`
   position: absolute;
   
   z-index: 1;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
   border-radius: 12px;
-  background: var(--white);
+  background: var(--color-bg);
   padding: 8px 10px;
   display: flex;
   flex-direction: column;
@@ -111,7 +111,7 @@ export const MonthlyProgressTip = styled.div`
   }
 
   strong {
-    color: var(--black);
+    color: var(--text-color);
     font-size: var(--fs-sm);
   }
 `;
@@ -129,7 +129,7 @@ export const MonthlySpent = styled.div`
   strong {
     display: block;
     font-size: 30px;
-    color: var(--black);
+    color: var(--text-color);
     font-weight:500;
 
     small {
@@ -148,7 +148,7 @@ export const MostHeader = styled.div`
 
   h4 {
     font-size: var(--fs-lg);
-    color: var(--black);
+    color: var(--text-color);
   }
 `;
 
@@ -177,7 +177,7 @@ export const MostList = styled.ul`
       gap: 2px;
 
       strong {
-        color: var(--black);
+        color: var(--text-color);
         font-size: var(--fs-sm);
       }
 

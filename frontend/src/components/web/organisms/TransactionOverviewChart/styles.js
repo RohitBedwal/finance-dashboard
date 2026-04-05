@@ -5,8 +5,8 @@ export const ChartWrap = styled.div`
 `;
 
 export const TooltipBubble = styled.div`
-  background: var(--white);
-  border: 1px solid var(--primary-300);
+  background: var(--color-bg);
+  border: 0.1px solid var(--primary-300);
   border-radius: 16px;
   padding: 8px 12px;
   color: var(--gray-900);

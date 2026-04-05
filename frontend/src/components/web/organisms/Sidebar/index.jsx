@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Icon from "../../atoms/icons";
 import { protectedRoutes } from "../../../routes";
 import * as S from "./styles";
 
+const THEME_STORAGE_KEY = "theme";
 
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const activeTab = location.pathname.split("/")[1];
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem(THEME_STORAGE_KEY) === "dark";
+  });
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const theme = isDarkMode ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", theme);
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [isDarkMode]);
   
   return (
     <S.Container>
@@ -37,6 +49,20 @@ const Sidebar = () => {
           </S.MenuItem>
         ))}
       </S.Menu>
+
+      <S.ThemeToggleWrap>
+        <S.ThemeToggleButton
+          type="button"
+          $active={isDarkMode}
+          onClick={() => setIsDarkMode((value) => !value)}
+          aria-label="Toggle dark mode"
+          title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          <S.ThemeIcon $active={!isDarkMode} $position="left">☀</S.ThemeIcon>
+          <S.ThemeIcon $active={isDarkMode} $position="right">🌙</S.ThemeIcon>
+          <S.ThemeToggleThumb $active={isDarkMode} />
+        </S.ThemeToggleButton>
+      </S.ThemeToggleWrap>
     </S.Container>
   );
 };

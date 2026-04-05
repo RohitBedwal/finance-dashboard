@@ -8,7 +8,7 @@ const customStyles = {
     minHeight: 40,
     borderRadius: 999,
     borderColor: state.isFocused ? "var(--primary-600)" : "var(--gray-200)",
-    backgroundColor: state.hasValue ? "var(--primary-100)" : "var(--white)",
+    backgroundColor: state.hasValue ? "var(--color-bg)" : "var(--color-bg)",
     boxShadow: "none",
     cursor: "pointer",
     padding: "0 6px",
@@ -23,13 +23,13 @@ const customStyles = {
   }),
   singleValue: (base) => ({
     ...base,
-    color: "var(--black)",
+    color: "var(--text-color)",
     fontSize: "var(--fs-sm)",
     fontWeight: "var(--fw-medium)",
   }),
   placeholder: (base) => ({
     ...base,
-    color: "var(--gray-500)",
+    color: "var(--muted-text)",
     fontSize: "var(--fs-sm)",
   }),
   indicatorSeparator: () => ({
@@ -37,7 +37,7 @@ const customStyles = {
   }),
   dropdownIndicator: (base) => ({
     ...base,
-    color: "var(--gray-500)",
+    color: "var(--muted-text)",
     padding: "0 6px",
   }),
   menu: (base) => ({
@@ -55,11 +55,11 @@ const customStyles = {
     borderRadius: 8,
     fontSize: "var(--fs-sm)",
     backgroundColor: state.isSelected
-      ? "var(--primary-100)"
+      ? "var(--select-option-selected-bg)"
       : state.isFocused
-      ? "var(--gray-100)"
-      : "var(--white)",
-    color: state.isSelected ? "var(--primary-600)" : "var(--black)",
+      ? "var(--select-option-hover-bg)"
+      : "var(--color-bg)",
+    color: state.isSelected ? "var(--primary-600)" : "var(--text-color)",
     cursor: "pointer",
   }),
   menuPortal: (base) => ({

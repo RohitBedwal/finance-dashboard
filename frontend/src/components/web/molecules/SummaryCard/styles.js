@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background: var(--white);
+  background: var(--color-bg);
   border-radius: 30px;
   padding: 3px 3px 22px 22px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 `;
 
 export const Top = styled.div`
@@ -15,7 +15,7 @@ export const Top = styled.div`
 
 export const Title = styled.span`
   font-size: var(--fs-lg);
-  color: var(--black);
+  color: var(--text-color);
   font-weight: 500;
 
 `;
@@ -23,9 +23,9 @@ export const Title = styled.span`
 export const RedirectButton = styled.button`
   width: 50px;
   height: 50px;
-
+  color: var(--text-color);
   border-radius: 50%;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 
   display: flex;
   align-items: center;
@@ -37,7 +37,18 @@ export const RedirectButton = styled.button`
   transition: 0.2s ease;
 
   &:hover {
-    background: var(--primary-100);
+    background: var(--surface-hover);
+  }
+
+  svg {
+    display: block;
+    fill: currentColor;
+    
+  }
+
+  use {
+    fill: currentColor;
+ 
   }
 `;
 
@@ -45,10 +56,10 @@ export const CurrencyChip = styled.span`
   height: 50px;
   padding: 8px 16px;
   border-radius: 100%;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
   display: inline-flex;
   align-items: center;
-  color: var(--gray-700);
+  color: var(--muted-text);
   font-size: var(--fs-xs);
 `;
 
@@ -67,13 +78,13 @@ export const Amount = styled.h2`
 export const CardMeta = styled.p`
   margin: -6px 0 8px;
   font-size: var(--fs-xs);
-  color: var(--gray-500);
+  color: var(--muted-text);
 `;
 
 export const Detail = styled.p`
   margin: 0 0 10px;
   font-size: var(--fs-xs);
-  color: var(--gray-500);
+  color: var(--muted-text);
 `;
 
 export const ChangeRow = styled.div`
@@ -101,13 +112,13 @@ export const StatPill = styled.div`
   min-width: 130px;
   height: 40px;
   border-radius: 999px;
-  border: 1px solid var(--primary-200);
-  background: var(--white);
+  border: 0.1px solid var(--primary-200);
+  background: var(--color-bg);
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 0 10px;
-  color: var(--gray-700);
+  color: var(--muted-text);
   font-size: var(--fs-xs);
 
   span {
@@ -130,5 +141,5 @@ export const PillIcon = styled.span`
 
 export const ChangeText = styled.span`
   font-size: var(--fs-xs);
-  color: var(--gray-300);
+  color: var(--muted-text);
 `;

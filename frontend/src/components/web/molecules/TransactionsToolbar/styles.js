@@ -30,9 +30,9 @@ export const IconButton = styled.button`
   height: 40px;
 
   border-radius: 50%;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 
-  background: var(--white);
+  background: var(--color-bg);
   cursor: pointer;
 
   transition: all 0.2s ease;
@@ -50,12 +50,12 @@ export const IconButton = styled.button`
 //   padding: 10px 18px;
 
 //   border-radius: 30px;
-//   border: 1px solid var(--gray-200);
+//   border: 1px solid var(--gray-300);
 
 //   font-size: var(--fs-sm);
 //   font-family: var(--font-primary);
 
-//   background: var(--white);
+//   background: var(--color-bg);
 // `;
 
 export const DateRange = styled.div`
@@ -66,9 +66,9 @@ export const DateRange = styled.div`
   padding: 0 var(--m-16);
 
   border-radius: 999px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 
-  background: var(--white);
+  background: var(--color-bg);
 
   position: relative;
   z-index: 200;

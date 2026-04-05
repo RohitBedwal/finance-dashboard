@@ -12,7 +12,7 @@ export const Overlay = styled.div`
 
 export const Modal = styled.div`
   width: 440px;
-  background: var(--white);
+  background: var(--color-bg);
   border-radius: 24px;
   padding: 28px;
   position: relative;
@@ -25,8 +25,8 @@ export const CloseButton = styled.button`
   width: 38px;
   height: 38px;
   border-radius: 999px;
-  border: 1px solid var(--gray-200);
-  background: var(--white);
+  border: 1px solid var(--gray-300);
+  background: var(--color-bg);
   cursor: pointer;
 `;
 
@@ -43,7 +43,7 @@ export const Header = styled.div`
 
 export const Title = styled.h3`
   font-size: var(--fs-xl);
-  color: var(--black);
+  color: var(--text-color);
 `;
 
 export const Field = styled.div`
@@ -61,7 +61,7 @@ export const Field = styled.div`
 export const Input = styled.input`
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
   border-radius: 999px;
 `;
 

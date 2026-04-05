@@ -15,7 +15,7 @@ export const Left = styled.div`
 export const Title = styled.h2`
   font-size: var(--fs-xl);
   font-weight: var(--fw-medium);
-  color: var(--gray-900);
+  color: var(--text-color);
 `;
 
 export const Description = styled.p`

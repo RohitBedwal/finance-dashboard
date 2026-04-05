@@ -6,6 +6,9 @@
 }
 body {
   font-family: var(--font-primary);
+  background-color: var(--color-bg);
+  color: var(--text-color);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 @font-face {
@@ -83,6 +86,21 @@ body {
 
   /* ================= BLACK & WHITE ================= */
 
+  --text-color: #000000;
+  --color-bg: #ffffff;
+  --sidebar-bg: var(--primary-100);
+  --surface-hover: var(--primary-100);
+  --muted-text: var(--gray-500);
+  --chart-grid-stroke: var(--gray-100);
+  --select-filled-bg: var(--primary-100);
+  --select-option-hover-bg: var(--gray-100);
+  --select-option-selected-bg: var(--primary-100);
+  --badge-success-bg: var(--success-200);
+  --badge-success-text: var(--success-800);
+  --badge-danger-bg: var(--danger-200);
+  --badge-danger-text: var(--danger-500);
+  --badge-warning-bg: var(--warning-200);
+  --badge-warning-text: var(--warning-500);
   --black: #000000;
   --white: #ffffff;
 
@@ -161,6 +179,24 @@ body {
   --main-max-width: 1600px;
 }
 
+:root[data-theme="dark"] {
+  --text-color: #ffffff;
+  --color-bg: var(--gray-900);
+  --sidebar-bg: var(--gray-800);
+  --surface-hover: var(--gray-800);
+  --muted-text: var(--gray-300);
+  --chart-grid-stroke: var(--gray-700);
+  --select-filled-bg: var(--gray-800);
+  --select-option-hover-bg: var(--gray-800);
+  --select-option-selected-bg: rgba(132, 112, 255, 0.22);
+  --badge-success-bg: rgba(41, 123, 50, 0.22);
+  --badge-success-text: #8ee89b;
+  --badge-danger-bg: rgba(232, 56, 56, 0.22);
+  --badge-danger-text: #ff9b9b;
+  --badge-warning-bg: rgba(249, 151, 12, 0.22);
+  --badge-warning-text: #ffd18a;
+}
+
 @media (max-width: 1279px) {
   :root {
     --btn-padding-y: var(--btn-padding-y-md);
@@ -189,7 +225,7 @@ body {
 .react-datepicker {
   font-family: var(--font-primary);
   border-radius: 20px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
@@ -237,14 +273,14 @@ body {
 .react-datepicker__day--range-start,
 .react-datepicker__day--range-end {
   background: var(--primary-600);
-  color: var(--white);
+  color: var(--color-bg);
   border-radius: 8px;
 }
 
 /* TODAY */
 
 .react-datepicker__day--today {
-  border: 1px solid var(--primary-600);
+  border: 0.1px solid var(--primary-600);
   font-weight: var(--fw-medium);
 }
 

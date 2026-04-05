@@ -22,10 +22,10 @@ export const BudgetSection = styled.div`
 `;
 
 export const SavingsCard = styled.div`
-  border: 1px solid var(--primary-200);
+  border: 0.1px solid var(--primary-200);
   border-radius: 30px;
   padding: 3px 2px 0px 20px;
-  background: var(--white);
+  background: var(--color-bg);
 `;
 
 export const SavingsHeader = styled.div`
@@ -37,16 +37,16 @@ export const SavingsHeader = styled.div`
 
 export const SavingsTitle = styled.h3`
   font-size: var(--fs-lg);
-  color: var(--black);
+  color: var(--text-color);
 `;
 
 export const SavingsArrowButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid var(--gray-200);
-  background: var(--white);
-  color: var(--black);
+  border: 1px solid var(--gray-300);
+  background: var(--color-bg);
+  color: var(--text-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,7 +72,7 @@ export const SavingsRow = styled.div`
 `;
 
 export const SavingsName = styled.p`
-  color: var(--black);
+  color: var(--text-color);
   font-size: var(--fs-sm);
 `;
 
@@ -86,7 +86,7 @@ export const SavingsTrack = styled.div`
   width: 100%;
   height: 20px;
   border-radius: 999px;
-  background: var(--primary-100);
+  background: var(--surface-hover);
   overflow: hidden;
 `;
 
@@ -98,7 +98,7 @@ export const SavingsFill = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primary-100);
+  color: var(--white);
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
 `;
@@ -115,10 +115,10 @@ export const BottomSection = styled.div`
 `;
 
 export const RecentSection = styled.div`
-  border: 1px solid var(--primary-200);
+  border: 0.1px solid var(--primary-200);
   border-radius: 30px;
   padding: 18px;
-  background: var(--white);
+  background: var(--color-bg);
 `;
 
 export const RecentHeader = styled.div`
@@ -132,7 +132,7 @@ export const RecentHeader = styled.div`
 
 export const RecentTitle = styled.h3`
   font-size: var(--fs-xl);
-  color: var(--black);
+  color: var(--text-color);
 `;
 
 export const RecentActions = styled.div`
@@ -142,12 +142,12 @@ export const RecentActions = styled.div`
 `;
 
 export const RecentActionButton = styled.button`
-  border: 1px solid var(--gray-200);
-  background: var(--white);
+  border: 1px solid var(--gray-300);
+  background: var(--color-bg);
   border-radius: 999px;
   padding: 8px 14px;
   font-size: var(--fs-sm);
-  color: var(--gray-900);
+  color: var(--text-color);
   cursor: pointer;
 `;
 
@@ -167,7 +167,7 @@ export const RecentTable = styled.table`
     font-weight: 200;
     padding: 14px 18px;
     color: var(--primary-600);
-    background: var(--primary-100);
+    background: var(--surface-hover);
   }
 
   thead tr th:first-child {
@@ -185,7 +185,7 @@ export const RecentTable = styled.table`
   tbody tr td {
     padding: 16px 18px;
     font-size: var(--fs-sm);
-    color: var(--black);
+    color: var(--text-color);
     white-space: nowrap;
   }
 
@@ -211,9 +211,10 @@ export const RecentTable = styled.table`
 export const RedirectButton = styled.button`
   width: 50px;
   height: 50px;
+  color: var(--text-color);
 
   border-radius: 50%;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 
   display: flex;
   align-items: center;
@@ -225,6 +226,17 @@ export const RedirectButton = styled.button`
   transition: 0.2s ease;
 
   &:hover {
-    background: var(--primary-100);
+    background: var(--surface-hover);
+  }
+
+  svg {
+    display: block;
+    fill: currentColor;
+   
+  }
+
+  use {
+    fill: currentColor;
+
   }
 `;

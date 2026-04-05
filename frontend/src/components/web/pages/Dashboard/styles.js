@@ -9,13 +9,13 @@ export const Toolbar = styled.div`
 `;
 
 export const WidgetManager = styled.div`
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
   border-radius: 20px;
   padding: 14px;
   display: grid;
   gap: 8px;
   margin-bottom: 18px;
-  background: var(--white);
+  background: var(--color-bg);
 `;
 
 export const WidgetManagerRow = styled.div`
@@ -23,14 +23,14 @@ export const WidgetManagerRow = styled.div`
   justify-content: space-between;
   gap: 10px;
   align-items: center;
-  border: 1px solid var(--gray-100);
+  border: 1px solid var(--gray-300);
   border-radius: 14px;
   padding: 10px;
 `;
 
 export const WidgetLabel = styled.span`
   font-size: var(--fs-sm);
-  color: var(--black);
+  color: var(--text-color);
 `;
 
 export const Widgets = styled.div`
@@ -79,8 +79,8 @@ export const WidgetSelector = styled.label`
   top: 12px;
   right: 12px;
   z-index: 3;
-  background: var(--white);
-  border: 1px solid var(--gray-200);
+  background: var(--color-bg);
+  border: 1px solid var(--gray-300);
   border-radius: 999px;
   padding: 6px 10px;
   display: inline-flex;
@@ -99,7 +99,7 @@ export const WidgetSelector = styled.label`
 
 export const WidgetTitle = styled.h3`
   font-size: var(--fs-lg);
-  color: var(--black);
+  color: var(--text-color);
 `;
 
 export const EmptyState = styled.div`

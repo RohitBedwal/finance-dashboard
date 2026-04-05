@@ -47,14 +47,14 @@ export const Input = styled.input`
   width: 100%;
   padding: 14px;
   border-radius: 999px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 `;
 
 export const Select = styled.select`
   width: 100%;
   padding: 14px;
   border-radius: 999px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 `;
 
 export const Footer = styled.div`
@@ -72,7 +72,7 @@ export const CloseButton = styled.button`
   height: 40px;
 
   border-radius: 50%;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 
   background: white;
   cursor: pointer;
@@ -103,7 +103,7 @@ export const SmallInput = styled.input`
   flex: 1;
   padding: 8px;
   border-radius: 999px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 `;
 
 export const DateWrapper = styled.div`
@@ -117,7 +117,7 @@ export const CalendarIcon = styled.div`
   height: 40px;
 
   border-radius: 50%;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 
   display: flex;
   align-items: center;

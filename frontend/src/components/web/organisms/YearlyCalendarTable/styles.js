@@ -10,7 +10,7 @@ export const Header = styled.div`
 
 export const Title = styled.h3`
   font-size: var(--fs-lg);
-  color: var(--black);
+  color: var(--text-color);
 `;
 
 export const Actions = styled.div`
@@ -20,7 +20,7 @@ export const Actions = styled.div`
 
   select {
     border-radius: 999px;
-    border: 1px solid var(--gray-200);
+    border: 1px solid var(--gray-300);
     padding: 8px 14px;
     font-size: var(--fs-sm);
     color: var(--gray-900);
@@ -43,7 +43,7 @@ export const TableWrap = styled.div`
   overflow-x: auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  border: 1px solid var(--primary-200);
+  border: 0.1px solid var(--primary-200);
   border-radius: 30px;
 
   scrollbar-width: none;
@@ -79,7 +79,7 @@ export const Table = styled.table`
     padding: 16px 20px;
     text-align: right;
     font-size: var(--fs-sm);
-    color: var(--black);
+    color: var(--text-color);
     white-space: nowrap;
   }
 
@@ -106,7 +106,7 @@ export const Table = styled.table`
   }
 
   tbody tr {
-    background: var(--white);
+    background: var(--color-bg);
     box-shadow: inset 0 -1px 0 var(--primary-200);
     border-radius: 30px;
   }
@@ -150,14 +150,14 @@ export const SummaryGrid = styled.div`
 `;
 
 export const SummaryItem = styled.div`
-  border: 1px solid var(--primary-200);
+  border: 0.1px solid var(--primary-200);
   border-radius: 20px;
   padding: 12px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  background: var(--white);
+  background: var(--color-bg);
 
   span {
     color: var(--gray-500);
@@ -165,7 +165,7 @@ export const SummaryItem = styled.div`
   }
 
   strong {
-    color: var(--black);
+    color: var(--text-color);
     font-size: var(--fs-md);
     font-weight: var(--fw-medium);
   }

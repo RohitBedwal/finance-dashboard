@@ -10,8 +10,8 @@ export const Container = styled.button`
   gap: 12px;
   border-radius: 30px;
   padding: 2px;
-  border: 1px solid var(--gray-200);
-  background: var(--white);
+  border: 1px solid var(--gray-300);
+  background: var(--color-bg);
   cursor: pointer;
 `;
 
@@ -24,6 +24,7 @@ export const Info = styled.div`
 export const Name = styled.span`
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
+  color: var(--text-color);
 `;
 
 export const Email = styled.span`
@@ -42,8 +43,8 @@ export const Dropdown = styled.div`
   top: calc(100% + 8px);
   right: 0;
   width: 240px;
-  background: var(--white);
-  border: 1px solid var(--gray-200);
+  background: var(--color-bg);
+  border: 1px solid var(--gray-300);
   border-radius: 16px;
   box-shadow: 0 10px 24px rgba(17, 17, 19, 0.08);
   padding: 8px;
@@ -58,7 +59,7 @@ export const Option = styled.button`
   gap: 10px;
   border: none;
   border-radius: 12px;
-  background: ${({ $isActive }) => ($isActive ? "var(--primary-100)" : "var(--white)")};
+  background: ${({ $isActive }) => ($isActive ? "var(--primary-100)" : "var(--color-bg)")};
   padding: 8px;
   cursor: pointer;
   text-align: left;

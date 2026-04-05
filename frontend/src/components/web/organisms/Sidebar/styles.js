@@ -2,9 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.aside`
   grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: var(--primary-100);
+  background-color: var(--sidebar-bg);
   padding: 0px 24px;
   position: relative;
   z-index: var(--sidebar-z-index);
@@ -51,7 +53,7 @@ export const LogoMark = styled.span`
   border-radius: 999px;
   align-items: center;
   justify-content: center;
-  background: var(--black);
+  background: var(--text-color);
   position: relative;
   flex-shrink: 0;
 
@@ -78,7 +80,7 @@ export const LogoTop = styled.span`
   width: 18px;
   height: 8px;
   border-radius: 10px;
-  background: var(--white);
+  background: var(--color-bg);
 `;
 
 export const LogoMid = styled.span`
@@ -92,7 +94,7 @@ export const LogoMid = styled.span`
 `;
 
 export const LogoFull = styled.span`
-  color: var(--black);
+  color: var(--text-color);
   font-weight: var(--fw-semibold);
   letter-spacing: 0.2px;
 
@@ -119,6 +121,7 @@ export const Menu = styled.div`
   display: flex;
   flex-direction: column;
   gap: 18px;
+  flex: 1;
 
   @media (max-width: 1400px) {
     align-items: center;
@@ -130,6 +133,58 @@ export const Menu = styled.div`
       align-items: stretch;
     }
   }
+`;
+
+export const ThemeToggleWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 12px 0 18px;
+
+  @media (max-width: 1400px) {
+    justify-content: center;
+  }
+
+  ${Container}:hover & {
+    @media (max-width: 1400px) {
+      justify-content: flex-start;
+    }
+  }
+`;
+
+export const ThemeToggleButton = styled.button`
+  position: relative;
+  width: 68px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--gray-300);
+  background: ${({ $active }) => ($active ? "var(--gray-700)" : "var(--color-bg)")};
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+`;
+
+export const ThemeIcon = styled.span`
+  font-size: 12px;
+  line-height: 1;
+  opacity: ${({ $active }) => ($active ? 1 : 0.45)};
+  z-index: 1;
+  transition: opacity 0.25s ease;
+`;
+
+export const ThemeToggleThumb = styled.span`
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--primary-600);
+  transform: ${({ $active }) => ($active ? "translateX(34px)" : "translateX(0)")};
+  transition: transform 0.25s ease;
 `;
 
 export const MenuItem = styled.button`
@@ -148,7 +203,7 @@ export const MenuItem = styled.button`
   width: 100%;
   transition: background-color 0.2s ease, color 0.2s ease;
 
-  color: var(--black);
+  color: var(--text-color);
 
   @media (max-width: 1400px) {
     justify-content: center;
@@ -193,7 +248,7 @@ export const MenuItemIcon = styled.span`
 
   svg {
     display: block;
-    fill: var(--black);
+    fill: var(--text-color);
   }
 
   ${({ $active }) => ($active ? `

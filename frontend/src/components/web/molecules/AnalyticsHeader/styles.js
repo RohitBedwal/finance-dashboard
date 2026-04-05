@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 export const Title = styled.h3`
   font-size: var(--fs-lg);
-  color: var(--black);
+  color: var(--text-color);
 `;
 
 export const Actions = styled.div`
