@@ -61,9 +61,13 @@ const defaultMethodOptions = [
 
 const defaultCategoryOptions = [
   { value: "Food", label: "Food" },
-  { value: "Refund", label: "Refund" },
-  { value: "Cashback", label: "Cashback" },
-  { value: "Movie", label: "Movie" },
+  { value: "Shopping", label: "Shopping" },
+  { value: "Transport", label: "Transport" },
+  { value: "Rent", label: "Rent" },
+  { value: "Entertainment", label: "Entertainment" },
+  { value: "Investment", label: "Investment" },
+  { value: "Salary", label: "Salary" },
+  { value: "Freelance", label: "Freelance" },
 ];
 
 const defaultStatusOptions = [

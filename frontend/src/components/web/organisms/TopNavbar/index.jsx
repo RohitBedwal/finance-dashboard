@@ -1,15 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./styles";
 import ProfileBlock from "../../molecules/ProfileBlock/index";
 import PageHeader from "../../molecules/Pageheader";
+import {
+  getActiveProfile,
+  getProfiles,
+  setActiveProfile,
+  subscribeStorage,
+} from "../../../../utils/localStorage";
 
 const TopNavbar = () => {
+  const [profiles, setProfiles] = useState([]);
+  const [activeProfile, setActiveProfileState] = useState(getActiveProfile());
+
+  useEffect(() => {
+    const loadProfiles = () => {
+      setProfiles(getProfiles());
+      setActiveProfileState(getActiveProfile());
+    };
+
+    loadProfiles();
+    return subscribeStorage(loadProfiles);
+  }, []);
+
+  const handleProfileChange = (profileId) => {
+    setActiveProfile(profileId);
+  };
+
   return (
     <S.Container>
       <PageHeader title="Dahsboard]" description="gg" ></PageHeader>
       <S.Actions>
         <S.IconButton type="button" aria-label="Search">
-          <svg width="18" height="18">
+          <svg width="24" height="24">
             <use href="/icons.svg#search" />
           </svg>
         </S.IconButton>
@@ -23,9 +46,12 @@ const TopNavbar = () => {
         </S.IconButton>
 
         <ProfileBlock
-          name="Adaline"
-          email="adaline@mail.com"
-          avatar="/avatar.png"
+          name={activeProfile?.name}
+          email={activeProfile?.email}
+          avatar={activeProfile?.avatar}
+          profiles={profiles}
+          activeProfileId={activeProfile?.id}
+          onProfileChange={handleProfileChange}
         />
       </S.Actions>
     </S.Container>

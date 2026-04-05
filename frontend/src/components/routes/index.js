@@ -12,8 +12,7 @@ export const protectedRoutes = {
   dashboard: '/dashboard',
   transactions: '/transactions',
   budget: '/budget',
-  goal: '/goal',
   analytics: '/analytics',
-  settings: '/settings'
+  
   
 };

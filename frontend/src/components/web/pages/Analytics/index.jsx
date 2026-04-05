@@ -11,7 +11,6 @@ import { getItem, subscribeStorage } from "../../../../utils/localStorage";
 
 const Analytics = () => {
   const [transactions, setTransactions] = useState([]);
-  const [transactionYear, setTransactionYear] = useState(new Date().getFullYear());
   const [transactionMonth, setTransactionMonth] = useState(new Date().getMonth());
 
   useEffect(() => {
@@ -25,6 +24,8 @@ const Analytics = () => {
 
   const {
     years,
+    moneyFlowYear,
+    setMoneyFlowYear,
     savingsYear,
     compareYear,
     setCompareYear,
@@ -55,7 +56,7 @@ const Analytics = () => {
       <S.ChartGrid>
         <S.LeftCharts>
           <TransactionOverviewChart
-            currentYear={transactionYear}
+            currentYear={moneyFlowYear}
             currentMonth={transactionMonth}
             transactions={transactions}
             onCurrentMonthChange={setTransactionMonth}
@@ -83,9 +84,9 @@ const Analytics = () => {
 
       <S.BottomSection>
         <YearlyCalendarTable
-          year={transactionYear}
+          year={moneyFlowYear}
           years={years}
-          onYearChange={setTransactionYear}
+          onYearChange={setMoneyFlowYear}
           incomeRows={yearlyIncomeRows}
           expenseRows={yearlyExpenseRows}
           incomeTotals={yearlyIncomeTotals}

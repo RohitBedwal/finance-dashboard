@@ -13,8 +13,12 @@ const Sidebar = () => {
   return (
     <S.Container>
       <S.Logo>
-        <S.LogoShort>F</S.LogoShort>
-        <S.LogoFull>Finance</S.LogoFull>
+        <S.LogoMark>
+          <S.LogoStem />
+          <S.LogoTop />
+          <S.LogoMid />
+        </S.LogoMark>
+        <S.LogoFull>finance</S.LogoFull>
       </S.Logo>
 
       <S.Menu>
@@ -53,27 +57,15 @@ const menu = [
     activePath: protectedRoutes.transactions.split("/")[1],
   },
   {
-    label: "Goal",
-    icon: "products",
-    path: protectedRoutes.goal,
-    activePath: protectedRoutes.goal.split("/")[1],
-  },
-  {
     label: "Budget",
-    icon: "banner",
+    icon: "budget",
     path: protectedRoutes.budget,
     activePath: protectedRoutes.budget.split("/")[1],
   },
   {
     label: "Analytics",
-    icon: "performance",
+    icon: "analytics",
     path: protectedRoutes.analytics,
     activePath: protectedRoutes.analytics.split("/")[1],
-  },
-  {
-    label: "Settings",
-    icon: "settings",
-    path: protectedRoutes.settings,
-    activePath: protectedRoutes.settings.split("/")[1],
   },
 ];

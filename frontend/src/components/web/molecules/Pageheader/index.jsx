@@ -1,19 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import * as S from "./styles";
+import { getActiveProfile, subscribeStorage } from "../../../../utils/localStorage";
 
 const HEADER_CONFIG = {
-  "/dashboard": {
-    title: "Welcome back, Rohit!",
-    description: "It is the best time to manage your finances",
-  },
   "/transactions": {
     title: "Transactions",
     description: "Track and manage all your financial activity",
-  },
-  "/goal": {
-    title: "goal",
-    description: "Monitor your balances and accounts",
   },
   "/budget": {
     title: "Budget",
@@ -23,19 +16,31 @@ const HEADER_CONFIG = {
     title: "Analytics",
     description: "Understand your spending behavior",
   },
-  "/settings": {
-    title: "Settings",
-    description: "Manage your profile and preferences",
-  },
 };
 
 const PageHeader = ({ rightContent }) => {
   const { pathname } = useLocation();
+  const [profileName, setProfileName] = useState(() => getActiveProfile()?.name || "User");
 
-  const header = HEADER_CONFIG[pathname] || {
-    title: "Dashboard",
-    description: "Overview of your finances",
-  };
+  useEffect(() => {
+    const syncProfileName = () => {
+      setProfileName(getActiveProfile()?.name || "User");
+    };
+
+    const unsubscribe = subscribeStorage(syncProfileName);
+    return unsubscribe;
+  }, []);
+
+  const header =
+    pathname === "/dashboard"
+      ? {
+          title: `Welcome back, ${profileName}!`,
+          description: "It is the best time to manage your finances",
+        }
+      : HEADER_CONFIG[pathname] || {
+          title: "Dashboard",
+          description: "Overview of your finances",
+        };
 
   return (
     <S.Container>

@@ -31,31 +31,75 @@ export const Logo = styled.h2`
   font-size: var(--fs-lg);
   margin-bottom: 28px;
   align-items: center;
+  justify-content: flex-start;
   display: flex;
-  gap: 10px;
+  gap: 12px;
   height: 80px;
+  width: 100%;
   white-space: nowrap;
-`;
-
-export const LogoShort = styled.span`
-  display: none;
 
   @media (max-width: 1400px) {
-    display: inline-flex;
-    width: 32px;
-    height: 32px;
-    border-radius: 999px;
-    align-items: center;
     justify-content: center;
-    background: var(--primary-600);
-    color: var(--white);
-    font-size: var(--fs-sm);
-    font-weight: var(--fw-medium);
-    flex-shrink: 0;
+    gap: 0;
   }
 `;
 
+export const LogoMark = styled.span`
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  background: var(--black);
+  position: relative;
+  flex-shrink: 0;
+
+  @media (max-width: 1400px) {
+    width: 38px;
+    height: 38px;
+  }
+`;
+
+export const LogoStem = styled.span`
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  width: 10px;
+  height: 26px;
+  border-radius: 10px;
+  background: var(--primary-600);
+`;
+
+export const LogoTop = styled.span`
+  position: absolute;
+  left: 18px;
+  top: 8px;
+  width: 18px;
+  height: 8px;
+  border-radius: 10px;
+  background: var(--white);
+`;
+
+export const LogoMid = styled.span`
+  position: absolute;
+  left: 18px;
+  top: 19px;
+  width: 13px;
+  height: 8px;
+  border-radius: 10px;
+  background: var(--primary-300);
+`;
+
 export const LogoFull = styled.span`
+  color: var(--black);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.2px;
+
+  @media (max-width: 1400px) {
+    display: none;
+  }
+
   @media (max-width: 1400px) {
     opacity: 0;
     width: 0;
@@ -65,9 +109,7 @@ export const LogoFull = styled.span`
 
   ${Container}:hover & {
     @media (max-width: 1400px) {
-      opacity: 1;
-      width: auto;
-      overflow: visible;
+      display: inline;
     }
   }
 
@@ -106,7 +148,7 @@ export const MenuItem = styled.button`
   width: 100%;
   transition: background-color 0.2s ease, color 0.2s ease;
 
-  color: var(--gray-600);
+  color: var(--black);
 
   @media (max-width: 1400px) {
     justify-content: center;
@@ -151,7 +193,7 @@ export const MenuItemIcon = styled.span`
 
   svg {
     display: block;
-    fill: var(--gray-600);
+    fill: var(--black);
   }
 
   ${({ $active }) => ($active ? `

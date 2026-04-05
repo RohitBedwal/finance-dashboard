@@ -120,8 +120,8 @@ const Dashboard = () => {
     if (parsedGoals.length) return parsedGoals;
 
     return [
-      { title: "MacBook Pro", target: 1650, percent: 25 },
-      { title: "New car", target: 60000, percent: 42 },
+      { title: "Hot wheels", target: 1650, percent: 25 },
+      { title: "Computer", target: 60000, percent: 42 },
       { title: "New house", target: 150000, percent: 3 },
     ];
   }, [goals]);
@@ -152,7 +152,6 @@ const Dashboard = () => {
             <S.RecentTitle>Recent transactions</S.RecentTitle>
 
             <S.RecentActions>
-              <S.RecentActionButton type="button">All accounts</S.RecentActionButton>
               <S.RecentActionButton type="button" onClick={() => navigate("/transactions")}>See all</S.RecentActionButton>
             </S.RecentActions>
           </S.RecentHeader>

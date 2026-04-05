@@ -1,16 +1,14 @@
 export const categoryOptionsByType = {
   Expense: [
     "Food",
-    "Bills",
     "Shopping",
+    "Transport",
+    "Rent",
     "Entertainment",
-    "Others",
+    "Investment",
   ],
   Income: [
     "Salary",
-    "Business",
     "Freelance",
-    "Investment",
-    "Other",
   ],
 };
