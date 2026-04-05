@@ -16,3 +16,21 @@ export const Actions = styled.div`
   gap: 16px;
   align-items: center;
 `;
+
+export const IconButton = styled.button`
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: var(--primary-100);
+  }
+`;
