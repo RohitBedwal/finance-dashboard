@@ -39,6 +39,13 @@ const calculateChange = (current, previous) => {
   return Number((((current - previous) / Math.abs(previous)) * 100).toFixed(1));
 };
 
+const countUniqueCategories = (list) => {
+  const categories = list
+    .map((tx) => String(tx?.category || "").trim().toLowerCase())
+    .filter(Boolean);
+  return new Set(categories).size;
+};
+
 export const useAnalyticsData = () => {
   const [transactions, setTransactions] = useState([]);
   const currentYear = new Date().getFullYear();
@@ -157,33 +164,152 @@ export const useAnalyticsData = () => {
     [transactions, compareYear]
   );
 
-  const selectedSavings = moneyFlowYearData.income - moneyFlowYearData.expense;
-  const compareSavings = compareYearData.income - compareYearData.expense;
+  const savingPercent = 0.15;
+  const totalsFromTransactions = (list) => {
+    const totals = list.reduce(
+      (acc, tx) => {
+        const amount = parseAmount(tx.amount);
+        const type = normalizeType(tx.type);
+
+        if (type === "Income") acc.income += amount;
+        if (type === "Expense") acc.expense += amount;
+
+        return acc;
+      },
+      { income: 0, expense: 0 }
+    );
+
+    const saving = Math.round(totals.income * savingPercent);
+    const balance = totals.income - saving - totals.expense;
+
+    return {
+      ...totals,
+      saving,
+      balance,
+    };
+  };
+
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYearValue = now.getFullYear();
+  const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+  const previousMonthYear = currentMonth === 0 ? currentYearValue - 1 : currentYearValue;
+
+  const currentMonthTransactions = transactions.filter((tx) => {
+    const date = parseTransactionDate(tx.date);
+    if (!date) return false;
+    return date.getFullYear() === currentYearValue && date.getMonth() === currentMonth;
+  });
+
+  const previousMonthTransactions = transactions.filter((tx) => {
+    const date = parseTransactionDate(tx.date);
+    if (!date) return false;
+    return date.getFullYear() === previousMonthYear && date.getMonth() === previousMonth;
+  });
+
+  const currentMonthIncomeTransactions = currentMonthTransactions.filter(
+    (tx) => normalizeType(tx.type) === "Income"
+  );
+
+  const currentMonthExpenseTransactions = currentMonthTransactions.filter(
+    (tx) => normalizeType(tx.type) === "Expense"
+  );
+
+  const allTimeTotals = totalsFromTransactions(transactions);
+  const currentMonthTotals = totalsFromTransactions(currentMonthTransactions);
+  const previousMonthTotals = totalsFromTransactions(previousMonthTransactions);
+
+  const balanceDelta = currentMonthTotals.balance - previousMonthTotals.balance;
+  const incomeDelta = currentMonthTotals.income - previousMonthTotals.income;
+  const expenseDelta = currentMonthTotals.expense - previousMonthTotals.expense;
+  const savingDelta = currentMonthTotals.saving - previousMonthTotals.saving;
+
+  const lastThreeMonthsSavedText = Array.from({ length: 3 }, (_, offset) => {
+    const targetDate = new Date(currentYearValue, currentMonth - offset, 1);
+    const month = targetDate.getMonth();
+    const year = targetDate.getFullYear();
+
+    const monthTransactions = transactions.filter((tx) => {
+      const date = parseTransactionDate(tx.date);
+      return date && date.getFullYear() === year && date.getMonth() === month;
+    });
+
+    const monthTotals = totalsFromTransactions(monthTransactions);
+    return `${MONTHS[month]} ₹${monthTotals.saving.toLocaleString()}`;
+  }).reverse().join(" | ");
+
+  const cardLast4 = useMemo(() => {
+    const cardSource = transactions.find((tx) => {
+      const candidates = [tx?.cardNumber, tx?.accountNumber, tx?.reference, tx?.note, tx?.notes];
+      return candidates.some((value) => /\d{4,}/.test(String(value || "")));
+    });
+
+    if (!cardSource) return "0000";
+
+    const candidates = [
+      cardSource?.cardNumber,
+      cardSource?.accountNumber,
+      cardSource?.reference,
+      cardSource?.note,
+      cardSource?.notes,
+    ];
+
+    const digits = candidates
+      .map((value) => String(value || "").replace(/\D/g, ""))
+      .find((value) => value.length >= 4);
+
+    return digits ? digits.slice(-4) : "0000";
+  }, [transactions]);
 
   const summaryData = [
     {
       title: "Total Balance",
-      amount: `₹${selectedSavings}`,
-      change: calculateChange(selectedSavings, compareSavings),
+      amount: `₹${allTimeTotals.balance}`,
+      change: calculateChange(currentMonthTotals.balance, previousMonthTotals.balance),
       icon: "goal",
+      cardLast4,
+      currency: "INR",
+      stats: [
+        { label: "transactions", value: currentMonthTransactions.length },
+        { label: "categories", value: countUniqueCategories(currentMonthTransactions) },
+      ],
+      detail: `You have ${balanceDelta >= 0 ? "extra" : "lower"} ₹${Math.abs(balanceDelta).toLocaleString()} compared to last month.`,
     },
     {
       title: "Expenses",
-      amount: `₹${moneyFlowYearData.expense}`,
-      change: calculateChange(moneyFlowYearData.expense, compareYearData.expense),
+      amount: `₹${currentMonthTotals.expense}`,
+      change: calculateChange(currentMonthTotals.expense, previousMonthTotals.expense),
       icon: "expense",
+      currency: "INR",
+      stats: [
+        { label: "transactions", value: currentMonthExpenseTransactions.length },
+        { label: "categories", value: countUniqueCategories(currentMonthExpenseTransactions) },
+      ],
+      detail: `You spent ${expenseDelta >= 0 ? "extra" : "less"} ₹${Math.abs(expenseDelta).toLocaleString()} compared to last month.`,
     },
     {
       title: "Income",
-      amount: `₹${moneyFlowYearData.income}`,
-      change: calculateChange(moneyFlowYearData.income, compareYearData.income),
+      amount: `₹${currentMonthTotals.income}`,
+      change: calculateChange(currentMonthTotals.income, previousMonthTotals.income),
       icon: "income",
+      currency: "INR",
+      stats: [
+        { label: "transactions", value: currentMonthIncomeTransactions.length },
+        { label: "categories", value: countUniqueCategories(currentMonthIncomeTransactions) },
+      ],
+      detail: `You earned ${incomeDelta >= 0 ? "extra" : "less"} ₹${Math.abs(incomeDelta).toLocaleString()} compared to last month.`,
     },
     {
       title: "Saving",
-      amount: `₹${selectedSavings}`,
-      change: calculateChange(selectedSavings, compareSavings),
+      amount: `₹${allTimeTotals.saving}`,
+      change: calculateChange(currentMonthTotals.saving, previousMonthTotals.saving),
       icon: "saving",
+      currency: "INR",
+      stats: [
+        { label: "transactions", value: currentMonthIncomeTransactions.length },
+        { label: "categories", value: countUniqueCategories(currentMonthIncomeTransactions) },
+      ],
+      detail: `You saved ${savingDelta >= 0 ? "extra" : "less"} ₹${Math.abs(savingDelta).toLocaleString()} this month. Last 3 months: ${lastThreeMonthsSavedText}.`,
     },
   ];
 
@@ -198,12 +324,12 @@ export const useAnalyticsData = () => {
 
   const selectedSavingsSeries = halfYearMonths.map((_, offset) => {
     const index = offset + halfYearStart;
-    return savingsYearData.monthlyIncome[index] - savingsYearData.monthlyExpense[index];
+    return Math.round((savingsYearData.monthlyIncome[index] || 0) * savingPercent);
   });
 
   const compareSavingsSeries = halfYearMonths.map((_, offset) => {
     const index = offset + halfYearStart;
-    return compareSavingsYearData.monthlyIncome[index] - compareSavingsYearData.monthlyExpense[index];
+    return Math.round((compareSavingsYearData.monthlyIncome[index] || 0) * savingPercent);
   });
 
   const statisticsPalette = [
@@ -351,7 +477,8 @@ export const useAnalyticsData = () => {
 
   const yearlyIncomeTotal = yearlyIncomeTotals.reduce((sum, value) => sum + value, 0);
   const yearlyExpenseTotal = yearlyExpenseTotals.reduce((sum, value) => sum + value, 0);
-  const yearlyBalanceTotal = yearlyIncomeTotal - yearlyExpenseTotal;
+  const yearlySavingAmount = Math.round(yearlyIncomeTotal * savingPercent);
+  const yearlyBalanceTotal = yearlyIncomeTotal - yearlySavingAmount - yearlyExpenseTotal;
 
   return {
     years,

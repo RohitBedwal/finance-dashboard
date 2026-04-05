@@ -1,28 +1,112 @@
 import styled from "styled-components";
 
-export const ChartSection = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
-  margin-top: 24px;
+export const Toolbar = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+`;
 
-  @media (max-width: 1000px) {
+export const WidgetManager = styled.div`
+  border: 1px solid var(--gray-200);
+  border-radius: 20px;
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+  background: var(--white);
+`;
+
+export const WidgetManagerRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--gray-100);
+  border-radius: 14px;
+  padding: 10px;
+`;
+
+export const WidgetLabel = styled.span`
+  font-size: var(--fs-sm);
+  color: var(--black);
+`;
+
+export const Widgets = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-auto-flow: row dense;
+  align-items: start;
+  gap: 20px;
+
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
 `;
 
-export const ChartTitle = styled.h3`
-  font-size: var(--fs-lg);
-  margin-bottom: 16px;
+export const WidgetBlock = styled.section`
+  position: relative;
+  grid-column: span 1;
+  min-width: 0;
+  transition: box-shadow 0.2s ease;
+
+  & > :not(label) {
+    width: 100%;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  @media (min-width: 1280px) {
+    &[data-widget="money-flow"],
+    &[data-widget="recent-transactions"] {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 1279px) {
+    &[data-widget="money-flow"],
+    &[data-widget="recent-transactions"] {
+      grid-column: span 1;
+    }
+  }
 `;
 
-export const ChartPlaceholder = styled.div`
-  height: 220px;
-  border-radius: 12px;
-  background: var(--primary-100);
+export const WidgetSelector = styled.label`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-xs);
+  color: var(--gray-600);
+
+  input {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--primary-600);
+    cursor: pointer;
+  }
+`;
+
+export const WidgetTitle = styled.h3`
+  font-size: var(--fs-lg);
+  color: var(--black);
+`;
+
+export const EmptyState = styled.div`
+  min-height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--fs-sm);
-  color: var(--gray-500);
+  color: var(--gray-300);
 `;

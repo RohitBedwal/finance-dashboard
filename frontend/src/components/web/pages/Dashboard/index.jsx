@@ -1,223 +1,229 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Main from "../../../templates/main";
 import SummaryCardsGrid from "../../organisms/SummaryCardsGrid";
-import InsightsPanel from "../../organisms/InsightsPanel";
-import Card from "../../atoms/card";
-import * as S from "./styles";
-import { getItem } from "../../../../utils/localStorage";
+import MonthlyIncomeExpenseChart from "../../organisms/MonthlyIncomeExpenseChart";
+import BudgetOverviewCard from "../../organisms/BudgetOverviewCard";
+import * as S from "./simpleStyles";
+import { getItem, subscribeStorage } from "../../../../utils/localStorage";
+import { useAnalyticsData } from "../Analytics/useAnalyticsData";
+
+const parseAmount = (value) => {
+  const amount = Number(String(value ?? "").replace(/[^\d.-]/g, ""));
+  return Number.isNaN(amount) ? 0 : amount;
+};
+
+const formatDateTime = (value) => {
+  if (!value) return "-";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "-";
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = date.toLocaleString("en-IN", { month: "short" });
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${day} ${month} ${hours}:${minutes}`;
+};
+
+const BUDGET_COLORS = [
+  "var(--primary-600)",
+  "var(--primary-500)",
+  "var(--primary-400)",
+  "var(--primary-300)",
+  "var(--secondary-600)",
+  "var(--secondary-400)",
+  "var(--gray-700)",
+  "var(--gray-500)",
+];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
+  const [budgets, setBudgets] = useState([]);
+  const [goals, setGoals] = useState([]);
 
-  /**
-   * Load transactions from localStorage
-   */
+  const {
+    years,
+    moneyFlowYear,
+    setMoneyFlowYear,
+    monthlyBarData,
+    summaryData: analyticsSummaryData,
+  } = useAnalyticsData();
+
   useEffect(() => {
     const loadTransactions = () => {
-      const storedTransactions =
-        getItem("transactions") || [];
-
-      setTransactions(storedTransactions);
+      setTransactions(getItem("transactions") || []);
+      setBudgets(getItem("budgets") || []);
+      setGoals(getItem("goals") || []);
     };
 
     loadTransactions();
-
-    /**
-     * Listen when new transaction added
-     */
-    window.addEventListener(
-      "transactionsUpdated",
-      loadTransactions
-    );
-
-    return () =>
-      window.removeEventListener(
-        "transactionsUpdated",
-        loadTransactions
-      );
+    return subscribeStorage(loadTransactions);
   }, []);
 
-  /**
-   * Filter current month transactions
-   */
-  const currentMonthTransactions =
-    transactions.filter((t) => {
-      if (!t.date) return false;
+  const budgetChartData = useMemo(() => {
+    const totalsByCategory = budgets.reduce((acc, item) => {
+      const category = String(item?.category || "Others").trim() || "Others";
+      acc[category] = (acc[category] || 0) + parseAmount(item?.amount);
+      return acc;
+    }, {});
 
-      const txnDate = new Date(t.date);
-      const now = new Date();
+    return Object.entries(totalsByCategory)
+      .map(([name, value], index) => {
+        const normalizedName = String(name).trim().toLowerCase();
 
-      return (
-        txnDate.getMonth() === now.getMonth() &&
-        txnDate.getFullYear() === now.getFullYear()
-      );
-    });
+        return {
+          name,
+          value,
+          color:
+            normalizedName === "others" || normalizedName === "other"
+              ? "var(--primary-200)"
+              : BUDGET_COLORS[index % BUDGET_COLORS.length],
+        };
+      })
+      .filter((item) => item.value > 0);
+  }, [budgets]);
 
-  /**
-   * Filter previous month transactions
-   */
-  const previousMonthTransactions =
-    transactions.filter((t) => {
-      if (!t.date) return false;
+  const totalBudget = useMemo(() => {
+    return budgetChartData.reduce((sum, item) => sum + item.value, 0);
+  }, [budgetChartData]);
 
-      const txnDate = new Date(t.date);
-      const now = new Date();
+  const recentTransactions = useMemo(() => {
+    return [...transactions]
+      .filter((item) => item?.date)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 3);
+  }, [transactions]);
 
-      const prevMonth =
-        now.getMonth() === 0
-          ? 11
-          : now.getMonth() - 1;
+  const savingsGoals = useMemo(() => {
+    const parsedGoals = (goals || [])
+      .map((goal) => {
+        const title = String(goal?.title || goal?.name || "").trim();
+        const target = parseAmount(goal?.target || goal?.goalAmount || goal?.amount);
+        const saved = parseAmount(goal?.saved || goal?.current || goal?.savedAmount);
 
-      const prevYear =
-        now.getMonth() === 0
-          ? now.getFullYear() - 1
-          : now.getFullYear();
+        if (!title || target <= 0) return null;
 
-      return (
-        txnDate.getMonth() === prevMonth &&
-        txnDate.getFullYear() === prevYear
-      );
-    });
+        const percent = Math.max(0, Math.min(100, Math.round((saved / target) * 100)));
 
-  /**
-   * Helper function
-   */
-  
-  const calculateTotals = (list) => {
-    let income = 0;
-    let expenses = 0;
+        return {
+          title,
+          target,
+          percent,
+        };
+      })
+      .filter(Boolean)
+      .slice(0, 3);
 
-    list.forEach((t) => {
-      if (t.type === "Income")
-        income += Number(t.amount);
+    if (parsedGoals.length) return parsedGoals;
 
-      if (t.type === "Expense")
-        expenses += Number(t.amount);
-    });
-
-    return {
-      income,
-      expenses,
-      balance: income - expenses,
-    };
-  };
-
-  const currentTotals =
-    calculateTotals(currentMonthTransactions);
-
-  const previousTotals =
-    calculateTotals(previousMonthTransactions);
-  // Add this below previousTotals
-    const allTimeTotals = calculateTotals(transactions);
-  /**
-   * Change percentage calculator
-   */
-  const calculateChange = (current, previous) => {
-  if (previous === 0) {
-    if (current === 0) return 0;
-    return 100;
-  }
-
-  return Number(
-    (((current - previous) / Math.abs(previous)) * 100).toFixed(1)
-  );
-};
-
-  const incomeChange = calculateChange(
-    currentTotals.income,
-    previousTotals.income
-  );
-
-  const expenseChange = calculateChange(
-    currentTotals.expenses,
-    previousTotals.expenses
-  );
-
-  const balanceChange = calculateChange(
-    currentTotals.balance,
-    previousTotals.balance
-  );
-
-  /**
-   * Summary cards data
-   */
-  const summaryData = [
-    {
-      title: "Total Balance",
-      amount: `₹${allTimeTotals.balance}`,
-      change: balanceChange,
-      icon: "goal",
-    },
-    {
-      title: "Income",
-      amount: `₹${allTimeTotals.income}`,
-      change: incomeChange,
-      icon: "income",
-    },
-    {
-      title: "Expenses",
-      amount: `₹${allTimeTotals.expenses}`,
-      change: expenseChange,
-      icon: "expense",
-    },
-  ];
-
-  /**
-   * Insights section
-   */
-  const insights = [
-    {
-      title: "Highest Spending Category",
-      value: "Food",
-      description:
-        "You spent the most on food this month",
-    },
-    {
-      title: "Monthly Comparison",
-      value: `${balanceChange}%`,
-      description:
-        "Change compared to last month",
-    },
-    {
-      title: "Observation",
-      value:
-        currentTotals.balance > 0
-          ? "Positive Cash Flow"
-          : "Negative Cash Flow",
-      description:
-        "Income vs expenses trend",
-    },
-  ];
+    return [
+      { title: "MacBook Pro", target: 1650, percent: 25 },
+      { title: "New car", target: 60000, percent: 42 },
+      { title: "New house", target: 150000, percent: 3 },
+    ];
+  }, [goals]);
 
   return (
     <Main>
-      <SummaryCardsGrid
-        data={summaryData}
-      />
+      <SummaryCardsGrid data={analyticsSummaryData} />
 
       <S.ChartSection>
-        <Card>
-          <S.ChartTitle>
-            Balance Trend
-          </S.ChartTitle>
+        <MonthlyIncomeExpenseChart
+          year={moneyFlowYear}
+          years={years}
+          onYearChange={setMoneyFlowYear}
+          monthlyData={monthlyBarData}
+        />
 
-          <S.ChartPlaceholder>
-            Time-based chart goes here
-          </S.ChartPlaceholder>
-        </Card>
-
-        <Card>
-          <S.ChartTitle>
-            Spending Breakdown
-          </S.ChartTitle>
-
-          <S.ChartPlaceholder>
-            Category chart goes here
-          </S.ChartPlaceholder>
-        </Card>
+         <BudgetOverviewCard
+          monthLabel="this month"
+          type="Budget"
+          total={totalBudget}
+          chartData={budgetChartData}
+        />
       </S.ChartSection>
 
-      <InsightsPanel insights={insights} />
+      <S.BottomSection>
+        <S.RecentSection>
+          <S.RecentHeader>
+            <S.RecentTitle>Recent transactions</S.RecentTitle>
+
+            <S.RecentActions>
+              <S.RecentActionButton type="button">All accounts</S.RecentActionButton>
+              <S.RecentActionButton type="button" onClick={() => navigate("/transactions")}>See all</S.RecentActionButton>
+            </S.RecentActions>
+          </S.RecentHeader>
+
+          <S.RecentTableWrap>
+            <S.RecentTable>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Payment Name</th>
+                  <th>Method</th>
+                  <th>Category</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {recentTransactions.length > 0 ? (
+                  recentTransactions.map((transaction, index) => (
+                    <tr key={`${transaction.id || "txn"}-${index}`}>
+                      <td>{formatDateTime(transaction.date)}</td>
+                      <td className={transaction.type === "Income" ? "income" : "expense"}>
+                        {transaction.type === "Income" ? "+" : "-"} ₹{parseAmount(transaction.amount)}
+                      </td>
+                      <td>{transaction.name || "-"}</td>
+                      <td>{transaction.method || "-"}</td>
+                      <td>{transaction.category || "-"}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5}>No transactions found</td>
+                  </tr>
+                )}
+              </tbody>
+            </S.RecentTable>
+          </S.RecentTableWrap>
+        </S.RecentSection>
+
+        <S.BudgetSection>
+          <S.SavingsCard>
+            <S.SavingsHeader>
+              <S.SavingsTitle>Saving goals</S.SavingsTitle>
+              <S.RedirectButton
+                        onClick={() => navigate("/analytics")}
+                      >
+                        <svg width="25" height="25px">
+                          <use href="/icons.svg#arrow-up-right" />
+                        </svg>
+                      </S.RedirectButton>
+            </S.SavingsHeader>
+
+            <S.SavingsList>
+              {savingsGoals.map((goalItem) => (
+                <S.SavingsItem key={goalItem.title}>
+                  <S.SavingsRow>
+                    <S.SavingsName>{goalItem.title}</S.SavingsName>
+                    <S.SavingsAmount>₹{goalItem.target.toLocaleString()}</S.SavingsAmount>
+                  </S.SavingsRow>
+
+                  <S.SavingsTrack>
+                    <S.SavingsFill style={{ width: `${goalItem.percent}%` }}>
+                      <span>{goalItem.percent}%</span>
+                    </S.SavingsFill>
+                  </S.SavingsTrack>
+                </S.SavingsItem>
+              ))}
+            </S.SavingsList>
+          </S.SavingsCard>
+        </S.BudgetSection>
+      </S.BottomSection>
     </Main>
   );
 };

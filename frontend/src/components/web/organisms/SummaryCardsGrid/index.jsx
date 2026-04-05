@@ -2,9 +2,9 @@ import React from "react";
 import * as S from "./styles";
 import SummaryCard from "../../molecules/SummaryCard";
 
-const SummaryCardsGrid = ({ data }) => {
+const SummaryCardsGrid = ({ data, columns = 4 }) => {
   return (
-    <S.Container>
+    <S.Container $columns={columns}>
       {data.map((card) => (
         <SummaryCard key={card.title} {...card} />
       ))}

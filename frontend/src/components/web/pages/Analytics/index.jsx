@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Main from "../../../templates/main";
 import SummaryCardsGrid from "../../organisms/SummaryCardsGrid";
-import MonthlyIncomeExpenseChart from "../../organisms/MonthlyIncomeExpenseChart";
+import TransactionOverviewChart from "../../organisms/TransactionOverviewChart";
 import SavingsOverviewChart from "../../organisms/SavingsOverviewChart";
 import StatisticsPieChart from "../../organisms/StatisticsPieChart";
 import YearlyCalendarTable from "../../organisms/YearlyCalendarTable";
 import * as S from "./styles";
 import { useAnalyticsData } from "./useAnalyticsData";
+import { getItem, subscribeStorage } from "../../../../utils/localStorage";
 
 const Analytics = () => {
+  const [transactions, setTransactions] = useState([]);
+  const [transactionYear, setTransactionYear] = useState(new Date().getFullYear());
+  const [transactionMonth, setTransactionMonth] = useState(new Date().getMonth());
+
+  useEffect(() => {
+    const loadTransactions = () => {
+      setTransactions(getItem("transactions") || []);
+    };
+
+    loadTransactions();
+    return subscribeStorage(loadTransactions);
+  }, []);
+
   const {
     years,
-    moneyFlowYear,
-    setMoneyFlowYear,
     savingsYear,
     compareYear,
     setCompareYear,
@@ -30,22 +42,23 @@ const Analytics = () => {
     yearlyBalanceTotal,
     halfYearMonths,
     summaryData,
-    monthlyBarData,
     selectedSavingsSeries,
     compareSavingsSeries,
   } = useAnalyticsData();
 
+  const analyticsSummaryData = summaryData.filter((card) => card.title !== "Saving");
+
   return (
     <Main>
-      <SummaryCardsGrid data={summaryData} />
+      <SummaryCardsGrid data={analyticsSummaryData} columns={3} />
 
       <S.ChartGrid>
         <S.LeftCharts>
-          <MonthlyIncomeExpenseChart
-            year={moneyFlowYear}
-            years={years}
-            onYearChange={setMoneyFlowYear}
-            monthlyData={monthlyBarData}
+          <TransactionOverviewChart
+            currentYear={transactionYear}
+            currentMonth={transactionMonth}
+            transactions={transactions}
+            onCurrentMonthChange={setTransactionMonth}
           />
 
           <SavingsOverviewChart
@@ -70,9 +83,9 @@ const Analytics = () => {
 
       <S.BottomSection>
         <YearlyCalendarTable
-          year={moneyFlowYear}
+          year={transactionYear}
           years={years}
-          onYearChange={setMoneyFlowYear}
+          onYearChange={setTransactionYear}
           incomeRows={yearlyIncomeRows}
           expenseRows={yearlyExpenseRows}
           incomeTotals={yearlyIncomeTotals}

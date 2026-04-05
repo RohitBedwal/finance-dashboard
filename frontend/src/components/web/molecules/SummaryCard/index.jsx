@@ -1,49 +1,91 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as S from "./styles";
 import Badge from "../../atoms/badge";
 
-const SummaryCard = ({ title, amount, change }) => {
+const SummaryCard = ({
+  title,
+  amount,
+  change,
+  detail,
+  cardLast4,
+  currency = "INR",
+  stats,
+}) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isPositive = change >= 0;
+  const isAnalyticsPage = location.pathname === "/analytics";
 
   return (
-    <S.Container>
+    <S.Container $isDetailed={isAnalyticsPage}>
       <S.Top>
-        <S.Title>{title}</S.Title>
+        <S.Title $isDetailed={isAnalyticsPage}>{title}</S.Title>
 
-        <S.RedirectButton
-          onClick={() => navigate("/analytics")}
-        >
-          <svg width="25" height="25px">
-            <use href="/icons.svg#arrow-up-right" />
-          </svg>
-        </S.RedirectButton>
+        {isAnalyticsPage ? (
+          <S.CurrencyChip>{`${currency} `}</S.CurrencyChip>
+        ) : (
+          <S.RedirectButton
+            onClick={() => navigate("/analytics")}
+          >
+            <svg width="25" height="25px">
+              <use href="/icons.svg#arrow-up-right" />
+            </svg>
+          </S.RedirectButton>
+        )}
       </S.Top>
 
-      <S.Amount>
+      <S.Amount $isDetailed={isAnalyticsPage}>
         {amount}
         <span>.00</span>
       </S.Amount>
 
-      <S.ChangeRow>
-        <Badge type={isPositive ? "success" : "danger"}>
-          <svg width="12" height="12">
-            <use
-              href={`/icons.svg#${
-                isPositive
-                  ? "arrow-up"
-                  : "arrow-down"
-              }`}
-            />
-          </svg>
+      {isAnalyticsPage ? (
+        <>
+          <S.AnalyticsRow>
+            <S.ChangeRow $isDetailed={isAnalyticsPage}>
+              <Badge type={isPositive ? "success" : "danger"}>
+                {isPositive ? "↑" : "↓"} {Math.abs(change)}%
+              </Badge>
+              {detail ? <S.Detail $isDetailed={isAnalyticsPage}>{detail}</S.Detail> : null}
+            </S.ChangeRow>
 
-          {Math.abs(change)}%
-        </Badge>
+            <S.StatPills>
+              {(stats || []).slice(0, 2).map((item, index) => (
+                <S.StatPill key={`${item.label}-${index}`}>
+                  <S.PillIcon>{index === 0 ? "↔" : "◫"}</S.PillIcon>
+                  <span>{`${item.value} ${item.label}`}</span>
+                </S.StatPill>
+              ))}
+            </S.StatPills>
+          </S.AnalyticsRow>
 
-        <S.ChangeText>vs last month</S.ChangeText>
-      </S.ChangeRow>
+          {/* {title === "Total Balance" && cardLast4 ? (
+            <S.CardMeta $isDetailed={isAnalyticsPage}>{`Card •••• ${String(cardLast4).slice(-4)}`}</S.CardMeta>
+          ) : null} */}
+
+          
+        </>
+      ) : (
+        <S.ChangeRow $isDetailed={isAnalyticsPage}>
+          <Badge type={isPositive ? "success" : "danger"}>
+            <svg width="12" height="12">
+              <use
+                href={`/icons.svg#${
+                  isPositive
+                    ? "arrow-up"
+                    : "arrow-down"
+                }`}
+              />
+            </svg>
+
+            {Math.abs(change)}%
+          </Badge>
+
+          <S.ChangeText $isDetailed={isAnalyticsPage}>vs last month</S.ChangeText>
+        </S.ChangeRow>
+      )}
     </S.Container>
   );
 };
