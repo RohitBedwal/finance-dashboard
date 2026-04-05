@@ -12,7 +12,7 @@ export const TableScroll = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  border: 0.1px solid var(--primary-200);
+  border: 0.1px solid var(--border-color);
   border-radius: 30px;
 
   /* Firefox */
@@ -34,7 +34,7 @@ export const TableScroll = styled.div`
   }
 
   &:hover::-webkit-scrollbar-thumb {
-    background-color: var(--primary-200);
+    background-color: var(--border-color);
   }
 `;
 
@@ -51,7 +51,7 @@ export const Table = styled.table`
     font-weight:200;
     padding: 16px 20px;
     color: var(--primary-600);
-    background: var(--primary-100);
+    background: var(--surface-hover);
     position: sticky;
     top: 0;
     z-index: 1;
@@ -59,7 +59,7 @@ export const Table = styled.table`
 
 
   thead tr {
-    background: var(--primary-100);
+    background: var(--surface-hover);
   }
 
   /* Header rounded only once */
@@ -74,7 +74,7 @@ export const Table = styled.table`
   /* Data rows */
   tbody tr {
     background: var(--color-bg);
-    box-shadow: inset 0 -1px 0 var(--primary-200); /* bottom border only */
+    box-shadow: inset 0 -1px 0 var(--border-color); /* bottom border only */
     transition: background 0.2s ease;
     border-radius: 30px;
   }
@@ -109,5 +109,5 @@ export const Pagination = styled.div`
 
 export const PageInfo = styled.div`
   font-size: var(--fs-sm);
-  color: var(--gray-700);
+  color: var(--muted-text);
 `;

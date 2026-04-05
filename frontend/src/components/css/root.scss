@@ -101,6 +101,7 @@ body {
   --badge-danger-text: var(--danger-500);
   --badge-warning-bg: var(--warning-200);
   --badge-warning-text: var(--warning-500);
+  --border-color: var(--primary-200);
   --black: #000000;
   --white: #ffffff;
 
@@ -195,6 +196,7 @@ body {
   --badge-danger-text: #ff9b9b;
   --badge-warning-bg: rgba(249, 151, 12, 0.22);
   --badge-warning-text: #ffd18a;
+  --border-color: var(--gray-700);
 }
 
 @media (max-width: 1279px) {
@@ -225,29 +227,31 @@ body {
 .react-datepicker {
   font-family: var(--font-primary);
   border-radius: 20px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   overflow: hidden;
+  background: var(--color-bg);
+  color: var(--text-color);
 }
 
 /* HEADER */
 
 .react-datepicker__header {
-  background: var(--primary-100);
-  border-bottom: 1px solid var(--gray-200);
+  background: var(--surface-hover);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .react-datepicker__current-month {
   font-size: var(--fs-sm);
   font-weight: var(--fw-sm);
-  color: var(--primary-700);
+  color: var(--text-color);
 }
 
 /* WEEKDAY LABELS */
 
 .react-datepicker__day-name {
   font-size: var(--fs-xs);
-  color: var(--gray-500);
+  color: var(--muted-text);
 }
 
 /* DAY CELLS */
@@ -255,25 +259,26 @@ body {
 .react-datepicker__day {
   border-radius: 8px;
   transition: all 0.2s ease;
+  color: var(--text-color);
 }
 
 /* HOVER DAY */
 
 .react-datepicker__day:hover {
-  background: var(--primary-200);
+  background: var(--surface-hover);
 }
 
 /* SELECTED RANGE */
 
 .react-datepicker__day--in-range {
-  background: var(--primary-300);
-  color: var(--primary-900);
+  background: var(--select-option-selected-bg);
+  color: var(--text-color);
 }
 
 .react-datepicker__day--range-start,
 .react-datepicker__day--range-end {
   background: var(--primary-600);
-  color: var(--color-bg);
+  color: var(--text-color);
   border-radius: 8px;
 }
 
@@ -287,7 +292,7 @@ body {
 /* DISABLED FUTURE DAYS */
 
 .react-datepicker__day--disabled {
-  color: var(--gray-300);
+  color: var(--muted-text);
 }
 
 /* NAVIGATION ARROWS */

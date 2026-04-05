@@ -35,7 +35,7 @@ const withButtonSize = ({ size }) =>
 const variants = {
   primary: css`
     background: var(--primary-600);
-    color: var(--color-bg);
+    color: var(--white);
     border-radius: 30px;
     ${withButtonSize}
 
@@ -46,7 +46,7 @@ const variants = {
 
   secondary: css`
     background: var(--color-bg);
-    color: var(--gray-900);
+    color: var(--text-color);
     border: 1px solid var(--gray-300);
     border-radius: 30px;
     ${withButtonSize}

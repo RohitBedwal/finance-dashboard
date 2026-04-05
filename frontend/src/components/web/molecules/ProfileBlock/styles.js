@@ -29,11 +29,11 @@ export const Name = styled.span`
 
 export const Email = styled.span`
   font-size: var(--fs-xs);
-  color: var(--gray-500);
+  color: var(--muted-text);
 `;
 
 export const Chevron = styled.span`
-  color: var(--gray-500);
+  color: var(--muted-text);
   font-size: 12px;
   padding-right:5px;
 `;
@@ -59,13 +59,13 @@ export const Option = styled.button`
   gap: 10px;
   border: none;
   border-radius: 12px;
-  background: ${({ $isActive }) => ($isActive ? "var(--primary-100)" : "var(--color-bg)")};
+  background: ${({ $isActive }) => ($isActive ? "var(--select-option-selected-bg)" : "var(--color-bg)")};
   padding: 8px;
   cursor: pointer;
   text-align: left;
 
   &:hover {
-    background: var(--primary-100);
+    background: var(--select-option-hover-bg);
   }
 `;
 

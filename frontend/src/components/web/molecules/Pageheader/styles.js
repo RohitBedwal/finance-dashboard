@@ -20,7 +20,7 @@ export const Title = styled.h2`
 
 export const Description = styled.p`
   font-size: var(--fs-sm);
-  color: var(--gray-500);
+  color: var(--muted-text);
 `;
 
 export const Right = styled.div`

@@ -1,19 +1,9 @@
 import React, { useState } from "react";
-import Select from "react-select";
+import Select from "../../../atoms/select";
 import * as S from "./styles";
 import { categoryOptionsByType } from "./defaultCategories";
 import { useTransactionForm } from "./useTransactionForm";
 import Button from "../../../atoms/buttons";
-
-const dropdownStyles = {
-    control: (base) => ({
-        ...base,
-        borderRadius: "999px",
-        padding: "6px",
-        borderColor: "var(--gray-200)",
-        boxShadow: "none",
-    }),
-};
 
 
 const AddNewTransaction = ({ onClose }) => {
@@ -49,19 +39,15 @@ const AddNewTransaction = ({ onClose }) => {
                     <S.Field>
                         <label>Type</label>
                         <Select
-                            required
-                            styles={dropdownStyles}
                             options={[
                                 { value: "Income", label: "Income" },
                                 { value: "Expense", label: "Expense" },
                             ]}
-                            defaultValue={{
-                                value: selectedType,
-                                label: selectedType,
-                            }}
-                            onChange={(e) => {
-                                setSelectedType(e.value);
-                                handleChange("type", e.value);
+                            value={selectedType}
+                            onChange={(_, selected) => {
+                                const nextType = selected?.value || "Income";
+                                setSelectedType(nextType);
+                                handleChange("type", nextType);
                                 handleChange("category", "");
                             }}
                         />
@@ -112,15 +98,14 @@ const AddNewTransaction = ({ onClose }) => {
                     <S.Field>
                         <label>Method</label>
                         <Select
-                            required
-                            styles={dropdownStyles}
                             options={[
                                 { value: "Card", label: "Card" },
                                 { value: "UPI", label: "UPI" },
                                 { value: "Cash", label: "Cash" },
                             ]}
-                            onChange={(e) =>
-                                handleChange("method", e.value)
+                            value={form.method}
+                            onChange={(_, selected) =>
+                                handleChange("method", selected?.value || "")
                             }
                         />
                     </S.Field>
@@ -130,14 +115,13 @@ const AddNewTransaction = ({ onClose }) => {
                         <label>Category</label>
 
                         <Select
-                            required
-                            styles={dropdownStyles}
                             options={categories.map((c) => ({
                                 label: c,
                                 value: c,
                             }))}
-                            onChange={(e) =>
-                                handleChange("category", e.value)
+                            value={form.category}
+                            onChange={(_, selected) =>
+                                handleChange("category", selected?.value || "")
                             }
                         />
 
@@ -170,14 +154,14 @@ const AddNewTransaction = ({ onClose }) => {
                     <S.Field>
                         <label>Status</label>
                         <Select
-                            styles={dropdownStyles}
                             options={[
                                 { value: "Successful", label: "Successful" },
                                 { value: "Pending", label: "Pending" },
                                 { value: "Failed", label: "Failed" },
                             ]}
-                            onChange={(e) =>
-                                handleChange("status", e.value)
+                            value={form.status}
+                            onChange={(_, selected) =>
+                                handleChange("status", selected?.value || "")
                             }
                         />
                     </S.Field>

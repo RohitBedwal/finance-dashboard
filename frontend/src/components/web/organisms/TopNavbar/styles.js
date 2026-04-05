@@ -26,11 +26,11 @@ export const IconButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--gray-700);
+  color: var(--text-color);
   cursor: pointer;
   transition: background-color 0.2s ease;
 
   &:hover {
-    background: var(--primary-100);
+    background: var(--surface-hover);
   }
 `;

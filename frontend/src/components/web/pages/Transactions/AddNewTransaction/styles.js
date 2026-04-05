@@ -14,7 +14,7 @@ export const Overlay = styled.div`
 
 export const Modal = styled.div`
   width: 450px;
-  background: white;
+  background: var(--color-bg);
   border-radius: 24px;
   padding: 32px;
   position: relative;
@@ -25,7 +25,7 @@ export const Header = styled.div`
   margin-bottom: 24px;
   p{
   font-size:13px;
-  color:var(--gray-500)
+  color:var(--muted-text)
   }
 `;
 
@@ -47,14 +47,18 @@ export const Input = styled.input`
   width: 100%;
   padding: 14px;
   border-radius: 999px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
+  background: var(--color-bg);
+  color: var(--text-color);
 `;
 
 export const Select = styled.select`
   width: 100%;
   padding: 14px;
   border-radius: 999px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
+  background: var(--color-bg);
+  color: var(--text-color);
 `;
 
 export const Footer = styled.div`
@@ -72,9 +76,10 @@ export const CloseButton = styled.button`
   height: 40px;
 
   border-radius: 50%;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
 
-  background: white;
+  background: var(--surface-hover);
+  color: var(--text-color);
   cursor: pointer;
 
   display: flex;
@@ -103,7 +108,9 @@ export const SmallInput = styled.input`
   flex: 1;
   padding: 8px;
   border-radius: 999px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
+  background: var(--color-bg);
+  color: var(--text-color);
 `;
 
 export const DateWrapper = styled.div`
@@ -117,7 +124,7 @@ export const CalendarIcon = styled.div`
   height: 40px;
 
   border-radius: 50%;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
 
   display: flex;
   align-items: center;

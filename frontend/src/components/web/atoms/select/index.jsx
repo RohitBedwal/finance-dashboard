@@ -8,7 +8,7 @@ const customStyles = {
     minHeight: 40,
     borderRadius: 999,
     borderColor: state.isFocused ? "var(--primary-600)" : "var(--gray-200)",
-    backgroundColor: state.hasValue ? "var(--color-bg)" : "var(--color-bg)",
+    backgroundColor: state.hasValue ? "var(--select-filled-bg)" : "var(--color-bg)",
     boxShadow: "none",
     cursor: "pointer",
     padding: "0 6px",
@@ -64,7 +64,7 @@ const customStyles = {
   }),
   menuPortal: (base) => ({
     ...base,
-    zIndex: "var(--drawer-close-z-index)",
+    zIndex: 1100,
   }),
 };
 

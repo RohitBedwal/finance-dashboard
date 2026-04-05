@@ -52,7 +52,7 @@ const TransactionsTable = ({ transactions }) => {
 
       <S.Pagination>
         <Button
-          variant="secondary"
+          variant="primary"
           size="sm"
           disabled={!canPrev}
           onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -65,7 +65,7 @@ const TransactionsTable = ({ transactions }) => {
         </S.PageInfo>
 
         <Button
-          variant="secondary"
+          variant="primary"
           size="sm"
           disabled={!canNext}
           onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
