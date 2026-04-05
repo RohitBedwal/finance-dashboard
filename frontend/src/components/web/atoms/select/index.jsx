@@ -7,14 +7,14 @@ const customStyles = {
     ...base,
     minHeight: 40,
     borderRadius: 999,
-    borderColor: state.isFocused ? "var(--primary-600)" : "var(--gray-200)",
+    borderColor: state.isFocused ? "var(--primary-600)" : "var(--border-color)",
     backgroundColor: state.hasValue ? "var(--select-filled-bg)" : "var(--color-bg)",
     boxShadow: "none",
     cursor: "pointer",
     padding: "0 6px",
     fontFamily: "var(--font-primary)",
     ":hover": {
-      borderColor: state.isFocused ? "var(--primary-600)" : "var(--gray-300)",
+      borderColor: state.isFocused ? "var(--primary-600)" : "var(--border-color)",
     },
   }),
   valueContainer: (base) => ({
@@ -42,24 +42,27 @@ const customStyles = {
   }),
   menu: (base) => ({
     ...base,
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
+    backgroundColor: "var(--color-bg)",
+    border: "1px solid var(--border-color)",
+    boxShadow: "0 10px 24px rgba(17, 17, 19, 0.08)",
     zIndex: "var(--dropdown-z-index)",
   }),
   menuList: (base) => ({
     ...base,
-    padding: 6,
+    padding: 8,
   }),
   option: (base, state) => ({
     ...base,
-    borderRadius: 8,
+    borderRadius: 12,
     fontSize: "var(--fs-sm)",
     backgroundColor: state.isSelected
       ? "var(--select-option-selected-bg)"
       : state.isFocused
       ? "var(--select-option-hover-bg)"
       : "var(--color-bg)",
-    color: state.isSelected ? "var(--primary-600)" : "var(--text-color)",
+    color: "var(--text-color)",
     cursor: "pointer",
   }),
   menuPortal: (base) => ({

@@ -215,6 +215,14 @@ export const useAnalyticsData = () => {
     (tx) => normalizeType(tx.type) === "Expense"
   );
 
+  const allIncomeTransactions = transactions.filter(
+    (tx) => normalizeType(tx.type) === "Income"
+  );
+
+  const allExpenseTransactions = transactions.filter(
+    (tx) => normalizeType(tx.type) === "Expense"
+  );
+
   const allTimeTotals = totalsFromTransactions(transactions);
   const currentMonthTotals = totalsFromTransactions(currentMonthTransactions);
   const previousMonthTotals = totalsFromTransactions(previousMonthTransactions);
@@ -270,8 +278,8 @@ export const useAnalyticsData = () => {
       cardLast4,
       currency: "INR",
       stats: [
-        { label: "transactions", value: currentMonthTransactions.length },
-        { label: "categories", value: countUniqueCategories(currentMonthTransactions) },
+        { label: "transactions", value: transactions.length },
+        { label: "categories", value: countUniqueCategories(transactions) },
       ],
       detail: `You have ${balanceDelta >= 0 ? "extra" : "lower"} ₹${Math.abs(balanceDelta).toLocaleString()} compared to last month.`,
     },
@@ -282,8 +290,8 @@ export const useAnalyticsData = () => {
       icon: "expense",
       currency: "INR",
       stats: [
-        { label: "transactions", value: currentMonthExpenseTransactions.length },
-        { label: "categories", value: countUniqueCategories(currentMonthExpenseTransactions) },
+        { label: "transactions", value: allExpenseTransactions.length },
+        { label: "categories", value: countUniqueCategories(allExpenseTransactions) },
       ],
       detail: `You spent ${expenseDelta >= 0 ? "extra" : "less"} ₹${Math.abs(expenseDelta).toLocaleString()} compared to last month.`,
     },
@@ -294,8 +302,8 @@ export const useAnalyticsData = () => {
       icon: "income",
       currency: "INR",
       stats: [
-        { label: "transactions", value: currentMonthIncomeTransactions.length },
-        { label: "categories", value: countUniqueCategories(currentMonthIncomeTransactions) },
+        { label: "transactions", value: allIncomeTransactions.length },
+        { label: "categories", value: countUniqueCategories(allIncomeTransactions) },
       ],
       detail: `You earned ${incomeDelta >= 0 ? "extra" : "less"} ₹${Math.abs(incomeDelta).toLocaleString()} compared to last month.`,
     },
@@ -306,8 +314,8 @@ export const useAnalyticsData = () => {
       icon: "saving",
       currency: "INR",
       stats: [
-        { label: "transactions", value: currentMonthIncomeTransactions.length },
-        { label: "categories", value: countUniqueCategories(currentMonthIncomeTransactions) },
+        { label: "transactions", value: allIncomeTransactions.length },
+        { label: "categories", value: countUniqueCategories(allIncomeTransactions) },
       ],
       detail: `You saved ${savingDelta >= 0 ? "extra" : "less"} ₹${Math.abs(savingDelta).toLocaleString()} this month. Last 3 months: ${lastThreeMonthsSavedText}.`,
     },
