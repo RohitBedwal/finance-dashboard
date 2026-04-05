@@ -6,7 +6,7 @@ import * as S from "./styles";
 
 const THEME_STORAGE_KEY = "theme";
 
-const Sidebar = () => {
+const Sidebar = ({ isMobileDrawer = false, onNavigate }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const activeTab = location.pathname.split("/")[1];
@@ -23,34 +23,38 @@ const Sidebar = () => {
   }, [isDarkMode]);
   
   return (
-    <S.Container>
+    <S.Container $mobileDrawer={isMobileDrawer}>
       <S.Logo>
         <S.LogoMark>
           <S.LogoStem />
           <S.LogoTop />
           <S.LogoMid />
         </S.LogoMark>
-        <S.LogoFull>finance</S.LogoFull>
+        <S.LogoFull $mobileDrawer={isMobileDrawer}>finance</S.LogoFull>
       </S.Logo>
 
-      <S.Menu>
+      <S.Menu $mobileDrawer={isMobileDrawer}>
         {menu.map((item) => (
           <S.MenuItem
           key={item.label}
+          $mobileDrawer={isMobileDrawer}
           $active={activeTab === item.activePath}
-          onClick={() => navigate(item.path)}
+          onClick={() => {
+            navigate(item.path);
+            onNavigate?.();
+          }}
           >
             <S.MenuItemIcon $active={activeTab === item.activePath}>
               <Icon name={item.icon} width={25} height={25} />
             </S.MenuItemIcon>
-            <S.MenuItemLabel $active={activeTab === item.activePath}>
+            <S.MenuItemLabel $mobileDrawer={isMobileDrawer} $active={activeTab === item.activePath}>
               {item.label}
             </S.MenuItemLabel>
           </S.MenuItem>
         ))}
       </S.Menu>
 
-      <S.ThemeToggleWrap>
+      <S.ThemeToggleWrap $mobileDrawer={isMobileDrawer}>
         <S.ThemeToggleButton
           type="button"
           $active={isDarkMode}

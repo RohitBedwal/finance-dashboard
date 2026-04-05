@@ -21,6 +21,10 @@ export const Title = styled.h2`
 export const Description = styled.p`
   font-size: var(--fs-sm);
   color: var(--muted-text);
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 export const Right = styled.div`

@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   position: relative;
+  z-index: 500;
 `;
 
 export const Container = styled.button`
@@ -13,12 +14,23 @@ export const Container = styled.button`
   border: 1px solid var(--gray-300);
   background: var(--color-bg);
   cursor: pointer;
+
+  @media (max-width: 767px) {
+    gap: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
 `;
 
 export const Info = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 export const Name = styled.span`
@@ -36,6 +48,10 @@ export const Chevron = styled.span`
   color: var(--muted-text);
   font-size: 12px;
   padding-right:5px;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 export const Dropdown = styled.div`
@@ -48,7 +64,7 @@ export const Dropdown = styled.div`
   border-radius: 16px;
   box-shadow: 0 10px 24px rgba(17, 17, 19, 0.08);
   padding: 8px;
-  z-index: 50;
+  z-index: 500;
   display: grid;
   gap: 6px;
 `;

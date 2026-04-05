@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.aside`
   grid-area: sidebar;
@@ -12,7 +12,28 @@ export const Container = styled.aside`
   z-index: var(--sidebar-z-index);
   transition: width 0.25s ease, padding 0.25s ease;
 
+  ${({ $mobileDrawer }) =>
+    $mobileDrawer &&
+    css`
+      position: relative;
+      height: 100%;
+      width: 100%;
+      padding: 0 18px;
+      z-index: 1101;
+
+      @media (min-width: 769px) {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        display: flex;
+      }
+    `}
+
   @media (max-width: 1400px) {
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
     width: var(--sidebar-width);
     padding: 0 10px;
     overflow: visible;
@@ -22,10 +43,15 @@ export const Container = styled.aside`
       padding: 0 24px;
       box-shadow: 8px 0 20px rgba(0, 0, 0, 0.06);
     }
+    `}
   }
 
   @media (max-width: 768px) {
-    display: none;
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
+        display: none;
+      `}
   }
 `;
 
@@ -99,14 +125,22 @@ export const LogoFull = styled.span`
   letter-spacing: 0.2px;
 
   @media (max-width: 1400px) {
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
     display: none;
+    `}
   }
 
   @media (max-width: 1400px) {
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
     opacity: 0;
     width: 0;
     overflow: hidden;
     transition: opacity 0.2s ease;
+    `}
   }
 
   ${Container}:hover & {
@@ -124,8 +158,12 @@ export const Menu = styled.div`
   flex: 1;
 
   @media (max-width: 1400px) {
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
     align-items: center;
     gap: 16px;
+    `}
   }
 
   ${Container}:hover & {
@@ -142,7 +180,11 @@ export const ThemeToggleWrap = styled.div`
   padding: 12px 0 18px;
 
   @media (max-width: 1400px) {
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
     justify-content: center;
+    `}
   }
 
   ${Container}:hover & {
@@ -206,12 +248,16 @@ export const MenuItem = styled.button`
   color: var(--text-color);
 
   @media (max-width: 1400px) {
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
     justify-content: center;
     gap: 0;
     width: 44px;
     height: 44px;
     padding: 0;
     border-radius: 999px;
+    `}
   }
 
   ${Container}:hover & {
@@ -265,11 +311,15 @@ export const MenuItemLabel = styled.span`
   font-weight: ${({ $active }) => ($active ? "var(--fw-medium)" : "var(--fw-regular)")};
 
   @media (max-width: 1400px) {
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
     opacity: 0;
     width: 0;
     overflow: hidden;
     white-space: nowrap;
     transition: opacity 0.2s ease;
+    `}
   }
 
   ${Container}:hover & {
