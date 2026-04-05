@@ -6,10 +6,10 @@ export const ChartWrap = styled.div`
 
 export const TooltipBubble = styled.div`
   background: var(--color-bg);
-  border: 0.1px solid var(--primary-300);
+  border: 0.1px solid var(--border-color);
   border-radius: 16px;
   padding: 8px 12px;
-  color: var(--gray-900);
+  color: var(--text-color);
   box-shadow: 0px 8px 24px rgba(17, 17, 19, 0.08);
 
   strong {
@@ -20,7 +20,7 @@ export const TooltipBubble = styled.div`
 
 export const TooltipTitle = styled.div`
   font-size: var(--fs-xs);
-  color: var(--gray-500);
+  color: var(--muted-text);
   margin-bottom: 4px;
 `;
 
@@ -31,10 +31,10 @@ export const TooltipRow = styled.div`
   font-size: var(--fs-xs);
 
   span {
-    color: var(--gray-500);
+    color: var(--muted-text);
   }
 
   strong {
-    color: var(--gray-900);
+    color: var(--text-color);
   }
 `;

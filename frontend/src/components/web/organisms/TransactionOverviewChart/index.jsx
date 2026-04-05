@@ -124,22 +124,22 @@ const TransactionOverviewChart = ({
       <S.ChartWrap>
         <ResponsiveContainer width="100%" height={170}>
           <LineChart data={chartData} margin={{ top: 8, right: 8, left: 4, bottom: 4 }}>
-            <CartesianGrid stroke="var(--gray-100)" vertical={false} />
+            <CartesianGrid stroke="var(--chart-grid-stroke)" vertical={false} />
             <XAxis
               dataKey="day"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "var(--gray-300)", fontSize: 12 }}
+              tick={{ fill: "var(--muted-text)", fontSize: 12 }}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "var(--gray-300)", fontSize: 12 }}
+              tick={{ fill: "var(--muted-text)", fontSize: 12 }}
               tickFormatter={(value) => `₹${Math.round(Math.abs(value) / 1000)}k`}
               width={30}
             />
             <Tooltip
-              cursor={{ stroke: "var(--gray-300)", strokeDasharray: "4 4" }}
+              cursor={{ stroke: "var(--muted-text)", strokeDasharray: "4 4" }}
               content={<CustomTooltip monthLabel={monthLabel} />}
             />
             <Line

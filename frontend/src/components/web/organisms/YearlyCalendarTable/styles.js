@@ -20,10 +20,10 @@ export const Actions = styled.div`
 
   select {
     border-radius: 999px;
-    border: 1px solid var(--gray-300);
+    border: 1px solid var(--border-color);
     padding: 8px 14px;
     font-size: var(--fs-sm);
-    color: var(--gray-900);
+    color: var(--text-color);
   }
 `;
 
@@ -43,11 +43,11 @@ export const TableWrap = styled.div`
   overflow-x: auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  border: 0.1px solid var(--primary-200);
+  border: 0.1px solid var(--border-color);
   border-radius: 30px;
 
   scrollbar-width: none;
-  scrollbar-color: var(--primary-200) transparent;
+  scrollbar-color: var(--border-color) transparent;
 
   &::-webkit-scrollbar {
     width: 4px;
@@ -64,7 +64,7 @@ export const TableWrap = styled.div`
   }
 
   &:hover::-webkit-scrollbar-thumb {
-    background-color: var(--primary-200);
+    background-color: var(--border-color);
   }
 `;
 
@@ -84,14 +84,14 @@ export const Table = styled.table`
   }
 
   thead tr {
-    background: var(--primary-100);
+    background: var(--surface-hover);
   }
 
   th {
     text-transform: uppercase;
     font-weight: 200;
     color: var(--primary-600);
-    background: var(--primary-100);
+    background: var(--surface-hover);
     position: sticky;
     top: 0;
     z-index: 1;
@@ -107,7 +107,7 @@ export const Table = styled.table`
 
   tbody tr {
     background: var(--color-bg);
-    box-shadow: inset 0 -1px 0 var(--primary-200);
+    box-shadow: inset 0 -1px 0 var(--border-color);
     border-radius: 30px;
   }
 
@@ -130,7 +130,7 @@ export const Table = styled.table`
   }
 
   tbody tr:last-child {
-    background: var(--primary-100);
+    background: var(--surface-hover);
   }
 
   tbody tr:last-child td {
@@ -150,7 +150,7 @@ export const SummaryGrid = styled.div`
 `;
 
 export const SummaryItem = styled.div`
-  border: 0.1px solid var(--primary-200);
+  border: 0.1px solid var(--border-color);
   border-radius: 20px;
   padding: 12px 14px;
   display: flex;
@@ -160,7 +160,7 @@ export const SummaryItem = styled.div`
   background: var(--color-bg);
 
   span {
-    color: var(--gray-500);
+    color: var(--muted-text);
     font-size: var(--fs-sm);
   }
 

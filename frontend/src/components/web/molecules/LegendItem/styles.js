@@ -5,7 +5,7 @@ export const Container = styled.div`
   align-items: center;
   gap: 8px;
   font-size: var(--fs-sm);
-  color: var(--gray-700);
+  color: var(--text-color);
 `;
 
 export const Dot = styled.span`

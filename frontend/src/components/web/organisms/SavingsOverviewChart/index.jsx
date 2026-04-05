@@ -94,21 +94,21 @@ const SavingsOverviewChart = ({
                 <stop offset="95%" stopColor="var(--primary-600)" stopOpacity={0.02} />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke="var(--gray-100)" vertical={false} />
+            <CartesianGrid stroke="var(--chart-grid-stroke)" vertical={false} />
             <XAxis
               dataKey="month"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "var(--gray-300)", fontSize: 12 }}
+              tick={{ fill: "var(--muted-text)", fontSize: 12 }}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "var(--gray-300)", fontSize: 12 }}
+              tick={{ fill: "var(--muted-text)", fontSize: 12 }}
               tickFormatter={(value) => `₹${Math.round(value / 1000)}k`}
               width={30}
             />
-            <Tooltip cursor={{ stroke: "var(--gray-300)", strokeDasharray: "4 4" }} content={<CustomTooltip />} />
+            <Tooltip cursor={{ stroke: "var(--muted-text)", strokeDasharray: "4 4" }} content={<CustomTooltip />} />
             <Area type="monotone" dataKey="current" stroke="none" fill="url(#savingsFill)" />
             <Line type="monotone" dataKey="compare" stroke="var(--primary-400)" strokeWidth={2.5} strokeDasharray="6 6" dot={false} />
             <Line type="monotone" dataKey="current" stroke="var(--primary-600)" strokeWidth={2} dot={false} />

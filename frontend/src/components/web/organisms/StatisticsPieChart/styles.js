@@ -20,26 +20,30 @@ export const Actions = styled.div`
 
   select {
     border-radius: 999px;
-    border: 1px solid var(--gray-300);
+    border: 1px solid var(--border-color);
     padding: 8px 14px;
     font-size: var(--fs-sm);
-    color: var(--gray-900);
+    color: var(--text-color);
   }
 `;
 
 export const DetailsButton = styled.button`
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   background: var(--color-bg);
   border-radius: 999px;
   padding: 8px 14px;
   font-size: var(--fs-sm);
-  color: var(--gray-900);
+  color: var(--text-color);
   cursor: pointer;
+
+  &:hover {
+    background: var(--surface-hover);
+  }
 `;
 
 export const Subtitle = styled.p`
   margin-top: 10px;
-  color: var(--gray-300);
+  color: var(--muted-text);
   font-size: var(--fs-sm);
   line-height: 1.35;
   max-width: 360px;
@@ -53,7 +57,7 @@ export const ChartWrap = styled.div`
 
 export const TooltipBubble = styled.div`
   background-color: var(--color-bg);
-  border: 0.1px solid var(--primary-300);
+  border: 0.1px solid var(--border-color);
   border-radius: 14px;
   padding: 8px 14px;
   color: var(--text-color);
@@ -63,7 +67,7 @@ export const TooltipBubble = styled.div`
 
 export const TooltipTitle = styled.div`
   font-size: var(--fs-xs);
-  color: var(--gray-500);
+  color: var(--muted-text);
   margin-bottom: 4px;
 `;
 
@@ -94,7 +98,7 @@ export const CenterLabel = styled.div`
   pointer-events: none;
 
   p {
-    color: var(--gray-300);
+    color: var(--muted-text);
     font-size: var(--fs-sm);
     margin-bottom: 4px;
   }
@@ -127,7 +131,7 @@ export const Callout = styled.div`
   align-items: center;
 
   strong {
-    color: var(--gray-500);
+    color: var(--muted-text);
     font-size: var(--fs-lg);
     line-height: 1.2;
   }
