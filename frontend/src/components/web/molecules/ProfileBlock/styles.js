@@ -11,7 +11,7 @@ export const Container = styled.button`
   gap: 12px;
   border-radius: 30px;
   padding: 2px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   background: var(--color-bg);
   cursor: pointer;
 
@@ -60,7 +60,7 @@ export const Dropdown = styled.div`
   right: 0;
   width: 240px;
   background: var(--color-bg);
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   box-shadow: 0 10px 24px rgba(17, 17, 19, 0.08);
   padding: 8px;

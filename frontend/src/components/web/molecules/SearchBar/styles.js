@@ -8,7 +8,7 @@ export const Container = styled.div`
   border-radius: 999px;
   padding: 0 14px;
   height: 42px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
 `;
 
 export const Input = styled.input`

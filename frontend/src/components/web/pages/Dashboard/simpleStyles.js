@@ -22,7 +22,7 @@ export const BudgetSection = styled.div`
 `;
 
 export const SavingsCard = styled.div`
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   border-radius: 30px;
   padding: 3px 2px 0px 20px;
   background: var(--color-bg);
@@ -50,7 +50,7 @@ export const SavingsArrowButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   background: var(--color-bg);
   color: var(--text-color);
   display: flex;
@@ -129,7 +129,7 @@ export const BottomSection = styled.div`
 `;
 
 export const RecentSection = styled.div`
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   border-radius: 30px;
   padding: 18px;
   background: var(--color-bg);
@@ -161,7 +161,7 @@ export const RecentActions = styled.div`
 `;
 
 export const RecentActionButton = styled.button`
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   background: var(--color-bg);
   border-radius: 999px;
   padding: 8px 14px;
@@ -261,7 +261,7 @@ export const RedirectButton = styled.button`
   color: var(--text-color);
 
   border-radius: 50%;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
 
   display: flex;
   align-items: center;

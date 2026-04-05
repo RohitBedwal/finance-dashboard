@@ -199,7 +199,7 @@ export const ThemeToggleButton = styled.button`
   width: 96px;
   height: 44px;
   border-radius: 999px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--border-color);
   background: var(--gray-100);
   display: inline-flex;
   align-items: center;

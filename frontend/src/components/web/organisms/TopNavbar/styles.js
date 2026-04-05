@@ -44,7 +44,7 @@ export const IconButton = styled.button`
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   background: var(--color-bg);
   display: inline-flex;
   align-items: center;
@@ -66,7 +66,7 @@ export const HamburgerButton = styled.button`
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   background: var(--color-bg);
   display: none;
   align-items: center;

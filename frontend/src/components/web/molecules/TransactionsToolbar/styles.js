@@ -48,7 +48,7 @@ export const IconButton = styled.button`
   height: 40px;
 
   border-radius: 50%;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
 
   background: var(--color-bg);
   cursor: pointer;
@@ -84,7 +84,7 @@ export const DateRange = styled.div`
   padding: 0 var(--m-16);
 
   border-radius: 999px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
 
   background: var(--color-bg);
 

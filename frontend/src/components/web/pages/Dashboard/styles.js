@@ -9,7 +9,7 @@ export const Toolbar = styled.div`
 `;
 
 export const WidgetManager = styled.div`
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 14px;
   display: grid;
@@ -23,7 +23,7 @@ export const WidgetManagerRow = styled.div`
   justify-content: space-between;
   gap: 10px;
   align-items: center;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   padding: 10px;
 `;
@@ -80,7 +80,7 @@ export const WidgetSelector = styled.label`
   right: 12px;
   z-index: 3;
   background: var(--color-bg);
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   border-radius: 999px;
   padding: 6px 10px;
   display: inline-flex;

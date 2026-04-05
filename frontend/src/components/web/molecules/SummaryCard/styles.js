@@ -4,7 +4,7 @@ export const Container = styled.div`
   background: var(--color-bg);
   border-radius: 30px;
   padding: 3px 3px 22px 22px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
 `;
 
 export const Top = styled.div`
@@ -25,7 +25,7 @@ export const RedirectButton = styled.button`
   height: 50px;
   color: var(--text-color);
   border-radius: 50%;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
 
   display: flex;
   align-items: center;
@@ -56,7 +56,7 @@ export const CurrencyChip = styled.span`
   height: 50px;
   padding: 8px 16px;
   border-radius: 100%;
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   display: inline-flex;
   align-items: center;
   color: var(--muted-text);

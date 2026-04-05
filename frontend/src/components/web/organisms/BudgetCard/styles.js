@@ -62,7 +62,7 @@ export const ProgressInner = styled.div`
   height: 100%;
   border-radius: 50%;
   background: transparent;
-//   border: 1px solid var(--gray-300);
+//   border: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;

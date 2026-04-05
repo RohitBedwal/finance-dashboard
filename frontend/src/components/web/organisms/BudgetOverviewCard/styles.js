@@ -20,7 +20,7 @@ export const Actions = styled.div`
 
   select {
     border-radius: 999px;
-    border: 1px solid var(--gray-300);
+    border: 1px solid var(--border-color);
     padding: 8px 14px;
     font-size: var(--fs-sm);
     color: var(--gray-900);
@@ -28,7 +28,7 @@ export const Actions = styled.div`
 `;
 
 export const DetailsButton = styled.button`
-  border: 1px solid var(--gray-300);
+  border: 1px solid var(--border-color);
   background: var(--color-bg);
   border-radius: 999px;
   padding: 8px 14px;
