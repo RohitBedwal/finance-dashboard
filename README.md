@@ -4,6 +4,10 @@ A modern finance dashboard built with React + Vite, using a layered component ar
 
 This README is a full technical walkthrough of how the codebase is organized and how the app works.
 
+## Live Website
+
+- https://finance-dashboard-8hjj.onrender.com
+
 ---
 
 ## 1) Repository Layout
