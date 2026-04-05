@@ -10,7 +10,7 @@ export const TableScroll = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  border: 0.1px solid var(--border-color);
+  border: 1px solid var(--border-color);
   border-radius: 30px;
 
   /* Firefox */
@@ -60,7 +60,7 @@ export const Table = styled.table`
     user-select: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    border-bottom: 0.1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
   }
 
   th:first-child {
@@ -144,7 +144,7 @@ export const MobileCardWrap = styled.div`
 
 export const MobileCard = styled.div`
   background: var(--color-bg);
-  border: 0.1px solid var(--border-color);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 16px;
   display: grid;
@@ -197,7 +197,7 @@ export const ActionBar = styled.div`
   padding: ${(props) => (props.show ? "14px 18px" : "0 18px")};
   min-height: ${(props) => (props.show ? "50px" : "0")};
   background: var(--surface-hover);
-  border: 0.1px solid
+  border: 1px solid
     ${(props) => (props.show ? "var(--border-color)" : "transparent")};
   border-radius: 20px;
   margin-bottom: ${(props) => (props.show ? "16px" : "0")};
@@ -243,7 +243,7 @@ export const StyledCheckbox = styled.input.attrs({ type: "checkbox" })`
   height: 18px;
   cursor: pointer;
   appearance: none;
-  border: 1.5px solid var(--checkbox-border);
+  border: 1px solid var(--checkbox-border);
   border-radius: 6px;
   background: var(--checkbox-bg);
   display: inline-grid;

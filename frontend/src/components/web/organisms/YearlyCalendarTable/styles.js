@@ -43,7 +43,7 @@ export const TableWrap = styled.div`
   overflow-x: auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  border: 0.1px solid var(--border-color);
+  border: 1px solid var(--border-color);
   border-radius: 30px;
 
   scrollbar-width: none;
@@ -150,7 +150,7 @@ export const SummaryGrid = styled.div`
 `;
 
 export const SummaryItem = styled.div`
-  border: 0.1px solid var(--border-color);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 12px 14px;
   display: flex;

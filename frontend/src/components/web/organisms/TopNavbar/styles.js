@@ -11,8 +11,9 @@ export const Container = styled.header`
   height: var(--navbar-height);
   padding: 0 var(--m-24);
   background-color: var(--color-bg);
-
+  
   @media (max-width: 767px) {
+    box-shadow: 0 1px 0 var(--border-color);
     justify-content: flex-start;
     gap: 8px;
     align-items: center;

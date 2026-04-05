@@ -112,7 +112,7 @@ export const StatPill = styled.div`
   min-width: 130px;
   height: 40px;
   border-radius: 999px;
-  border: 0.1px solid var(--primary-200);
+  border: 1px solid var(--border-color);
   background: var(--color-bg);
   display: inline-flex;
   align-items: center;

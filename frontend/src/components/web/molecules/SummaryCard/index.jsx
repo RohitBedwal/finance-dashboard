@@ -70,17 +70,7 @@ const SummaryCard = ({
       ) : (
         <S.ChangeRow $isDetailed={isAnalyticsPage}>
           <Badge type={isPositive ? "success" : "danger"}>
-            <svg width="12" height="12">
-              <use
-                href={`/icons.svg#${
-                  isPositive
-                    ? "arrow-up"
-                    : "arrow-down"
-                }`}
-              />
-            </svg>
-
-            {Math.abs(change)}%
+            {isPositive ? "↑" : "↓"} {Math.abs(change)}%
           </Badge>
 
           <S.ChangeText $isDetailed={isAnalyticsPage}>vs last month</S.ChangeText>

@@ -24,7 +24,7 @@ const Sidebar = ({ isMobileDrawer = false, onNavigate }) => {
   
   return (
     <S.Container $mobileDrawer={isMobileDrawer}>
-      <S.Logo>
+      <S.Logo $mobileDrawer={isMobileDrawer}>
         <S.LogoMark>
           <S.LogoStem />
           <S.LogoTop />

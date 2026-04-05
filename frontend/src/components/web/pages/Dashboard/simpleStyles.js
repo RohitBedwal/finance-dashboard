@@ -1,5 +1,36 @@
 import styled from "styled-components";
 
+export const TopRightInfo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-left: auto;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--primary-100);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--primary-600);
+  margin-bottom: 10px;
+
+  :root[data-theme="dark"] & {
+  
+    background: rgba(132, 112, 255, 0.14);
+    color: var(--primary-400);
+  }
+
+  @media (max-width: 767px) {
+    // width: 100%;
+    display: none;
+    // margin-left: 0;
+    justify-content: flex-start;
+    border-radius: 14px;
+  }
+`;
+
 export const ChartSection = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);

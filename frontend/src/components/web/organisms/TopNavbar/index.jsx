@@ -183,7 +183,7 @@ const TopNavbar = () => {
     <>
       <S.Container>
         <S.DesktopPageHeaderSlot>
-          <PageHeader title="Dahsboard]" description="gg" />
+          <PageHeader />
         </S.DesktopPageHeaderSlot>
 
         <S.Actions>
@@ -251,7 +251,7 @@ const TopNavbar = () => {
         </S.Actions>
 
         <S.MobilePageHeaderSlot>
-          <PageHeader title="Dahsboard]" description="gg" />
+          <PageHeader />
         </S.MobilePageHeaderSlot>
 
         <S.HamburgerButton

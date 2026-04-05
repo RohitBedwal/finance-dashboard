@@ -6,7 +6,7 @@ export const ChartArea = styled.div`
 
 export const TooltipBubble = styled.div`
   background: var(--color-bg);
-  border: 0.1px solid var(--primary-300);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   padding: 8px 14px;
   color: var(--text-color);

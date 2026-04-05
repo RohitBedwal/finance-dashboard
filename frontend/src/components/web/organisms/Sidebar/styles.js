@@ -67,8 +67,23 @@ export const Logo = styled.h2`
   white-space: nowrap;
 
   @media (max-width: 1400px) {
-    justify-content: center;
-    gap: 0;
+    ${({ $mobileDrawer }) =>
+      !$mobileDrawer &&
+      css`
+        justify-content: center;
+        gap: 0;
+      `}
+  }
+
+  ${Container}:hover & {
+    @media (max-width: 1400px) {
+      ${({ $mobileDrawer }) =>
+        !$mobileDrawer &&
+        css`
+          justify-content: flex-start;
+          gap: 12px;
+        `}
+    }
   }
 `;
 
@@ -128,24 +143,19 @@ export const LogoFull = styled.span`
     ${({ $mobileDrawer }) =>
       !$mobileDrawer &&
       css`
-    display: none;
-    `}
-  }
-
-  @media (max-width: 1400px) {
-    ${({ $mobileDrawer }) =>
-      !$mobileDrawer &&
-      css`
-    opacity: 0;
-    width: 0;
-    overflow: hidden;
-    transition: opacity 0.2s ease;
-    `}
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition: opacity 0.2s ease;
+      `}
   }
 
   ${Container}:hover & {
     @media (max-width: 1400px) {
-      display: inline;
+      opacity: 1;
+      width: auto;
+      overflow: visible;
     }
   }
 
@@ -168,7 +178,11 @@ export const Menu = styled.div`
 
   ${Container}:hover & {
     @media (max-width: 1400px) {
-      align-items: stretch;
+      ${({ $mobileDrawer }) =>
+        !$mobileDrawer &&
+        css`
+          align-items: stretch;
+        `}
     }
   }
 `;
@@ -189,7 +203,11 @@ export const ThemeToggleWrap = styled.div`
 
   ${Container}:hover & {
     @media (max-width: 1400px) {
-      justify-content: flex-start;
+      ${({ $mobileDrawer }) =>
+        !$mobileDrawer &&
+        css`
+          justify-content: flex-start;
+        `}
     }
   }
 `;
@@ -231,9 +249,13 @@ export const ThemeToggleButton = styled.button`
 
   ${Container}:hover & {
     @media (max-width: 1400px) {
-      width: 96px;
-      padding: 0 15px;
-      justify-content: space-between;
+      ${({ $mobileDrawer }) =>
+        !$mobileDrawer &&
+        css`
+          width: 96px;
+          padding: 0 15px;
+          justify-content: space-between;
+        `}
     }
   }
 `;
@@ -265,9 +287,13 @@ export const ThemeIcon = styled.span`
 
   ${Container}:hover & {
     @media (max-width: 1400px) {
-      position: static;
-      transform: none;
-      opacity: ${({ $active }) => ($active ? 1 : 0.95)};
+      ${({ $mobileDrawer }) =>
+        !$mobileDrawer &&
+        css`
+          position: static;
+          transform: none;
+          opacity: ${({ $active }) => ($active ? 1 : 0.95)};
+        `}
     }
   }
 `;
@@ -301,11 +327,15 @@ export const ThemeToggleThumb = styled.span`
 
   ${Container}:hover & {
     @media (max-width: 1400px) {
-      width: 40px;
-      height: 40px;
-      top: 2px;
-      left: 2px;
-      transform: ${({ $active }) => ($active ? "translateX(52px)" : "translateX(0)")};
+      ${({ $mobileDrawer }) =>
+        !$mobileDrawer &&
+        css`
+          width: 40px;
+          height: 40px;
+          top: 2px;
+          left: 2px;
+          transform: ${({ $active }) => ($active ? "translateX(52px)" : "translateX(0)")};
+        `}
     }
   }
 `;
@@ -343,12 +373,16 @@ export const MenuItem = styled.button`
 
   ${Container}:hover & {
     @media (max-width: 1400px) {
-      justify-content: flex-start;
-      gap: 12px;
-      width: 100%;
-      height: auto;
-      padding: 10px 12px;
-      border-radius: 25px;
+      ${({ $mobileDrawer }) =>
+        !$mobileDrawer &&
+        css`
+          justify-content: flex-start;
+          gap: 12px;
+          width: 100%;
+          height: auto;
+          padding: 10px 12px;
+          border-radius: 25px;
+        `}
     }
   }
 
@@ -405,9 +439,13 @@ export const MenuItemLabel = styled.span`
 
   ${Container}:hover & {
     @media (max-width: 1400px) {
-      opacity: 1;
-      width: auto;
-      overflow: visible;
+      ${({ $mobileDrawer }) =>
+        !$mobileDrawer &&
+        css`
+          opacity: 1;
+          width: auto;
+          overflow: visible;
+        `}
     }
   }
 `;

@@ -43,6 +43,7 @@ const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
   const [budgets, setBudgets] = useState([]);
   const [goals, setGoals] = useState([]);
+  const [currentDateTime, setCurrentDateTime] = useState(() => new Date());
 
   const {
     years,
@@ -62,6 +63,27 @@ const Dashboard = () => {
     loadTransactions();
     return subscribeStorage(loadTransactions);
   }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 60 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const dashboardDateTime = useMemo(() => {
+    const datePart = currentDateTime.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+    });
+    const timePart = currentDateTime.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    return `${datePart} • ${timePart}`;
+  }, [currentDateTime]);
 
   const budgetChartData = useMemo(() => {
     const totalsByCategory = budgets.reduce((acc, item) => {
@@ -128,6 +150,10 @@ const Dashboard = () => {
 
   return (
     <Main>
+      <S.TopRightInfo>
+        {dashboardDateTime}
+      </S.TopRightInfo>
+
       <SummaryCardsGrid data={analyticsSummaryData} />
 
       <S.ChartSection>
