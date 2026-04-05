@@ -40,6 +40,109 @@ export const Actions = styled.div`
   }
 `;
 
+export const SearchArea = styled.div`
+  position: relative;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+`;
+
+export const SearchDropdown = styled.div`
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(340px, 40vw);
+  z-index: 20;
+  opacity: ${({ $open }) => ($open ? 1 : 0)};
+  transform: ${({ $open }) => ($open ? "translateY(0)" : "translateY(-6px)")};
+  pointer-events: ${({ $open }) => ($open ? "auto" : "none")};
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  @media (max-width: 1024px) {
+    width: min(280px, 44vw);
+  }
+`;
+
+export const SearchForm = styled.form`
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--color-bg);
+  padding: 0 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 24px rgba(17, 17, 19, 0.08);
+
+  &:focus-within {
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px var(--primary-200);
+  }
+`;
+
+export const SearchSubmitButton = styled.button`
+  border: 1px solid var(--border-color);
+  background: var(--surface-hover);
+  color: var(--muted-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: var(--primary-100);
+    color: var(--text-color);
+  }
+`;
+
+export const SearchInput = styled.input`
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text-color);
+  font-size: var(--fs-sm);
+  font-family: var(--font-primary);
+
+  &::placeholder {
+    color: var(--muted-text);
+  }
+
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+`;
+
+export const ClearSearchButton = styled.button`
+  border: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--color-bg);
+    color: var(--text-color);
+  }
+`;
+
 export const IconButton = styled.button`
   width: 44px;
   height: 44px;

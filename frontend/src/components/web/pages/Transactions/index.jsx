@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import TransactionsTable from "../../organisms/TransactionsTable/index";
 import Main from "../../../templates/main";
 import TransactionsToolbar from "../../molecules/TransactionsToolbar";
@@ -10,6 +11,7 @@ import {
 } from "../../../../utils/localStorage";
 
 const Transactions = () => {
+  const { search } = useLocation();
   const [transactions, setTransactions] = useState([]);
   const [dateRange, setDateRange] = useState({
     startDate: null,
@@ -17,6 +19,13 @@ const Transactions = () => {
   });
 
   const { filters } = useTransactionFilters();
+
+  const searchQuery = useMemo(() => {
+    const params = new URLSearchParams(search);
+    return String(params.get("q") || "")
+      .trim()
+      .toLowerCase();
+  }, [search]);
 
   // Load transactions initially + sync with storage updates
   useEffect(() => {
@@ -102,9 +111,26 @@ const Transactions = () => {
         if (!isMatch) return false;
       }
 
+      if (searchQuery) {
+        const searchBase = [
+          tx.id,
+          tx.name,
+          tx.method,
+          tx.category,
+          tx.status,
+          tx.type,
+          tx.amount,
+          tx.date,
+        ]
+          .map((value) => String(value || "").toLowerCase())
+          .join(" ");
+
+        if (!searchBase.includes(searchQuery)) return false;
+      }
+
       return true;
     });
-  }, [transactions, filters, dateRange]);
+  }, [transactions, filters, dateRange, searchQuery]);
 
   const handleDateFilter = (startDate, endDate) => {
     setDateRange({ startDate, endDate });
