@@ -22,10 +22,16 @@ export const BudgetSection = styled.div`
 `;
 
 export const SavingsCard = styled.div`
-  border: 0.1px solid var(--primary-200);
+  border: 1px solid var(--gray-300);
   border-radius: 30px;
   padding: 3px 2px 0px 20px;
   background: var(--color-bg);
+  min-width: 0;
+
+  @media (max-width: 767px) {
+    padding: 12px;
+    border-radius: 20px;
+  }
 `;
 
 export const SavingsHeader = styled.div`
@@ -57,6 +63,10 @@ export const SavingsList = styled.div`
   display: grid;
   padding-right:20px;
   gap: 14px;
+
+  @media (max-width: 767px) {
+    padding-right: 0;
+  }
 `;
 
 export const SavingsItem = styled.div`
@@ -112,13 +122,22 @@ export const BottomSection = styled.div`
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
   }
+
+  @media (max-width: 767px) {
+    gap: 14px;
+  }
 `;
 
 export const RecentSection = styled.div`
-  border: 0.1px solid var(--primary-200);
+  border: 1px solid var(--gray-300);
   border-radius: 30px;
   padding: 18px;
   background: var(--color-bg);
+
+  @media (max-width: 767px) {
+    padding: 12px;
+    border-radius: 20px;
+  }
 `;
 
 export const RecentHeader = styled.div`
@@ -205,6 +224,34 @@ export const RecentTable = styled.table`
   td.expense {
     color: var(--danger-500);
     font-weight: var(--fw-medium);
+  }
+
+  @media (max-width: 767px) {
+    th,
+    td {
+      padding: 12px 10px;
+      font-size: var(--fs-xs);
+    }
+
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(5),
+    td:nth-child(5) {
+      display: none;
+    }
+
+    thead tr th:last-child,
+    tbody tr td:last-child {
+      border-radius: 0;
+    }
+
+    thead tr th:nth-child(4) {
+      border-radius: 0 30px 30px 0;
+    }
+
+    tbody tr td:nth-child(4) {
+      border-radius: 0 30px 30px 0;
+    }
   }
 `;
 

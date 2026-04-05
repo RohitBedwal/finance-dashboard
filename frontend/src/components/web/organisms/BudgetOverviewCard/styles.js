@@ -53,7 +53,11 @@ export const ChartWrap = styled.div`
   min-width: 0;
   width: 100%;
   max-width: 460px;
-   
+
+  @media (max-width: 767px) {
+    max-width: 100%;
+    order: 1;
+  }
 
 `;
 
@@ -152,6 +156,13 @@ export const Legend = styled.div`
   gap: 10px 18px;
 
 //   flex: 0 0 180px;
+
+  @media (max-width: 767px) {
+    order: 2;
+    width: 100%;
+    margin-top: 8px;
+    gap: 8px;
+  }
 `;
 
 export const LegendItem = styled.div`
@@ -177,10 +188,9 @@ export const Container = styled.div`
   width: 100%;
   margin-top: 10px;
 
-
-
-//   @media (max-width: 900px) {
-//     flex-direction: column;
-//     align-items: stretch;
-//   }
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
 `;
