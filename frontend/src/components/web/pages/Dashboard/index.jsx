@@ -10,6 +10,7 @@ import {
   getDashboardStats,
   getTransactions,
 } from "../../../../api/dashboardApi";
+import { getBudgets } from "../../../../api/budgetApi";
 
 const parseAmount = (value) => {
   const amount = Number(String(value ?? "").replace(/[^\d.-]/g, ""));
@@ -64,13 +65,15 @@ const Dashboard = () => {
   useEffect(() => {
   const loadDashboard = async () => {
     try {
-      const [statsRes, transactionsRes] = await Promise.all([
+      const [statsRes, transactionsRes, budgetsRes] = await Promise.all([
         getDashboardStats(),
         getTransactions(),
+         getBudgets(),
       ]);
 
       setStats(statsRes.data);
       setTransactions(transactionsRes.data);
+      setBudgets(budgetsRes.data);
     } catch (error) {
       console.error(error);
     }
@@ -122,6 +125,8 @@ const Dashboard = () => {
       })
       .filter((item) => item.value > 0);
   }, [budgets]);
+      console.log(budgetChartData)
+
 
   const totalBudget = useMemo(() => {
     return budgetChartData.reduce((sum, item) => sum + item.value, 0);

@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 
 import authRoutes from "./routes/authRoutes.js";
+import budgetRoutes from "./routes/budgetRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
 
 import dashboardRoutes from "./routes/dashboardRoutes.js";
@@ -23,11 +24,14 @@ app.get("/", (req, res) => {
     });
 });
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/budgets", budgetRoutes);
 app.use("/api/auth", authRoutes);
 app.use(
   "/api/transactions",
   transactionRoutes
 );
+
+
 
 const PORT = process.env.PORT || 5000;
 

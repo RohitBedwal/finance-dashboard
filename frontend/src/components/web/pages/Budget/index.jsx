@@ -6,8 +6,9 @@ import BudgetCard from "../../organisms/BudgetCard";
 import TransactionsToolbar from "../../molecules/TransactionsToolbar";
 import AddNewBudget from "./AddNewBudget";
 import { categoryOptionsByType } from "../Transactions/AddNewTransaction/defaultCategories";
-import { getItem, subscribeStorage } from "../../../../utils/localStorage";
 import * as S from "./styles";
+import { getBudgets } from "../../../../api/budgetApi";
+import { getTransactions } from "../../../../api/transactionApi";
 
 const formatCurrency = (value) => `₹${Number(value || 0).toLocaleString()}`;
 
@@ -120,14 +121,23 @@ const Budget = () => {
   });
 
   useEffect(() => {
-    const load = () => {
-      setTransactions(getItem("transactions") || []);
-      setBudgets(getItem("budgets") || []);
-    };
+  const load = async () => {
+    try {
+      const [transactionsRes, budgetsRes] =
+        await Promise.all([
+          getTransactions(),
+          getBudgets(),
+        ]);
 
-    load();
-    return subscribeStorage(load);
-  }, []);
+      setTransactions(transactionsRes.data);
+      setBudgets(budgetsRes.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  load();
+}, []);
 
   const activeRange = useMemo(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -182,7 +192,7 @@ const Budget = () => {
         const status = computeStatus(spent, budgetAmount);
 
         return {
-          id: item.id || category,
+          id: item._id || category,
           title: category,
           category,
           spent,

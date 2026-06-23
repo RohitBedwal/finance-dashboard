@@ -8,17 +8,21 @@ import * as S from "./styles";
 const AddNewBudget = ({ onClose, initialBudget = null }) => {
   const { form, handleChange, saveBudget } = useBudgetForm(initialBudget);
 
-  const handleSubmit = () => {
-    const success = saveBudget();
-    if (success) onClose();
-  };
+  const handleSubmit = async () => {
+  const success = await saveBudget();
+
+  if (success) {
+    onClose();
+  }
+};
 
   const expenseCategories = categoryOptionsByType.Expense || [];
   const selectedCategory = form.category
     ? { value: form.category, label: form.category }
     : null;
-  const isEditMode = Boolean(initialBudget?.id);
-
+const isEditMode = Boolean(
+  initialBudget?._id || initialBudget?.id
+);
   return (
     <S.Overlay onClick={onClose}>
       <S.Modal onClick={(event) => event.stopPropagation()}>

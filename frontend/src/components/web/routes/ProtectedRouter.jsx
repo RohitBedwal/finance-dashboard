@@ -3,27 +3,81 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import AppWrapper from "../../templates";
 import PageNotFound from "../pages/PageNotFound";
+import Login from "../pages/Login";
+
 import { PROTECTED_ROUTES } from "../../routes/componentRoutes";
-import { protectedRoutes } from "../../routes";
 
 const ProtectedRouter = () => {
+  const token = localStorage.getItem("token");
+
   return (
-    <AppWrapper>
-      <Suspense fallback={null}>
-        <Routes>
-          <Route
-            path="/"
-            element={<Navigate to={protectedRoutes.dashboard} replace />}
-          />
+    <Suspense fallback={null}>
+      <Routes>
+        {/* Root */}
+        <Route
+          path="/"
+          element={
+            token ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
-          {Object.values(PROTECTED_ROUTES).map(({ path, component: Component }) => (
-            <Route key={path} path={path} element={<Component />} />
-          ))}
+        {/* Public Routes */}
+        <Route
+          path="/login"
+          element={
+            token ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Login />
+            )
+          }
+        />
 
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </Suspense>
-    </AppWrapper>
+        <Route
+          path="/register"
+          element={
+            token ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        {/* Protected Routes */}
+        <Route
+          path="/*"
+          element={
+            token ? (
+              <AppWrapper>
+                <Routes>
+                  {Object.values(PROTECTED_ROUTES).map(
+                    ({ path, component: Component }) => (
+                      <Route
+                        key={path}
+                        path={path}
+                        element={<Component />}
+                      />
+                    )
+                  )}
+
+                  <Route
+                    path="*"
+                    element={<PageNotFound />}
+                  />
+                </Routes>
+              </AppWrapper>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+      </Routes>
+    </Suspense>
   );
 };
 

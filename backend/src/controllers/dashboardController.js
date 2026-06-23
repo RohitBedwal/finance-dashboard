@@ -2,7 +2,9 @@ import Transaction from "../models/Transaction.js";
 
 export const getDashboardStats = async (req, res) => {
   try {
-    const transactions = await Transaction.find();
+    const transactions = await Transaction.find({
+      userId: req.user.id,
+    });
 
     const income = transactions
       .filter((t) => t.type === "Income")

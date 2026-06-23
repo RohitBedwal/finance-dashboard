@@ -178,6 +178,9 @@ const TopNavbar = () => {
     }
     navigateToTransactionSearch("", pathname === "/transactions");
   };
+  const user = JSON.parse(
+  localStorage.getItem("user") || "{}"
+);
 
   return (
     <>
@@ -240,14 +243,10 @@ const TopNavbar = () => {
             </svg>
           </S.IconButton>
 
-          <ProfileBlock
-            name={activeProfile?.name}
-            email={activeProfile?.email}
-            avatar={activeProfile?.avatar}
-            profiles={profiles}
-            activeProfileId={activeProfile?.id}
-            onProfileChange={handleProfileChange}
-          />
+         <ProfileBlock
+  name={user?.name}
+  email={user?.email}
+/>
         </S.Actions>
 
         <S.MobilePageHeaderSlot>

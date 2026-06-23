@@ -1,17 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as S from "./styles";
 import Avatar from "../../atoms/avatar";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ProfileBlock = ({
   name,
   email,
   avatar,
-  profiles = [],
-  activeProfileId,
-  onProfileChange,
+  
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
+  const navigate = useNavigate();
+
+const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+
+  toast.success("Logged out successfully");
+
+  navigate("/login");
+};
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -34,7 +44,7 @@ const ProfileBlock = ({
   return (
     <S.Wrapper ref={containerRef}>
       <S.Container type="button" onClick={() => setIsOpen((value) => !value)}>
-      <Avatar src={avatar} alt={name} />
+      <Avatar src="https://cdn-icons-png.flaticon.com/512/616/616410.png" alt={name} />
       <S.Info>
         <S.Name>{name}</S.Name>
         <S.Email>{email}</S.Email>
@@ -43,23 +53,23 @@ const ProfileBlock = ({
       </S.Container>
 
       {isOpen ? (
-        <S.Dropdown>
-          {profiles.map((profile) => (
-            <S.Option
-              key={profile.id}
-              type="button"
-              $isActive={profile.id === activeProfileId}
-              onClick={() => handleSelect(profile.id)}
-            >
-              <Avatar src={profile.avatar} alt={profile.name} />
-              <S.OptionInfo>
-                <S.Name>{profile.name}</S.Name>
-                <S.Email>{profile.email}</S.Email>
-              </S.OptionInfo>
-            </S.Option>
-          ))}
-        </S.Dropdown>
-      ) : null}
+  <S.Dropdown>
+    <S.Option
+      type="button"
+      onClick={handleLogout}
+    >
+      <Avatar
+        src="https://cdn-icons-png.flaticon.com/512/1828/1828490.png"
+        alt="Logout"
+      />
+
+      <S.OptionInfo>
+        <S.Name>Logout</S.Name>
+        <S.Email>Sign out of your account</S.Email>
+      </S.OptionInfo>
+    </S.Option>
+  </S.Dropdown>
+) : null}
     </S.Wrapper>
   );
 };

@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { getItem, setItem } from "../../../../../utils/localStorage";
 import { categoryOptionsByType } from "../../Transactions/AddNewTransaction/defaultCategories";
+import { createBudget, updateBudget } from "../../../../../api/budgetApi";
 
 export const useBudgetForm = (initialBudget = null) => {
   const [form, setForm] = useState({
-    id: initialBudget?.id || "",
-    category: initialBudget?.category || "",
-    amount: initialBudget?.amount ? String(initialBudget.amount) : "",
-  });
+  id: initialBudget?.id || "",
+  category: initialBudget?.category || "",
+  amount: initialBudget?.amount ? String(initialBudget.amount) : "",
+});
 
   useEffect(() => {
-    setForm({
-      id: initialBudget?.id || "",
-      category: initialBudget?.category || "",
-      amount: initialBudget?.amount ? String(initialBudget.amount) : "",
-    });
-  }, [initialBudget]);
+  setForm({
+  id: initialBudget?.id || "",
+  category: initialBudget?.category || "",
+  amount: initialBudget?.amount ? String(initialBudget.amount) : "",
+});
+}, [initialBudget]);
 
   const handleChange = (field, value) => {
     setForm((prev) => ({
@@ -25,7 +25,7 @@ export const useBudgetForm = (initialBudget = null) => {
     }));
   };
 
-  const saveBudget = () => {
+  const saveBudget = async () => {
     const category = String(form.category || "").trim();
     const amount = Number(String(form.amount || "").replace(/[^\d.-]/g, ""));
 
@@ -40,38 +40,35 @@ export const useBudgetForm = (initialBudget = null) => {
       return false;
     }
 
-    const existingBudgets = getItem("budgets") || [];
 
-    const payload = {
-      id: form.id || crypto.randomUUID(),
-      category,
-      amount,
-      type: "Expense",
-      createdAt: new Date().toISOString(),
-    };
+   const payload = {
+  category,
+  amount,
+  type: "Expense",
+  createdAt: new Date().toISOString(),
+};
+try {
+  if (form.id) {
+  await updateBudget(form.id, payload);
 
-    const existingIndexById = existingBudgets.findIndex((item) => item.id === form.id);
-    const existingIndexByCategory = existingBudgets.findIndex(
-      (item) => String(item.category || "").toLowerCase() === category.toLowerCase()
-    );
-    const existingIndex = existingIndexById >= 0 ? existingIndexById : existingIndexByCategory;
+  toast.success("Budget updated successfully");
+} else {
+  await createBudget(payload);
 
-    let updatedBudgets = [...existingBudgets];
+  toast.success("Budget created successfully");
+}
 
-    if (existingIndex >= 0) {
-      updatedBudgets[existingIndex] = {
-        ...updatedBudgets[existingIndex],
-        ...payload,
-        id: updatedBudgets[existingIndex].id || payload.id,
-      };
-      toast.success("Budget updated successfully");
-    } else {
-      updatedBudgets = [...existingBudgets, payload];
-      toast.success("Budget created successfully");
-    }
 
-    setItem("budgets", updatedBudgets);
-    return true;
+  window.location.reload();
+
+  return true;
+} catch (error) {
+  console.error(error);
+
+  toast.error("Failed to save budget");
+
+  return false;
+}
   };
 
   return {

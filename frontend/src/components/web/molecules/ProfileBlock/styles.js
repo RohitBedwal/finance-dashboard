@@ -22,6 +22,11 @@ export const Container = styled.button`
     background: transparent;
   }
 `;
+export const Divider = styled.div`
+  height: 1px;
+  background: var(--border-color);
+  margin: 8px 0;
+`;
 
 export const Info = styled.div`
   display: flex;

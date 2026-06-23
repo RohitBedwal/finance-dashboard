@@ -1,18 +1,17 @@
+
 export const openRoutes = {
-  root: '/',
-  login: '/login',
-  dashboard: '/dashboard',
+  root: "/",
+  login: "/login",
+  register: "/register"
 };
 
 export const errorRoutes = {
-  pageNotFound: '/404',
+  pageNotFound: "/404",
 };
 
 export const protectedRoutes = {
-  dashboard: '/dashboard',
-  transactions: '/transactions',
-  budget: '/budget',
-  analytics: '/analytics',
-  
-  
+  dashboard: "/dashboard",
+  transactions: "/transactions",
+  budget: "/budget",
+  analytics: "/analytics",
 };
