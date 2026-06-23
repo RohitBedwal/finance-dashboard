@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { getItem, subscribeStorage } from "../../../../utils/localStorage";
 import { categoryOptionsByType } from "../Transactions/AddNewTransaction/defaultCategories";
+import { getTransactions } from "../../../../api/transactionApi";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -51,14 +51,17 @@ export const useAnalyticsData = () => {
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
-    const loadTransactions = () => {
-      setTransactions(getItem("transactions") || []);
-    };
+  const loadTransactions = async () => {
+    try {
+      const res = await getTransactions();
+      setTransactions(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    loadTransactions();
-    const unsubscribe = subscribeStorage(loadTransactions);
-    return unsubscribe;
-  }, []);
+  loadTransactions();
+}, []);
 
   const years = useMemo(() => {
     const fromTransactions = transactions

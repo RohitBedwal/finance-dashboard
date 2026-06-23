@@ -3,6 +3,7 @@ import * as S from "./styles";
 import TransactionRow from "../../molecules/TransactionRow/index";
 import Button from "../../atoms/buttons";
 import Badge from "../../atoms/badge";
+import { deleteTransaction } from "../../../../api/transactionApi";
 
 const TransactionsTable = ({ transactions }) => {
   const ROWS_PER_PAGE = 15;
@@ -12,7 +13,6 @@ const TransactionsTable = ({ transactions }) => {
     key: "date",
     direction: "desc",
   });
-  const [deletedIds, setDeletedIds] = useState(new Set());
 
   const sortableColumns = {
     "date & time": "date",
@@ -23,10 +23,8 @@ const TransactionsTable = ({ transactions }) => {
     status: "status",
   };
 
-  const filteredTransactions = useMemo(() => {
-    return (transactions ?? []).filter((tx) => !deletedIds.has(tx.id));
-  }, [transactions, deletedIds]);
-
+  const filteredTransactions = transactions ?? [];
+  
   const sortedTransactions = useMemo(() => {
     let result = [...filteredTransactions];
 
@@ -90,7 +88,7 @@ const TransactionsTable = ({ transactions }) => {
 
   const handleSelectAll = (checked) => {
     if (checked) {
-      const newSelected = new Set(pageRows.map((txn) => txn.id));
+      const newSelected = new Set(pageRows.map((txn) => txn._id));
       setSelectedIds(newSelected);
     } else {
       setSelectedIds(new Set());
@@ -107,14 +105,25 @@ const TransactionsTable = ({ transactions }) => {
     setSelectedIds(newSelected);
   };
 
-  const handleDelete = () => {
-    const newDeleted = new Set([...deletedIds, ...selectedIds]);
-    setDeletedIds(newDeleted);
-    setSelectedIds(new Set());
-  };
+  const handleDelete = async () => {
+  try {
+    await Promise.all(
+      [...selectedIds].map((id) =>
+        deleteTransaction(id)
+      )
+    );
+
+    toast.success("Transaction deleted");
+
+    window.location.reload();
+  } catch (error) {
+    console.error(error);
+    toast.error("Delete failed");
+  }
+};
 
   const isAllSelected =
-    pageRows.length > 0 && pageRows.every((txn) => selectedIds.has(txn.id));
+    pageRows.length > 0 && pageRows.every((txn) => selectedIds.has(txn._id));
 
   return (
     <S.Container>
@@ -188,12 +197,12 @@ const TransactionsTable = ({ transactions }) => {
           <tbody>
             {pageRows.map((txn, index) => (
               <TransactionRow
-                key={`${txn.id}-${txn.date}-${txn.name}-${index}`}
+                key={`${txn._id}-${txn.date}-${txn.name}-${index}`}
                 {...txn}
                 checkbox={
                   <S.StyledCheckbox
-                    checked={selectedIds.has(txn.id)}
-                    onChange={(e) => handleSelectOne(txn.id, e.target.checked)}
+                    checked={selectedIds.has(txn._id)}
+                    onChange={(e) => handleSelectOne(txn._id, e.target.checked)}
                   />
                 }
               />
@@ -205,7 +214,7 @@ const TransactionsTable = ({ transactions }) => {
       {/* Mobile Card View */}
       <S.MobileCardWrap>
         {pageRows.map((txn, index) => (
-          <S.MobileCard key={`mobile-${txn.id}-${txn.date}-${txn.name}-${index}`}>
+          <S.MobileCard key={`mobile-${txn._id}-${txn.date}-${txn.name}-${index}`}>
             <S.MobileCardRow>
               <S.MobileCardField>
                 <S.MobileCardLabel>Date</S.MobileCardLabel>

@@ -5,8 +5,11 @@ import SummaryCardsGrid from "../../organisms/SummaryCardsGrid";
 import MonthlyIncomeExpenseChart from "../../organisms/MonthlyIncomeExpenseChart";
 import BudgetOverviewCard from "../../organisms/BudgetOverviewCard";
 import * as S from "./simpleStyles";
-import { getItem, subscribeStorage } from "../../../../utils/localStorage";
 import { useAnalyticsData } from "../Analytics/useAnalyticsData";
+import {
+  getDashboardStats,
+  getTransactions,
+} from "../../../../api/dashboardApi";
 
 const parseAmount = (value) => {
   const amount = Number(String(value ?? "").replace(/[^\d.-]/g, ""));
@@ -44,7 +47,12 @@ const Dashboard = () => {
   const [budgets, setBudgets] = useState([]);
   const [goals, setGoals] = useState([]);
   const [currentDateTime, setCurrentDateTime] = useState(() => new Date());
-
+  const [stats, setStats] = useState({
+  income: 0,
+  expense: 0,
+  balance: 0,
+  transactions: 0,
+});
   const {
     years,
     moneyFlowYear,
@@ -54,15 +62,22 @@ const Dashboard = () => {
   } = useAnalyticsData();
 
   useEffect(() => {
-    const loadTransactions = () => {
-      setTransactions(getItem("transactions") || []);
-      setBudgets(getItem("budgets") || []);
-      setGoals(getItem("goals") || []);
-    };
+  const loadDashboard = async () => {
+    try {
+      const [statsRes, transactionsRes] = await Promise.all([
+        getDashboardStats(),
+        getTransactions(),
+      ]);
 
-    loadTransactions();
-    return subscribeStorage(loadTransactions);
-  }, []);
+      setStats(statsRes.data);
+      setTransactions(transactionsRes.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  loadDashboard();
+}, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

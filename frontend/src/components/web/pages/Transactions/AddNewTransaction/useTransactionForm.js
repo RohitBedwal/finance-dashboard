@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { getItem, setItem } from "../../../../../utils/localStorage";
+import { createTransaction } from "../../../../../api/transactionApi";
 
 export const useTransactionForm = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -32,7 +32,7 @@ export const useTransactionForm = () => {
     return cleanAmount.includes(".") ? cleanAmount : `${cleanAmount}.00`;
   };
 
-  const saveTransaction = () => {
+  const saveTransaction = async () => {
     const payload = {
       ...form,
       amount: formatAmount(form.amount),
@@ -47,18 +47,21 @@ export const useTransactionForm = () => {
       return false;
     }
 
-    const existingTransactions = getItem("transactions") || [];
+    try {
+      await createTransaction(payload);
 
-    const updatedTransactions = [
-      ...existingTransactions,
-      payload,
-    ];
+      toast.success("Transaction saved successfully");
 
-    setItem("transactions", updatedTransactions);
+      window.location.reload();
 
-    toast.success("Transaction saved successfully");
+      return true;
+    } catch (error) {
+      console.error(error);
 
-    return true;
+      toast.error("Failed to save transaction");
+
+      return false;
+    }
   };
 
   return {

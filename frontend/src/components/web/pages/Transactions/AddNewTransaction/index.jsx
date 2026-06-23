@@ -16,10 +16,13 @@ const AddNewTransaction = ({ onClose }) => {
     const categories =
         categoryOptionsByType[selectedType] || [];
 
-    const handleSubmit = () => {
-        const success = saveTransaction();
-        if (success) onClose();
-    };
+    const handleSubmit = async () => {
+    const success = await saveTransaction();
+
+    if (success) {
+        onClose();
+    }
+};
 
     return (
         <S.Overlay onClick={onClose}>

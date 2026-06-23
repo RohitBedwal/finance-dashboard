@@ -8,6 +8,11 @@ This README is a full technical walkthrough of how the codebase is organized and
 
 - https://finance-dashboard-8hjj.onrender.com
 
+## Technical Decisions and Trade-offs
+
+I used `styled-components` with global `root.scss` tokens to implement light/dark theming with reusable design primitives across the app.
+I used SVG-based icons for scalable, consistent visuals and organized the UI using Atomic Design (`atoms`, `molecules`, `organisms`, `pages`) for maintainability and reuse, with a small trade-off of extra structure upfront.
+
 ---
 
 ## 1) Repository Layout
