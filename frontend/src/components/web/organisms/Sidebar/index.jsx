@@ -99,4 +99,10 @@ const menu = [
     path: protectedRoutes.analytics,
     activePath: protectedRoutes.analytics.split("/")[1],
   },
+  {
+    label: "AI Assistant",
+    icon: "ai-sparkle",
+    path: protectedRoutes.aiAssistant,
+    activePath: protectedRoutes.aiAssistant.split("/")[1],
+  },
 ];

@@ -4,6 +4,7 @@ import Main from "../../../templates/main";
 import SummaryCardsGrid from "../../organisms/SummaryCardsGrid";
 import MonthlyIncomeExpenseChart from "../../organisms/MonthlyIncomeExpenseChart";
 import BudgetOverviewCard from "../../organisms/BudgetOverviewCard";
+import NLInput from "../../organisms/NLInput";
 import * as S from "./simpleStyles";
 import { useAnalyticsData } from "../Analytics/useAnalyticsData";
 import {
@@ -173,6 +174,8 @@ const Dashboard = () => {
       <S.TopRightInfo>
         {dashboardDateTime}
       </S.TopRightInfo>
+
+      <NLInput onTransactionAdded={() => window.location.reload()} />
 
       <SummaryCardsGrid data={analyticsSummaryData} />
 

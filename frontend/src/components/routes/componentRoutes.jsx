@@ -9,6 +9,7 @@ const Dashboard = lazy(() => import("../web/pages/Dashboard"));
 const Transactions = lazy(() => import("../web/pages/Transactions"));
 const Budget = lazy(() => import("../web/pages/Budget"));
 const Analytics = lazy(() => import("../web/pages/Analytics"));
+const AIAssistant = lazy(() => import("../web/pages/AIAssistant"));
 
 export const OPEN_ROUTES = {
   login: {
@@ -42,6 +43,11 @@ export const PROTECTED_ROUTES = {
     exact: true,
     path: protectedRoutes.analytics,
     component: Analytics,
+  },
+  aiAssistant: {
+    exact: true,
+    path: protectedRoutes.aiAssistant,
+    component: AIAssistant,
   },
 };
 

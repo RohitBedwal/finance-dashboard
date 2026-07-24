@@ -14,4 +14,5 @@ export const protectedRoutes = {
   transactions: "/transactions",
   budget: "/budget",
   analytics: "/analytics",
+  aiAssistant: "/ai-assistant",
 };
