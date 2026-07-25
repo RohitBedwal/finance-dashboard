@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Main from "../../../templates/main";
 import SummaryCardsGrid from "../../organisms/SummaryCardsGrid";
 import TransactionOverviewChart from "../../organisms/TransactionOverviewChart";
@@ -7,22 +7,12 @@ import StatisticsPieChart from "../../organisms/StatisticsPieChart";
 import YearlyCalendarTable from "../../organisms/YearlyCalendarTable";
 import * as S from "./styles";
 import { useAnalyticsData } from "./useAnalyticsData";
-import { getItem, subscribeStorage } from "../../../../utils/localStorage";
 
 const Analytics = () => {
-  const [transactions, setTransactions] = useState([]);
   const [transactionMonth, setTransactionMonth] = useState(new Date().getMonth());
 
-  useEffect(() => {
-    const loadTransactions = () => {
-      setTransactions(getItem("transactions") || []);
-    };
-
-    loadTransactions();
-    return subscribeStorage(loadTransactions);
-  }, []);
-
   const {
+    transactions,
     years,
     moneyFlowYear,
     setMoneyFlowYear,

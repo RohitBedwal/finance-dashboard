@@ -11,26 +11,35 @@ async function handler(req, res) {
   try {
     const { data: transactions, error } = await supabase
       .from("transactions")
-      .select("amount, type")
+      .select("amount, type, category")
       .eq("user_id", userId);
 
     if (error) throw error;
 
     let income = 0;
     let expense = 0;
+    let savingsAdded = 0;
+    let savingsWithdrawn = 0;
 
     transactions.forEach((t) => {
       const amt = Number(t.amount) || 0;
       if (t.type === "Income") income += amt;
       else if (t.type === "Expense") expense += amt;
+
+      if (t.category === "Savings") {
+        if (t.type === "Expense") savingsAdded += amt;
+        if (t.type === "Income") savingsWithdrawn += amt;
+      }
     });
 
     const balance = income - expense;
+    const savings = savingsAdded - savingsWithdrawn;
 
     return res.status(200).json({
       income,
       expense,
       balance,
+      savings,
       transactions: transactions.length,
     });
   } catch (error) {

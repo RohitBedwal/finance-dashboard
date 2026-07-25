@@ -286,6 +286,10 @@ export const RecentTable = styled.table`
   }
 `;
 
+export const InputWrapper = styled.div`
+  margin-bottom: 24px;
+`;
+
 export const RedirectButton = styled.button`
   width: 50px;
   height: 50px;

@@ -77,6 +77,11 @@ export const Preview = styled.div`
   border-radius: 14px;
   padding: 16px;
   border: 1px solid var(--primary-200);
+
+  :root[data-theme="dark"] & {
+    background: rgba(132, 112, 255, 0.14);
+    border-color: rgba(132, 112, 255, 0.25);
+  }
 `;
 
 export const PreviewRow = styled.div`
@@ -93,6 +98,10 @@ export const PreviewRow = styled.div`
   strong {
     font-size: var(--fs-sm);
     color: var(--text-color);
+  }
+
+  :root[data-theme="dark"] & span {
+    color: var(--gray-300);
   }
 `;
 
@@ -139,6 +148,10 @@ export const LoadingText = styled.span`
   font-size: var(--fs-sm);
   color: var(--primary-600);
   animation: pulse 1.5s ease-in-out infinite;
+
+  :root[data-theme="dark"] & {
+    color: var(--primary-400);
+  }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; }

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Sidebar from "../web/organisms/Sidebar/index";
 import NavigationShell from "./NavigationShell";
+import ChatWidget from "../web/organisms/ChatWidget";
 
 export const Layout = styled.div`
   display: grid;
@@ -32,6 +33,7 @@ const AppWrapper = ({ children }) => {
     <Layout>
         <NavigationShell/>
       {children}
+      <ChatWidget />
     </Layout>
   );
 };

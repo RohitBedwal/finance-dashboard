@@ -16,7 +16,9 @@ app.use(express.json());
 // Dynamically import and route to serverless functions
 async function handleRoute(req, res, modulePath) {
   try {
-    const mod = await import(modulePath);
+    const fullPath = join(__dirname, modulePath);
+    const stat = await import("fs").then((fs) => fs.statSync(fullPath));
+    const mod = await import(`${fullPath}?t=${stat.mtimeMs}`);
     const handler = mod.default;
     await handler(req, res);
   } catch (error) {

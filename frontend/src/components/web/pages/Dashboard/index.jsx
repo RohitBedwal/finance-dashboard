@@ -73,14 +73,18 @@ const Dashboard = () => {
       ]);
 
       setStats(statsRes.data);
-      setTransactions(transactionsRes.data);
-      setBudgets(budgetsRes.data);
+      setTransactions(Array.isArray(transactionsRes.data) ? transactionsRes.data : []);
+      setBudgets(Array.isArray(budgetsRes.data) ? budgetsRes.data : []);
     } catch (error) {
       console.error(error);
     }
   };
 
   loadDashboard();
+
+  const onFocus = () => loadDashboard();
+  window.addEventListener("focus", onFocus);
+  return () => window.removeEventListener("focus", onFocus);
 }, []);
 
   useEffect(() => {
@@ -175,7 +179,9 @@ const Dashboard = () => {
         {dashboardDateTime}
       </S.TopRightInfo>
 
-      <NLInput onTransactionAdded={() => window.location.reload()} />
+      <S.InputWrapper>
+        <NLInput onTransactionAdded={() => window.location.reload()} />
+      </S.InputWrapper>
 
       <SummaryCardsGrid data={analyticsSummaryData} />
 

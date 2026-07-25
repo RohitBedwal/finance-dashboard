@@ -54,13 +54,17 @@ export const useAnalyticsData = () => {
   const loadTransactions = async () => {
     try {
       const res = await getTransactions();
-      setTransactions(res.data);
+      setTransactions(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       console.error(error);
     }
   };
 
   loadTransactions();
+
+  const onFocus = () => loadTransactions();
+  window.addEventListener("focus", onFocus);
+  return () => window.removeEventListener("focus", onFocus);
 }, []);
 
   const years = useMemo(() => {
@@ -120,6 +124,7 @@ export const useAnalyticsData = () => {
   const aggregateByYear = (year) => {
     const monthlyIncome = new Array(12).fill(0);
     const monthlyExpense = new Array(12).fill(0);
+    const monthlySavings = new Array(12).fill(0);
 
     transactions.forEach((tx) => {
       const txDate = parseTransactionDate(tx.date);
@@ -131,13 +136,21 @@ export const useAnalyticsData = () => {
 
       if (type === "Income") monthlyIncome[monthIndex] += amount;
       if (type === "Expense") monthlyExpense[monthIndex] += amount;
+
+      // Track actual savings from Savings category
+      if (tx.category === "Savings") {
+        if (type === "Expense") monthlySavings[monthIndex] += amount;
+        if (type === "Income") monthlySavings[monthIndex] -= amount;
+      }
     });
 
     return {
       monthlyIncome,
       monthlyExpense,
+      monthlySavings,
       income: monthlyIncome.reduce((sum, amount) => sum + amount, 0),
       expense: monthlyExpense.reduce((sum, amount) => sum + amount, 0),
+      savings: monthlySavings.reduce((sum, amount) => sum + amount, 0),
     };
   };
 
@@ -167,7 +180,6 @@ export const useAnalyticsData = () => {
     [transactions, compareYear]
   );
 
-  const savingPercent = 0.15;
   const totalsFromTransactions = (list) => {
     const totals = list.reduce(
       (acc, tx) => {
@@ -177,13 +189,19 @@ export const useAnalyticsData = () => {
         if (type === "Income") acc.income += amount;
         if (type === "Expense") acc.expense += amount;
 
+        // Track actual savings from Savings category transactions
+        if (tx.category === "Savings") {
+          if (type === "Expense") acc.savingsAdded += amount;
+          if (type === "Income") acc.savingsWithdrawn += amount;
+        }
+
         return acc;
       },
-      { income: 0, expense: 0 }
+      { income: 0, expense: 0, savingsAdded: 0, savingsWithdrawn: 0 }
     );
 
-    const saving = Math.round(totals.income * savingPercent);
-    const balance = totals.income - saving - totals.expense;
+    const saving = totals.savingsAdded - totals.savingsWithdrawn;
+    const balance = totals.income - totals.expense;
 
     return {
       ...totals,
@@ -335,12 +353,12 @@ export const useAnalyticsData = () => {
 
   const selectedSavingsSeries = halfYearMonths.map((_, offset) => {
     const index = offset + halfYearStart;
-    return Math.round((savingsYearData.monthlyIncome[index] || 0) * savingPercent);
+    return savingsYearData.monthlySavings[index] || 0;
   });
 
   const compareSavingsSeries = halfYearMonths.map((_, offset) => {
     const index = offset + halfYearStart;
-    return Math.round((compareSavingsYearData.monthlyIncome[index] || 0) * savingPercent);
+    return compareSavingsYearData.monthlySavings[index] || 0;
   });
 
   const statisticsPalette = [
@@ -488,10 +506,11 @@ export const useAnalyticsData = () => {
 
   const yearlyIncomeTotal = yearlyIncomeTotals.reduce((sum, value) => sum + value, 0);
   const yearlyExpenseTotal = yearlyExpenseTotals.reduce((sum, value) => sum + value, 0);
-  const yearlySavingAmount = Math.round(yearlyIncomeTotal * savingPercent);
-  const yearlyBalanceTotal = yearlyIncomeTotal - yearlySavingAmount - yearlyExpenseTotal;
+  const yearlySavingAmount = savingsYearData.savings;
+  const yearlyBalanceTotal = yearlyIncomeTotal - yearlyExpenseTotal;
 
   return {
+    transactions,
     years,
     moneyFlowYear,
     setMoneyFlowYear,

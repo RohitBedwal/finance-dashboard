@@ -26,6 +26,10 @@ const Transactions = () => {
   // Load transactions initially + sync with storage updates
   useEffect(() => {
   fetchTransactions();
+
+  const onFocus = () => fetchTransactions();
+  window.addEventListener("focus", onFocus);
+  return () => window.removeEventListener("focus", onFocus);
 }, []);
 
 const fetchTransactions = async () => {
