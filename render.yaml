@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: finance-dashboard
+    runtime: node
+    plan: free
+    buildCommand: npm install && cd frontend && npm install && cd .. && npm run build
+    startCommand: node local-dev-server.js
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false

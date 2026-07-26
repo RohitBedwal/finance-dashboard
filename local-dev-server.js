@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { existsSync, readFileSync } from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -49,7 +50,16 @@ app.all("/api/ai/predict", (req, res) => handleRoute(req, res, "./api/ai/predict
 app.all("/api/ai/chat", (req, res) => handleRoute(req, res, "./api/ai/chat.js"));
 app.all("/api/ai/transcribe", (req, res) => handleRoute(req, res, "./api/ai/transcribe.js"));
 
-const PORT = 3001;
+// Serve frontend build
+const distPath = join(__dirname, "frontend", "dist");
+if (existsSync(distPath)) {
+  app.use(express.static(distPath));
+  app.get("*", (req, res) => {
+    res.sendFile(join(distPath, "index.html"));
+  });
+}
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`API server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

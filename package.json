@@ -8,6 +8,7 @@
     "dev:api": "node local-dev-server.js",
     "dev:frontend": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",
+    "start": "node local-dev-server.js",
     "lint": "cd frontend && npm run lint"
   },
   "dependencies": {
