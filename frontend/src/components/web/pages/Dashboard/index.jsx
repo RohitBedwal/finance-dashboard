@@ -4,7 +4,6 @@ import Main from "../../../templates/main";
 import SummaryCardsGrid from "../../organisms/SummaryCardsGrid";
 import MonthlyIncomeExpenseChart from "../../organisms/MonthlyIncomeExpenseChart";
 import BudgetOverviewCard from "../../organisms/BudgetOverviewCard";
-import NLInput from "../../organisms/NLInput";
 import * as S from "./simpleStyles";
 import { useAnalyticsData } from "../Analytics/useAnalyticsData";
 import { useData } from "../../../../context/DataContext";
@@ -353,10 +352,6 @@ const Dashboard = () => {
         </S.MonthSelector>
         <S.TopRightInfo>{dashboardDateTime}</S.TopRightInfo>
       </S.TopBar>
-
-      <S.InputWrapper>
-        <NLInput onTransactionAdded={() => refetchAll()} />
-      </S.InputWrapper>
 
       <SummaryCardsGrid data={isCurrentMonth ? analyticsSummaryData : dashboardSummaryData} />
 

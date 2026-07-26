@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Sidebar from "../web/organisms/Sidebar/index";
 import NavigationShell from "./NavigationShell";
 import ChatWidget from "../web/organisms/ChatWidget";
+import Onboarding from "../web/organisms/Onboarding";
 
 export const Layout = styled.div`
   display: grid;
@@ -34,6 +35,7 @@ const AppWrapper = ({ children }) => {
         <NavigationShell/>
       {children}
       <ChatWidget />
+      <Onboarding />
     </Layout>
   );
 };
