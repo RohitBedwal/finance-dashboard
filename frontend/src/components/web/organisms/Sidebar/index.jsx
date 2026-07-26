@@ -30,7 +30,7 @@ const Sidebar = ({ isMobileDrawer = false, onNavigate }) => {
           <S.LogoTop />
           <S.LogoMid />
         </S.LogoMark>
-        <S.LogoFull $mobileDrawer={isMobileDrawer}>finance</S.LogoFull>
+        <S.LogoFull $mobileDrawer={isMobileDrawer}>FinGenius</S.LogoFull>
       </S.Logo>
 
       <S.Menu $mobileDrawer={isMobileDrawer}>
@@ -98,11 +98,5 @@ const menu = [
     icon: "analytics",
     path: protectedRoutes.analytics,
     activePath: protectedRoutes.analytics.split("/")[1],
-  },
-  {
-    label: "AI Assistant",
-    icon: "ai-sparkle",
-    path: protectedRoutes.aiAssistant,
-    activePath: protectedRoutes.aiAssistant.split("/")[1],
   },
 ];

@@ -7,12 +7,14 @@ import StatisticsPieChart from "../../organisms/StatisticsPieChart";
 import YearlyCalendarTable from "../../organisms/YearlyCalendarTable";
 import * as S from "./styles";
 import { useAnalyticsData } from "./useAnalyticsData";
+import { useData } from "../../../../context/DataContext";
 
 const Analytics = () => {
+  const { transactions } = useData();
   const [transactionMonth, setTransactionMonth] = useState(new Date().getMonth());
 
   const {
-    transactions,
+    transactions: analyticsTransactions,
     years,
     moneyFlowYear,
     setMoneyFlowYear,
@@ -35,7 +37,7 @@ const Analytics = () => {
     summaryData,
     selectedSavingsSeries,
     compareSavingsSeries,
-  } = useAnalyticsData();
+  } = useAnalyticsData(transactions);
 
   const analyticsSummaryData = summaryData.filter((card) => card.title !== "Saving");
 

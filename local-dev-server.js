@@ -11,7 +11,7 @@ dotenv.config({ path: join(__dirname, ".env") });
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 
 // Dynamically import and route to serverless functions
 async function handleRoute(req, res, modulePath) {
@@ -47,6 +47,7 @@ app.all("/api/ai/parse-transaction", (req, res) => handleRoute(req, res, "./api/
 app.all("/api/ai/insights", (req, res) => handleRoute(req, res, "./api/ai/insights.js"));
 app.all("/api/ai/predict", (req, res) => handleRoute(req, res, "./api/ai/predict.js"));
 app.all("/api/ai/chat", (req, res) => handleRoute(req, res, "./api/ai/chat.js"));
+app.all("/api/ai/transcribe", (req, res) => handleRoute(req, res, "./api/ai/transcribe.js"));
 
 const PORT = 3001;
 app.listen(PORT, () => {

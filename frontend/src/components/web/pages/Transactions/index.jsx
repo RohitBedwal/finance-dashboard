@@ -4,11 +4,11 @@ import TransactionsTable from "../../organisms/TransactionsTable/index";
 import Main from "../../../templates/main";
 import TransactionsToolbar from "../../molecules/TransactionsToolbar";
 import { useTransactionFilters } from "../../../../context/TransactionFilterContext";
-import { getTransactions } from "../../../../api/transactionApi";
+import { useData } from "../../../../context/DataContext";
 
 const Transactions = () => {
   const { search } = useLocation();
-  const [transactions, setTransactions] = useState([]);
+  const { transactions } = useData();
   const [dateRange, setDateRange] = useState({
     startDate: null,
     endDate: null,
@@ -22,25 +22,6 @@ const Transactions = () => {
       .trim()
       .toLowerCase();
   }, [search]);
-
-  // Load transactions initially + sync with storage updates
-  useEffect(() => {
-  fetchTransactions();
-
-  const onFocus = () => fetchTransactions();
-  window.addEventListener("focus", onFocus);
-  return () => window.removeEventListener("focus", onFocus);
-}, []);
-
-const fetchTransactions = async () => {
-  try {
-    const res = await getTransactions();
-
-    setTransactions(res.data);
-  } catch (error) {
-    console.error("Error fetching transactions:", error);
-  }
-};
 
   const parseAmount = (value) => {
     const numeric = Number(String(value).replace(/[^\d.]/g, ""));

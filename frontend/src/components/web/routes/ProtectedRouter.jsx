@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import AppWrapper from "../../templates";
 import PageNotFound from "../pages/PageNotFound";
 import Login from "../pages/Login";
+import AuthCallback from "../pages/AuthCallback";
 
 import { PROTECTED_ROUTES } from "../../routes/componentRoutes";
 
@@ -24,6 +25,9 @@ const ProtectedRouter = () => {
             )
           }
         />
+
+        {/* OAuth Callback — always allowed */}
+        <Route path="/auth/callback" element={<AuthCallback />} />
 
         {/* Public Routes */}
         <Route

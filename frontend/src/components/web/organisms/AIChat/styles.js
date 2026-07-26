@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -67,9 +67,10 @@ export const Bubble = styled.div`
 
 export const InputArea = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 6px;
   padding: 12px;
   border-top: 1px solid var(--border-color);
+  align-items: center;
 `;
 
 export const Input = styled.input`
@@ -279,4 +280,103 @@ export const ConfirmNo = styled.button`
     border-color: var(--danger-500);
     color: var(--danger-500);
   }
+`;
+
+const pulse = keyframes`
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+`;
+
+export const MicButton = styled.button`
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  border: none;
+  background: ${({ $recording }) => ($recording ? "var(--danger-500)" : "var(--surface-hover)")};
+  color: ${({ $recording }) => ($recording ? "white" : "var(--text-color)")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+
+  &:hover {
+    background: ${({ $recording }) => ($recording ? "var(--danger-600)" : "var(--primary-100)")};
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  ${({ $recording }) =>
+    $recording &&
+    css`
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 2px solid var(--danger-500);
+      animation: ${pulse} 1.2s ease-in-out infinite;
+    }
+  `}
+`;
+
+export const LangToggle = styled.button`
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: ${({ $active }) => ($active ? "var(--primary-100)" : "transparent")};
+  color: ${({ $active }) => ($active ? "var(--primary-600)" : "var(--muted-text)")};
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: var(--primary-400);
+  }
+
+  :root[data-theme="dark"] & {
+    background: ${({ $active }) => ($active ? "rgba(132,112,255,0.18)" : "transparent")};
+    color: ${({ $active }) => ($active ? "var(--primary-400)" : "var(--muted-text)")};
+  }
+`;
+
+export const VoiceStatus = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+  font-size: 11px;
+  color: ${({ $recording }) => ($recording ? "var(--danger-500)" : "var(--muted-text)")};
+  white-space: nowrap;
+`;
+
+export const VoiceDot = styled.span`
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--danger-500);
+  animation: ${pulse} 1s ease-in-out infinite;
+`;
+
+export const RecordingBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(239, 68, 68, 0.08);
+  border-top: 1px solid rgba(239, 68, 68, 0.2);
+  font-size: 12px;
+  color: var(--danger-500);
+  font-family: var(--font-primary);
 `;

@@ -3,7 +3,7 @@ import { withAuth } from "../_lib/auth.js";
 
 async function handler(req, res) {
   const userId = req.userId;
-  const { id } = req.query;
+  const { id } = req.params;
 
   if (req.method === "PUT") {
     try {

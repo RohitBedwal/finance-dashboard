@@ -1,20 +1,21 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { createTransaction } from "../../../../../api/transactionApi";
+import { useData } from "../../../../../context/DataContext";
 
 export const useTransactionForm = () => {
+  const { refetchAll } = useData();
   const today = new Date().toISOString().split("T")[0];
 
   const [form, setForm] = useState({
-    id: crypto.randomUUID(),
     type: "Income",
     currency: "INR",
     amount: "",
     name: "",
-    method: "",
+    method: "UPI",
     category: "",
     date: today,
-    status: "",
+    status: "Successful",
   });
 
   const handleChange = (field, value) => {
@@ -25,34 +26,48 @@ export const useTransactionForm = () => {
   };
 
   const formatAmount = (amount) => {
-    const cleanAmount = String(amount).trim();
+    const cleanAmount = String(amount)
+      .trim()
+      .replace(/[₹$,]/g, "")
+      .replace(/\s/g, "");
 
     if (!cleanAmount) return cleanAmount;
+
+    const num = Number(cleanAmount);
+    if (isNaN(num) || num < 0) return "";
 
     return cleanAmount.includes(".") ? cleanAmount : `${cleanAmount}.00`;
   };
 
   const saveTransaction = async () => {
-    const payload = {
-      ...form,
-      amount: formatAmount(form.amount),
-    };
-
-    const emptyField = Object.entries(form).find(
-      ([_, value]) => value === ""
-    );
-
-    if (emptyField) {
-      toast.error("Please fill all fields before saving");
+    if (!form.amount || !form.name) {
+      toast.error("Please fill amount and name before saving");
       return false;
     }
+
+    const amount = formatAmount(form.amount);
+    if (!amount) {
+      toast.error("Please enter a valid amount");
+      return false;
+    }
+
+    const payload = {
+      type: form.type,
+      currency: form.currency,
+      amount,
+      name: form.name,
+      method: form.method || "Other",
+      category: form.category || "Other",
+      date: form.date,
+      status: form.status || "Successful",
+    };
 
     try {
       await createTransaction(payload);
 
       toast.success("Transaction saved successfully");
 
-      window.location.reload();
+      await refetchAll();
 
       return true;
     } catch (error) {

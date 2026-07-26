@@ -4,6 +4,7 @@ import PageNotFound from "../web/pages/PageNotFound";
 import { errorRoutes, openRoutes, protectedRoutes } from "./index";
 
 const Login = lazy(() => import("../web/pages/Login"));
+const AuthCallback = lazy(() => import("../web/pages/AuthCallback"));
 
 const Dashboard = lazy(() => import("../web/pages/Dashboard"));
 const Transactions = lazy(() => import("../web/pages/Transactions"));
@@ -17,9 +18,13 @@ export const OPEN_ROUTES = {
     path: openRoutes.login,
     component: Login,
   },
-   register: {
+  register: {
     path: "/register",
     component: Login,
+  },
+  authCallback: {
+    path: openRoutes.authCallback,
+    component: AuthCallback,
   },
 };
 

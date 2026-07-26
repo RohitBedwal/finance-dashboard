@@ -55,31 +55,55 @@ async function handler(req, res) {
         return res.status(400).json({ message: "Amount and type are required" });
       }
 
-      // Auto-categorize if no category provided
+      const numAmount = Number(String(amount).replace(/[^\d.]/g, ""));
+      if (isNaN(numAmount) || numAmount < 0) {
+        return res.status(400).json({ message: "Invalid amount" });
+      }
+
       let finalCategory = category;
       if (!finalCategory && name) {
         finalCategory = await autoCategorize(name, type);
+      }
+
+      let isoDate;
+      if (date) {
+        const d = new Date(date);
+        if (isNaN(d.getTime())) {
+          isoDate = new Date().toISOString();
+        } else if (date.length <= 10) {
+          const now = new Date();
+          d.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+          isoDate = d.toISOString();
+        } else {
+          isoDate = d.toISOString();
+        }
+      } else {
+        isoDate = new Date().toISOString();
       }
 
       const { data, error } = await supabase
         .from("transactions")
         .insert({
           user_id: userId,
-          amount: Number(amount),
+          amount: numAmount,
           currency: currency || "INR",
           type,
           category: finalCategory || "Other",
           name: name || null,
           method: method || null,
           status: status || "Successful",
-          date: date || new Date().toISOString(),
+          date: isoDate,
         })
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase insert error:", error);
+        throw error;
+      }
       return res.status(201).json(data);
     } catch (error) {
+      console.error("POST /transactions error:", error.message);
       return res.status(500).json({ message: error.message });
     }
   }

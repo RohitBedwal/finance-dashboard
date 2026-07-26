@@ -11,3 +11,6 @@ export const getPredictions = () =>
 
 export const chatWithAI = (question, history = []) =>
   api.post("/ai/chat", { question, history });
+
+export const transcribeAudio = (audioBase64) =>
+  api.post("/ai/transcribe", { audio: audioBase64 });

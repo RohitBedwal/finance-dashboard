@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { categoryOptionsByType } from "../Transactions/AddNewTransaction/defaultCategories";
-import { getTransactions } from "../../../../api/transactionApi";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -46,26 +45,8 @@ const countUniqueCategories = (list) => {
   return new Set(categories).size;
 };
 
-export const useAnalyticsData = () => {
-  const [transactions, setTransactions] = useState([]);
+export const useAnalyticsData = (transactions = []) => {
   const currentYear = new Date().getFullYear();
-
-  useEffect(() => {
-  const loadTransactions = async () => {
-    try {
-      const res = await getTransactions();
-      setTransactions(Array.isArray(res.data) ? res.data : []);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  loadTransactions();
-
-  const onFocus = () => loadTransactions();
-  window.addEventListener("focus", onFocus);
-  return () => window.removeEventListener("focus", onFocus);
-}, []);
 
   const years = useMemo(() => {
     const fromTransactions = transactions

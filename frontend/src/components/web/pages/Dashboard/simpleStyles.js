@@ -449,3 +449,30 @@ export const RedirectButton = styled.button`
 
   }
 `;
+
+export const LoaderWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px;
+  gap: 16px;
+`;
+
+export const Spinner = styled.div`
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--primary-600);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+`;
+
+export const LoaderText = styled.span`
+  font-size: var(--fs-sm);
+  color: var(--muted-text);
+`;

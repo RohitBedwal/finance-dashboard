@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { categoryOptionsByType } from "../../Transactions/AddNewTransaction/defaultCategories";
 import { createBudget, updateBudget } from "../../../../../api/budgetApi";
+import { useData } from "../../../../../context/DataContext";
 
 export const useBudgetForm = (initialBudget = null) => {
+  const { refetchAll } = useData();
   const [form, setForm] = useState({
   id: initialBudget?.id || "",
   category: initialBudget?.category || "",
   amount: initialBudget?.amount ? String(initialBudget.amount) : "",
 });
 
-  useEffect(() => {
+useEffect(() => {
   setForm({
   id: initialBudget?.id || "",
   category: initialBudget?.category || "",
@@ -58,8 +60,7 @@ try {
   toast.success("Budget created successfully");
 }
 
-
-  window.location.reload();
+  await refetchAll();
 
   return true;
 } catch (error) {

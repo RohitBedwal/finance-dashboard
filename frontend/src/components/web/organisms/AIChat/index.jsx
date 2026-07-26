@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { chatWithAI } from "../../../../api/aiApi";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { chatWithAI, transcribeAudio } from "../../../../api/aiApi";
 import * as S from "./styles";
 
 const SUGGESTIONS = [
@@ -19,9 +19,18 @@ const ACTION_LABELS = {
 };
 
 const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
+  const getStorageKey = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      return user?.id ? `ai-chat-messages-${user.id}` : "ai-chat-messages";
+    } catch {
+      return "ai-chat-messages";
+    }
+  };
+
   const [messages, setMessages] = useState(() => {
     try {
-      const saved = localStorage.getItem("ai-chat-messages");
+      const saved = localStorage.getItem(getStorageKey());
       if (saved) return JSON.parse(saved);
     } catch {}
     return [
@@ -34,15 +43,161 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [pendingAction, setPendingAction] = useState(null);
+  const [recording, setRecording] = useState(false);
+  const [voiceSupported, setVoiceSupported] = useState(false);
+  const [voiceError, setVoiceError] = useState("");
+  const [recordTime, setRecordTime] = useState(0);
+  const [transcribing, setTranscribing] = useState(false);
   const messagesEndRef = useRef(null);
+  const recorderRef = useRef(null);
+  const streamRef = useRef(null);
+  const sendMessageRef = useRef(null);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    setVoiceSupported(!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia));
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   useEffect(() => {
-    localStorage.setItem("ai-chat-messages", JSON.stringify(messages));
+    localStorage.setItem(getStorageKey(), JSON.stringify(messages));
   }, [messages]);
+
+  useEffect(() => {
+    if (recording) {
+      setRecordTime(0);
+      timerRef.current = setInterval(() => setRecordTime((t) => t + 1), 1000);
+    } else {
+      clearInterval(timerRef.current);
+      setRecordTime(0);
+    }
+    return () => clearInterval(timerRef.current);
+  }, [recording]);
+
+  useEffect(() => {
+    return () => {
+      if (recorderRef.current && recorderRef.current.state !== "inactive") {
+        recorderRef.current.stop();
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((t) => t.stop());
+      }
+    };
+  }, []);
+
+  const stopRecording = useCallback(() => {
+    if (recorderRef.current && recorderRef.current.state !== "inactive") {
+      recorderRef.current.requestData();
+      recorderRef.current.stop();
+    }
+    setRecording(false);
+  }, []);
+
+  const startRecording = useCallback(async () => {
+    setVoiceError("");
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+
+      const audioCtx = new AudioContext();
+      const source = audioCtx.createMediaStreamSource(stream);
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      source.connect(analyser);
+
+      const chunks = [];
+      const recorder = new MediaRecorder(stream);
+      recorderRef.current = recorder;
+
+      recorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) {
+          chunks.push(e.data);
+        }
+      };
+
+      recorder.onstop = async () => {
+        console.log("Recording stopped, chunks:", chunks.length);
+        setRecording(false);
+
+        if (chunks.length === 0) {
+          setVoiceError("No audio recorded.");
+          return;
+        }
+
+        setTranscribing(true);
+
+        try {
+          const blob = new Blob(chunks, { type: recorderRef.current?.mimeType || "audio/webm" });
+          console.log("Audio blob size:", blob.size, "bytes, type:", blob.type);
+
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+            const base64 = reader.result.split(",")[1];
+            console.log("Base64 length:", base64.length);
+
+            try {
+              console.log("Sending to transcribe API...");
+              const res = await transcribeAudio(base64);
+              console.log("Transcription result:", res.data.text);
+              const text = res.data.text?.trim();
+              if (text) {
+                setInput(text);
+                setTimeout(() => sendMessageRef.current?.(text), 150);
+              } else {
+                setVoiceError("No speech detected. Try again.");
+              }
+            } catch (err) {
+              console.error("Transcription API error:", err.response?.data || err.message);
+              setVoiceError("Transcription failed: " + (err.response?.data?.message || err.message));
+            } finally {
+              setTranscribing(false);
+            }
+          };
+          reader.readAsDataURL(blob);
+        } catch {
+          setVoiceError("Failed to process audio.");
+          setTranscribing(false);
+        }
+      };
+
+      recorder.start(500);
+      setRecording(true);
+
+      const dataArray = new Uint8Array(analyser.frequencyBinCount);
+      let maxVol = 0;
+      const checkVolume = () => {
+        if (recorder.state !== "recording") return;
+        analyser.getByteFrequencyData(dataArray);
+        const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+        if (avg > maxVol) maxVol = avg;
+        requestAnimationFrame(checkVolume);
+      };
+      checkVolume();
+      setTimeout(() => {
+        console.log("Max volume during recording:", maxVol);
+        audioCtx.close();
+      }, 10000);
+    } catch (err) {
+      console.error("Mic access error:", err);
+      if (err.name === "NotAllowedError") {
+        setVoiceError("Microphone access denied. Allow mic permission.");
+      } else {
+        setVoiceError("Cannot access microphone.");
+      }
+    }
+  }, []);
+
+  const toggleRecording = () => {
+    if (recording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
 
   const sendMessage = async (text) => {
     if (!text.trim() || loading) return;
@@ -99,6 +254,8 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
       setLoading(false);
     }
   };
+
+  sendMessageRef.current = sendMessage;
 
   const handleConfirm = async (confirmed) => {
     if (!pendingAction) return;
@@ -169,7 +326,7 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
       },
     ]);
     setPendingAction(null);
-    localStorage.removeItem("ai-chat-messages");
+    localStorage.removeItem(getStorageKey());
   };
 
   const PENDING_LABELS = {
@@ -245,8 +402,16 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
       )}
 
       <S.InputArea>
+        {voiceSupported && (
+          <S.MicButton $recording={recording} onClick={toggleRecording}>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+              <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+            </svg>
+          </S.MicButton>
+        )}
         <S.Input
-          placeholder="Ask about your finances..."
+          placeholder={recording ? "Listening..." : "Ask about your finances..."}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -258,6 +423,23 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
           </svg>
         </S.SendButton>
       </S.InputArea>
+      {voiceError && (
+        <div style={{ padding: "4px 12px 8px", fontSize: "11px", color: "var(--danger-500)" }}>
+          {voiceError}
+        </div>
+      )}
+      {recording && (
+        <S.RecordingBar>
+          <S.VoiceDot />
+          <span>Recording... {recordTime}s — click mic to stop</span>
+        </S.RecordingBar>
+      )}
+      {transcribing && (
+        <S.RecordingBar>
+          <S.VoiceDot />
+          <span>Transcribing...</span>
+        </S.RecordingBar>
+      )}
     </>
   );
 

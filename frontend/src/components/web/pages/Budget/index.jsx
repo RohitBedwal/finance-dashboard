@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
+import toast from "react-hot-toast";
 import Main from "../../../templates/main";
 import Card from "../../atoms/card";
 import BudgetCard from "../../organisms/BudgetCard";
@@ -7,8 +8,8 @@ import TransactionsToolbar from "../../molecules/TransactionsToolbar";
 import AddNewBudget from "./AddNewBudget";
 import { categoryOptionsByType } from "../Transactions/AddNewTransaction/defaultCategories";
 import * as S from "./styles";
-import { getBudgets } from "../../../../api/budgetApi";
-import { getTransactions } from "../../../../api/transactionApi";
+import { deleteBudget } from "../../../../api/budgetApi";
+import { useData } from "../../../../context/DataContext";
 
 const formatCurrency = (value) => `₹${Number(value || 0).toLocaleString()}`;
 
@@ -102,8 +103,7 @@ const budgetStatusOptions = [
 ];
 
 const Budget = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [budgets, setBudgets] = useState([]);
+  const { transactions, budgets, refetchBudgets } = useData();
   const [openAddBudget, setOpenAddBudget] = useState(false);
   const [editingBudget, setEditingBudget] = useState(null);
   const [dateRange, setDateRange] = useState({
@@ -120,24 +120,17 @@ const Budget = () => {
     status: null,
   });
 
-  useEffect(() => {
-  const load = async () => {
+  const handleDeleteBudget = async (budgetId, category) => {
+    if (!window.confirm(`Delete the ${category} budget?`)) return;
     try {
-      const [transactionsRes, budgetsRes] =
-        await Promise.all([
-          getTransactions(),
-          getBudgets(),
-        ]);
-
-      setTransactions(transactionsRes.data);
-      setBudgets(budgetsRes.data);
+      await deleteBudget(budgetId);
+      await refetchBudgets();
+      toast.success("Budget deleted");
     } catch (error) {
       console.error(error);
+      toast.error("Failed to delete budget");
     }
   };
-
-  load();
-}, []);
 
   const activeRange = useMemo(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -192,7 +185,7 @@ const Budget = () => {
         const status = computeStatus(spent, budgetAmount);
 
         return {
-          id: item._id || category,
+          id: item.id || category,
           title: category,
           category,
           spent,
@@ -284,6 +277,7 @@ const Budget = () => {
                   });
                   setOpenAddBudget(true);
                 }}
+                onDeleteClick={() => handleDeleteBudget(item.id, item.category)}
               />
             ))}
           </S.CardGrid>

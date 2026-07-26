@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Cell, Pie, PieChart } from "recharts";
 import Card from "../../atoms/card";
 import * as S from "./styles";
 
 const formatCurrency = (value) => `₹${Number(value || 0).toLocaleString()}`;
 
-const BudgetCard = ({ title, spent, budget, status = "on track", onEditClick }) => {
+const BudgetCard = ({ title, spent, budget, status = "on track", onEditClick, onDeleteClick }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
   const spentAmount = Number(spent || 0);
   const budgetAmount = Number(budget || 0);
   const leftAmount = Math.max(0, budgetAmount - spentAmount);
@@ -16,15 +18,33 @@ const BudgetCard = ({ title, spent, budget, status = "on track", onEditClick }) 
   const isDanger = statusText === "over budget";
   const isWarning = statusText !== "on track" && !isDanger;
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
+
   return (
     <Card>
       <S.Header>
         <S.Title>{title}</S.Title>
-        <S.ActionButton type="button" aria-label="Edit budget" onClick={onEditClick}>
-          <svg width="18" height="18">
-            <use href="/icons.svg#dots-vertical" />
-          </svg>
-        </S.ActionButton>
+        <S.MenuWrap ref={menuRef}>
+          <S.ActionButton type="button" aria-label="Budget actions" onClick={() => setMenuOpen((v) => !v)}>
+            <svg width="18" height="18">
+              <use href="/icons.svg#dots-vertical" />
+            </svg>
+          </S.ActionButton>
+          {menuOpen && (
+            <S.Dropdown>
+              <S.DropdownItem onClick={() => { setMenuOpen(false); onEditClick?.(); }}>Edit</S.DropdownItem>
+              <S.DropdownItem $danger onClick={() => { setMenuOpen(false); onDeleteClick?.(); }}>Delete</S.DropdownItem>
+            </S.Dropdown>
+          )}
+        </S.MenuWrap>
       </S.Header>
 
       <S.Content>

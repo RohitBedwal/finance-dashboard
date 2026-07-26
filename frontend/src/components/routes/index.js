@@ -2,7 +2,8 @@
 export const openRoutes = {
   root: "/",
   login: "/login",
-  register: "/register"
+  register: "/register",
+  authCallback: "/auth/callback",
 };
 
 export const errorRoutes = {

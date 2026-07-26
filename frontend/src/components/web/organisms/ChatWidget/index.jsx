@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AIChat from "../AIChat";
 import * as S from "./styles";
+import { useData } from "../../../../context/DataContext";
 
 const ChatIcon = () => (
   <svg viewBox="0 0 24 24">
@@ -23,6 +24,17 @@ const BotIcon = () => (
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { refetchAll } = useData();
+
+  useEffect(() => {
+    if (localStorage.getItem("openChatOnLoad") === "1") {
+      const timer = setTimeout(() => {
+        localStorage.removeItem("openChatOnLoad");
+        setIsOpen(true);
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   useEffect(() => {
     const onKey = (e) => {
@@ -52,7 +64,7 @@ const ChatWidget = () => {
                 <CloseIcon />
               </S.CloseButton>
             </S.Header>
-            <AIChat $widget onAction={() => window.location.reload()} />
+            <AIChat $widget onAction={refetchAll} />
           </S.Window>
         </>
       )}

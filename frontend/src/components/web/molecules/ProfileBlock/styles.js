@@ -94,3 +94,15 @@ export const OptionInfo = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const LogoutIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--badge-danger-bg);
+  color: var(--badge-danger-text);
+  flex-shrink: 0;
+`;

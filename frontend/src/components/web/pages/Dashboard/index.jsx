@@ -7,11 +7,7 @@ import BudgetOverviewCard from "../../organisms/BudgetOverviewCard";
 import NLInput from "../../organisms/NLInput";
 import * as S from "./simpleStyles";
 import { useAnalyticsData } from "../Analytics/useAnalyticsData";
-import {
-  getDashboardStats,
-  getTransactions,
-} from "../../../../api/dashboardApi";
-import { getBudgets } from "../../../../api/budgetApi";
+import { useData } from "../../../../context/DataContext";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -57,49 +53,19 @@ const BUDGET_COLORS = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [transactions, setTransactions] = useState([]);
-  const [budgets, setBudgets] = useState([]);
-  const [goals, setGoals] = useState([]);
+  const { transactions, budgets, refetchAll, loading } = useData();
   const [currentDateTime, setCurrentDateTime] = useState(() => new Date());
   const [selectedMonth, setSelectedMonth] = useState(() => new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(() => new Date().getFullYear());
-  const [stats, setStats] = useState({
-    income: 0,
-    expense: 0,
-    balance: 0,
-    transactions: 0,
-  });
   const {
     years,
     moneyFlowYear,
     setMoneyFlowYear,
     monthlyBarData,
     summaryData: analyticsSummaryData,
-  } = useAnalyticsData();
+  } = useAnalyticsData(transactions);
 
   const isCurrentMonth = selectedMonth === new Date().getMonth() && selectedYear === new Date().getFullYear();
-
-  useEffect(() => {
-    const loadDashboard = async () => {
-      try {
-        const [statsRes, transactionsRes, budgetsRes] = await Promise.all([
-          getDashboardStats(),
-          getTransactions(),
-          getBudgets(),
-        ]);
-        setStats(statsRes.data);
-        setTransactions(Array.isArray(transactionsRes.data) ? transactionsRes.data : []);
-        setBudgets(Array.isArray(budgetsRes.data) ? budgetsRes.data : []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    loadDashboard();
-    const onFocus = () => loadDashboard();
-    window.addEventListener("focus", onFocus);
-    return () => window.removeEventListener("focus", onFocus);
-  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => setCurrentDateTime(new Date()), 60 * 1000);
@@ -357,30 +323,24 @@ const Dashboard = () => {
   }, [transactions]);
 
   const savingsGoals = useMemo(() => {
-    const parsedGoals = (goals || [])
-      .map((goal) => {
-        const title = String(goal?.title || goal?.name || "").trim();
-        const target = parseAmount(goal?.target || goal?.goalAmount || goal?.amount);
-        const saved = parseAmount(goal?.saved || goal?.current || goal?.savedAmount);
-        if (!title || target <= 0) return null;
-        const percent = Math.max(0, Math.min(100, Math.round((saved / target) * 100)));
-        return { title, target, percent };
-      })
-      .filter(Boolean)
-      .slice(0, 3);
-
-    if (parsedGoals.length) return parsedGoals;
     return [
       { title: "Hot wheels", target: 1650, percent: 25 },
       { title: "Computer", target: 60000, percent: 42 },
       { title: "New house", target: 150000, percent: 3 },
     ];
-  }, [goals]);
+  }, []);
 
   const formatINR = (n) => `₹${Number(n).toLocaleString("en-IN")}`;
 
   return (
     <Main>
+      {loading && !transactions.length ? (
+        <S.LoaderWrap>
+          <S.Spinner />
+          <S.LoaderText>Loading your data...</S.LoaderText>
+        </S.LoaderWrap>
+      ) : (
+      <>
       <S.TopBar>
         <S.MonthSelector>
           <S.MonthArrow onClick={() => navigateMonth(-1)} aria-label="Previous month">
@@ -395,7 +355,7 @@ const Dashboard = () => {
       </S.TopBar>
 
       <S.InputWrapper>
-        <NLInput onTransactionAdded={() => window.location.reload()} />
+        <NLInput onTransactionAdded={() => refetchAll()} />
       </S.InputWrapper>
 
       <SummaryCardsGrid data={isCurrentMonth ? analyticsSummaryData : dashboardSummaryData} />
@@ -509,6 +469,8 @@ const Dashboard = () => {
           </S.SavingsCard>
         </S.BudgetSection>
       </S.BottomSection>
+      </>
+      )}
     </Main>
   );
 };

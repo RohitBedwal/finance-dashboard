@@ -33,6 +33,40 @@ export const ActionButton = styled.button`
   }
 `;
 
+export const MenuWrap = styled.div`
+  position: relative;
+`;
+
+export const Dropdown = styled.div`
+  position: absolute;
+  top: 56px;
+  right: 0;
+  z-index: 20;
+  min-width: 120px;
+  background: var(--color-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+`;
+
+export const DropdownItem = styled.button`
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: ${({ $danger }) => ($danger ? "var(--badge-danger-text)" : "var(--text-color)")};
+  font-size: var(--fs-sm);
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background: ${({ $danger }) => ($danger ? "var(--badge-danger-bg)" : "var(--surface-hover)")};
+  }
+`;
+
 export const Content = styled.div`
   margin-top: 12px;
   display: grid;
