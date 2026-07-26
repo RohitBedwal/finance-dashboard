@@ -1,5 +1,52 @@
 import styled from "styled-components";
 
+export const TopBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 12px;
+`;
+
+export const MonthSelector = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+`;
+
+export const MonthArrow = styled.button`
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--color-bg);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--surface-hover);
+    border-color: var(--primary-400);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+`;
+
+export const MonthLabel = styled.span`
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-color);
+  min-width: 90px;
+  text-align: center;
+`;
+
 export const TopRightInfo = styled.div`
   display: flex;
   align-items: center;
@@ -288,6 +335,86 @@ export const RecentTable = styled.table`
 
 export const InputWrapper = styled.div`
   margin-bottom: 24px;
+`;
+
+export const MonthHistorySection = styled.div`
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  padding: 18px;
+  background: var(--color-bg);
+  margin-top: 24px;
+
+  @media (max-width: 767px) {
+    padding: 12px;
+    border-radius: 20px;
+  }
+`;
+
+export const MonthHistoryTitle = styled.h3`
+  font-size: var(--fs-lg);
+  color: var(--text-color);
+  margin-bottom: 14px;
+`;
+
+export const MonthHistoryTable = styled.table`
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  th {
+    text-transform: uppercase;
+    text-align: left;
+    font-size: var(--fs-xs);
+    font-weight: 200;
+    padding: 10px 16px;
+    color: var(--primary-600);
+    background: var(--surface-hover);
+  }
+
+  thead tr th:first-child {
+    border-radius: 16px 0 0 16px;
+  }
+
+  thead tr th:last-child {
+    border-radius: 0 16px 16px 0;
+  }
+
+  tbody tr {
+    box-shadow: inset 0 -1px 0 var(--primary-200);
+  }
+
+  tbody tr td {
+    padding: 12px 16px;
+    font-size: var(--fs-sm);
+    color: var(--text-color);
+    white-space: nowrap;
+  }
+
+  tbody tr td:first-child {
+    border-radius: 16px 0 0 16px;
+    font-weight: var(--fw-medium);
+  }
+
+  tbody tr td:last-child {
+    border-radius: 0 16px 16px 0;
+  }
+
+  td.income {
+    color: var(--success-800);
+    font-weight: var(--fw-medium);
+  }
+
+  td.expense {
+    color: var(--danger-500);
+    font-weight: var(--fw-medium);
+  }
+
+  @media (max-width: 767px) {
+    th, td {
+      padding: 10px 8px;
+      font-size: var(--fs-xs);
+    }
+  }
 `;
 
 export const RedirectButton = styled.button`
