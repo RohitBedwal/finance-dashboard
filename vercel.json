@@ -1,56 +1,7 @@
 {
   "version": 2,
   "installCommand": "npm install && cd frontend && npm install",
-  "builds": [
-    {
-      "src": "api/ai/chat.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/ai/insights.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/ai/parse-transaction.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/ai/predict.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/ai/transcribe.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/auth/login.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/auth/register.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/budgets/[id].js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/budgets/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/dashboard/stats.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/transactions/[id].js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/transactions/index.js",
-      "use": "@vercel/node"
-    }
-  ],
+  "outputDirectory": "frontend/dist",
   "rewrites": [
     {
       "source": "/api/(.*)",
