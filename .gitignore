@@ -1,4 +1,5 @@
 node_modules/
+opencode.json
 .env
 .env.local
 .vercel/
