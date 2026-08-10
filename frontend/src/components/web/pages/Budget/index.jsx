@@ -115,7 +115,7 @@ const Budget = () => {
     type: null,
     amount: null,
     currency: null,
-    method: null,
+    bank: null,
     category: null,
     status: null,
   });
@@ -260,7 +260,7 @@ const Budget = () => {
               statusPlaceholder: "Status",
               typeOptions: budgetSortOptions,
               statusOptions: budgetStatusOptions,
-              showMethod: false,
+              showBank: false,
               showCategory: false,
             }}
           />

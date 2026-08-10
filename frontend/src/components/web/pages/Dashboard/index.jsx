@@ -4,6 +4,8 @@ import Main from "../../../templates/main";
 import SummaryCardsGrid from "../../organisms/SummaryCardsGrid";
 import MonthlyIncomeExpenseChart from "../../organisms/MonthlyIncomeExpenseChart";
 import BudgetOverviewCard from "../../organisms/BudgetOverviewCard";
+import CardsSection from "../../organisms/CardsSection";
+import CardSetupModal from "../../organisms/CardSetupModal";
 import * as S from "./simpleStyles";
 import { useAnalyticsData } from "../Analytics/useAnalyticsData";
 import { useData } from "../../../../context/DataContext";
@@ -52,17 +54,63 @@ const BUDGET_COLORS = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { transactions, budgets, refetchAll, loading } = useData();
+  const { transactions, budgets, cards, refetchAll, refetchCards, loading } = useData();
   const [currentDateTime, setCurrentDateTime] = useState(() => new Date());
   const [selectedMonth, setSelectedMonth] = useState(() => new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(() => new Date().getFullYear());
+  const [cardModalOpen, setCardModalOpen] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState(() => {
+    try {
+      return localStorage.getItem("selected_card_id");
+    } catch {
+      return null;
+    }
+  });
+
+  useEffect(() => {
+    if (loading) return;
+
+    if (!cards.length) {
+      setSelectedCardId(null);
+      localStorage.removeItem("selected_card_id");
+      return;
+    }
+
+    const current =
+      selectedCardId && cards.some((c) => c.id === selectedCardId)
+        ? selectedCardId
+        : cards[0].id;
+
+    if (current !== selectedCardId) {
+      setSelectedCardId(current);
+      localStorage.setItem("selected_card_id", current);
+    }
+  }, [cards, selectedCardId, loading]);
+
+  const handleSelectCard = (id) => {
+    setSelectedCardId(id);
+    localStorage.setItem("selected_card_id", id);
+  };
+
+  const selectedCard = cards.find((c) => c.id === selectedCardId) || cards[0] || null;
+
+  const bankFilter = useMemo(() => {
+    if (!selectedCard) return null;
+    return `${selectedCard.bank_name} ****${selectedCard.last4}`;
+  }, [selectedCard]);
+
+  const bankTransactions = useMemo(() => {
+    if (!bankFilter) return transactions;
+    return transactions.filter((tx) => tx.bank === bankFilter);
+  }, [transactions, bankFilter]);
+
   const {
     years,
     moneyFlowYear,
     setMoneyFlowYear,
     monthlyBarData,
     summaryData: analyticsSummaryData,
-  } = useAnalyticsData(transactions);
+  } = useAnalyticsData(bankTransactions);
 
   const isCurrentMonth = selectedMonth === new Date().getMonth() && selectedYear === new Date().getFullYear();
 
@@ -93,7 +141,7 @@ const Dashboard = () => {
   };
 
   const monthTotals = useMemo(() => {
-    const txInSelected = transactions.filter((tx) => {
+    const txInSelected = bankTransactions.filter((tx) => {
       const d = parseTxDate(tx.date);
       return d && d.getFullYear() === selectedYear && d.getMonth() === selectedMonth;
     });
@@ -115,25 +163,25 @@ const Dashboard = () => {
     });
 
     return { income, expense, balance: income - expense, savings: savingsAdded - savingsWithdrawn, txCount: txInSelected.length };
-  }, [transactions, selectedMonth, selectedYear]);
+  }, [bankTransactions, selectedMonth, selectedYear]);
 
   const allTimeTotals = useMemo(() => {
     let income = 0;
     let expense = 0;
-    transactions.forEach((tx) => {
+    bankTransactions.forEach((tx) => {
       const amount = parseAmount(tx.amount);
       const type = normalizeType(tx.type);
       if (type === "Income") income += amount;
       if (type === "Expense") expense += amount;
     });
     return { income, expense, balance: income - expense };
-  }, [transactions]);
+  }, [bankTransactions]);
 
   const dashboardSummaryData = useMemo(() => {
     const prevMonth = selectedMonth === 0 ? 11 : selectedMonth - 1;
     const prevMonthYear = selectedMonth === 0 ? selectedYear - 1 : selectedYear;
 
-    const prevTx = transactions.filter((tx) => {
+    const prevTx = bankTransactions.filter((tx) => {
       const d = parseTxDate(tx.date);
       return d && d.getFullYear() === prevMonthYear && d.getMonth() === prevMonth;
     });
@@ -159,7 +207,7 @@ const Dashboard = () => {
 
     const uniqueCategories = (list) => new Set(list.map((tx) => String(tx.category || "").trim().toLowerCase()).filter(Boolean)).size;
 
-    const monthTx = transactions.filter((tx) => {
+    const monthTx = bankTransactions.filter((tx) => {
       const d = parseTxDate(tx.date);
       return d && d.getFullYear() === selectedYear && d.getMonth() === selectedMonth;
     });
@@ -167,7 +215,7 @@ const Dashboard = () => {
     const allIncomeTx = monthTx.filter((tx) => normalizeType(tx.type) === "Income");
     const allExpenseTx = monthTx.filter((tx) => normalizeType(tx.type) === "Expense");
 
-    const selectedMonthCumulative = transactions
+    const selectedMonthCumulative = bankTransactions
       .filter((tx) => {
         const d = parseTxDate(tx.date);
         if (!d) return false;
@@ -233,7 +281,7 @@ const Dashboard = () => {
         detail: `${MONTHS[selectedMonth]} ${selectedYear} savings activity.`,
       },
     ];
-  }, [transactions, selectedMonth, selectedYear, allTimeTotals, monthTotals, isCurrentMonth]);
+  }, [bankTransactions, selectedMonth, selectedYear, allTimeTotals, monthTotals, isCurrentMonth]);
 
   const monthlyHistory = useMemo(() => {
     const history = [];
@@ -242,7 +290,7 @@ const Dashboard = () => {
       const year = targetDate.getFullYear();
       const month = targetDate.getMonth();
 
-      const txInMonth = transactions.filter((tx) => {
+      const txInMonth = bankTransactions.filter((tx) => {
         const d = parseTxDate(tx.date);
         return d && d.getFullYear() === year && d.getMonth() === month;
       });
@@ -261,7 +309,7 @@ const Dashboard = () => {
         }
       });
 
-      const totalBalance = transactions
+      const totalBalance = bankTransactions
         .filter((tx) => {
           const d = parseTxDate(tx.date);
           if (!d) return false;
@@ -288,7 +336,7 @@ const Dashboard = () => {
       });
     }
     return history;
-  }, [transactions, selectedMonth, selectedYear]);
+  }, [bankTransactions, selectedMonth, selectedYear]);
 
   const budgetChartData = useMemo(() => {
     const totalsByCategory = budgets.reduce((acc, item) => {
@@ -315,11 +363,11 @@ const Dashboard = () => {
   const totalBudget = useMemo(() => budgetChartData.reduce((sum, item) => sum + item.value, 0), [budgetChartData]);
 
   const recentTransactions = useMemo(() => {
-    return [...transactions]
+    return [...bankTransactions]
       .filter((item) => item?.date)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 3);
-  }, [transactions]);
+  }, [bankTransactions]);
 
   const savingsGoals = useMemo(() => {
     return [
@@ -350,11 +398,21 @@ const Dashboard = () => {
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
           </S.MonthArrow>
         </S.MonthSelector>
-        <S.TopRightInfo>{dashboardDateTime}</S.TopRightInfo>
+        <S.TopControls>
+          <S.AddCardButton onClick={() => setCardModalOpen(true)}>+ Add card</S.AddCardButton>
+          <S.TopRightInfo>{dashboardDateTime}</S.TopRightInfo>
+        </S.TopControls>
       </S.TopBar>
 
-      <SummaryCardsGrid data={isCurrentMonth ? analyticsSummaryData : dashboardSummaryData} />
+      <CardsSection
+        selectedCardId={selectedCard?.id || null}
+        onSelectCard={handleSelectCard}
+        onAddCard={() => setCardModalOpen(true)}
+      />
 
+      <SummaryCardsGrid data={isCurrentMonth ? analyticsSummaryData : dashboardSummaryData} mobileColumns={2} compactMobile />
+
+      {/* Monthly overview table commented out
       <S.MonthHistorySection>
         <S.MonthHistoryTitle>Monthly overview</S.MonthHistoryTitle>
         <S.MonthHistoryTable>
@@ -382,6 +440,7 @@ const Dashboard = () => {
           </tbody>
         </S.MonthHistoryTable>
       </S.MonthHistorySection>
+      */}
 
       <S.ChartSection>
         <MonthlyIncomeExpenseChart
@@ -413,7 +472,7 @@ const Dashboard = () => {
                   <th>Date</th>
                   <th>Amount</th>
                   <th>Payment Name</th>
-                  <th>Method</th>
+                  <th>Bank</th>
                   <th>Category</th>
                 </tr>
               </thead>
@@ -426,7 +485,7 @@ const Dashboard = () => {
                         {transaction.type === "Income" ? "+" : "-"} ₹{parseAmount(transaction.amount)}
                       </td>
                       <td>{transaction.name || "-"}</td>
-                      <td>{transaction.method || "-"}</td>
+                      <td>{transaction.bank || "-"}</td>
                       <td>{transaction.category || "-"}</td>
                     </tr>
                   ))
@@ -464,6 +523,13 @@ const Dashboard = () => {
           </S.SavingsCard>
         </S.BudgetSection>
       </S.BottomSection>
+
+      <CardSetupModal
+        open={cardModalOpen}
+        onClose={() => setCardModalOpen(false)}
+        onSaved={() => refetchCards()}
+        showSkip={false}
+      />
       </>
       )}
     </Main>

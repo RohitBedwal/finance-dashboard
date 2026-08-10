@@ -32,8 +32,8 @@ const NLInput = ({ onTransactionAdded }) => {
       setText("");
       setPreview(null);
       onTransactionAdded?.();
-    } catch {
-      toast.error("Failed to save transaction");
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to save transaction");
     }
   };
 
@@ -99,10 +99,10 @@ const NLInput = ({ onTransactionAdded }) => {
             <span>Name</span>
             <strong>{preview.name || "-"}</strong>
           </S.PreviewRow>
-          {preview.method && (
+          {preview.bank && (
             <S.PreviewRow>
-              <span>Method</span>
-              <strong>{preview.method}</strong>
+              <span>Bank</span>
+              <strong>{preview.bank}</strong>
             </S.PreviewRow>
           )}
           <S.PreviewRow>

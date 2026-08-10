@@ -1,10 +1,19 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   background: var(--color-bg);
   border-radius: 30px;
   padding: 3px 3px 22px 22px;
   border: 1px solid var(--border-color);
+
+  @media (max-width: 600px) {
+    ${({ $compactMobile }) =>
+      $compactMobile &&
+      css`
+        border-radius: 20px;
+        padding: 3px 3px 16px 14px;
+      `}
+  }
 `;
 
 export const Top = styled.div`
@@ -18,6 +27,24 @@ export const Title = styled.span`
   color: var(--text-color);
   font-weight: 500;
 
+  @media (max-width: 600px) {
+    ${({ $compactMobile }) => $compactMobile && css`font-size: var(--fs-xs);`}
+  }
+`;
+
+export const BadgeWrap = styled.div`
+  display: inline-flex;
+
+  @media (max-width: 600px) {
+    ${({ $compactMobile }) =>
+      $compactMobile &&
+      css`
+        > span {
+          font-size: 10px;
+          padding: 2px 8px;
+        }
+      `}
+  }
 `;
 
 export const RedirectButton = styled.button`
@@ -50,6 +77,13 @@ export const RedirectButton = styled.button`
     fill: currentColor;
  
   }
+
+  @media (max-width: 600px) {
+    ${({ $compactMobile }) => $compactMobile && css`
+      width: 34px;
+      height: 34px;
+    `}
+  }
 `;
 
 export const CurrencyChip = styled.span`
@@ -61,6 +95,13 @@ export const CurrencyChip = styled.span`
   align-items: center;
   color: var(--muted-text);
   font-size: var(--fs-xs);
+
+  @media (max-width: 600px) {
+    ${({ $compactMobile }) => $compactMobile && css`
+      height: 34px;
+      padding: 0 10px;
+    `}
+  }
 `;
 
 export const Amount = styled.h2`
@@ -72,6 +113,19 @@ export const Amount = styled.h2`
     font-size: 29px;
     color: var(--gray-200);
     margin-left: 2px;
+  }
+
+  @media (max-width: 600px) {
+    ${({ $compactMobile }) =>
+      $compactMobile &&
+      css`
+        margin: 12px 0 10px;
+        font-size: 16px;
+
+        span {
+          font-size: 16px;
+        }
+      `}
   }
 `;
 

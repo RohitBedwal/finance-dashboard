@@ -267,6 +267,7 @@ const Onboarding = () => {
       setVisible(false);
       setExiting(false);
       setCurrent(0);
+      window.dispatchEvent(new Event("onboarding:closed"));
     }, 300);
   };
 

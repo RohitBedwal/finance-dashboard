@@ -3,10 +3,23 @@ import { chatWithAI, transcribeAudio } from "../../../../api/aiApi";
 import * as S from "./styles";
 
 const SUGGESTIONS = [
-  "How much did I spend on food?",
-  "Add 5000 to savings",
-  "Set budget of 3000 for food",
+  "Add expense",
+  "Add income",
+  "Set budget",
+  "Add to savings",
+  "Export CSV",
+  "Export PDF",
 ];
+
+const GREETING = `Hi! I'm your AI finance assistant. Here's what I can do:
+
+- Record income and expenses (just tell me what you spent!)
+- Pick a bank and category for each entry
+- Create or update monthly budgets
+- Move money to or from savings
+- Answer questions about your spending and balance
+- Export transactions as CSV or a PDF bank statement
+- Take voice commands`;
 
 const ACTION_LABELS = {
   income_added: { icon: "💵", text: "Income Recorded" },
@@ -16,6 +29,8 @@ const ACTION_LABELS = {
   budget_removed: { icon: "🗑️", text: "Budget Removed" },
   savings_added: { icon: "💰", text: "Added to Savings" },
   savings_removed: { icon: "🏧", text: "Withdrawn from Savings" },
+  csv_export: { icon: "📄", text: "CSV Exported" },
+  pdf_export: { icon: "📑", text: "Statement Generated" },
 };
 
 const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
@@ -36,13 +51,15 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
     return [
       {
         role: "assistant",
-        content: "Hi! I'm your AI finance assistant. Ask me anything about your spending, budgets, or financial habits.",
+        content: GREETING,
       },
     ];
   });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [pendingAction, setPendingAction] = useState(null);
+  const [pendingDraft, setPendingDraft] = useState(null);
+  const [draftOptions, setDraftOptions] = useState(null);
   const [recording, setRecording] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
   const [voiceError, setVoiceError] = useState("");
@@ -213,12 +230,27 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
         content: m.content,
       }));
 
-      const res = await chatWithAI(text.trim(), history);
+      const draft = pendingDraft;
+      setPendingDraft(null);
+
+      const res = await chatWithAI(text.trim(), history, draft);
       const action = res.data.action || null;
       const pending = res.data.pendingAction || null;
+      const nextDraft = res.data.pendingDraft || null;
 
-      if (pending) {
+      if (nextDraft) {
+        setPendingDraft(nextDraft);
+        setDraftOptions({ need: res.data.need, options: res.data.options || [] });
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: res.data.answer,
+          },
+        ]);
+      } else if (pending) {
         setPendingAction(pending);
+        setDraftOptions(null);
         setMessages((prev) => [
           ...prev,
           {
@@ -228,6 +260,7 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
           },
         ]);
       } else {
+        setDraftOptions(null);
         const answer = action?.summary
           ? `${res.data.answer}\n\n${action.summary}`
           : res.data.answer;
@@ -266,6 +299,7 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
       { role: "user", content: label },
     ]);
     setPendingAction(null);
+    setDraftOptions(null);
     setLoading(true);
 
     if (!confirmed) {
@@ -322,10 +356,12 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
     setMessages([
       {
         role: "assistant",
-        content: "Hi! I'm your AI finance assistant. Ask me anything about your spending, budgets, or financial habits.",
+        content: GREETING,
       },
     ]);
     setPendingAction(null);
+    setPendingDraft(null);
+    setDraftOptions(null);
     localStorage.removeItem(getStorageKey());
   };
 
@@ -337,6 +373,29 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
     remove_budget: "Remove budget",
     add_savings: "Add to savings",
     remove_savings: "Withdraw from savings",
+    export_csv: "Export transactions to CSV",
+    export_pdf: "Generate bank statement PDF",
+  };
+
+  const downloadFile = (data, filename, mimeType, isBase64 = false) => {
+    let blob;
+    if (isBase64) {
+      const binary = atob(data);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      blob = new Blob([bytes], { type: mimeType });
+    } else {
+      blob = new Blob([data], { type: mimeType });
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename || "file";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const chatContent = (
@@ -355,6 +414,22 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
                     <span>{ACTION_LABELS[msg.action.type]?.icon}</span>
                     <span>{ACTION_LABELS[msg.action.type]?.text}</span>
                   </S.ActionBadge>
+                  {msg.action.csv && (
+                    <S.DownloadButton onClick={() => downloadFile(msg.action.csv, msg.action.filename, "text/csv;charset=utf-8;")}>
+                      <svg viewBox="0 0 24 24">
+                        <path d="M12 2a2 2 0 0 1 2 2v10.59l3.29-3.29 1.42 1.41L13 18.42a2 2 0 0 1-2 0L6.29 12.7l1.42-1.41L11 14.59V4a2 2 0 0 1 1-1.73V2zM4 20h16v2H4v-2z" />
+                      </svg>
+                      Download CSV
+                    </S.DownloadButton>
+                  )}
+                  {msg.action.pdfBase64 && (
+                    <S.DownloadButton onClick={() => downloadFile(msg.action.pdfBase64, msg.action.filename, "application/pdf", true)}>
+                      <svg viewBox="0 0 24 24">
+                        <path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 8H4v12c0 1.1.9 2 2 2h12v-2H6V8zm8 3h2v2h-2v2h-2v-2h-2v-2h2v-2h2v2z" />
+                      </svg>
+                      Download PDF
+                    </S.DownloadButton>
+                  )}
                 </S.ActionCard>
               )}
               {msg.pendingAction && index === messages.length - 1 && !loading && (
@@ -390,7 +465,7 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
         <div ref={messagesEndRef} />
       </S.Messages>
 
-      {!loading && !pendingAction && (
+      {!loading && !pendingAction && !pendingDraft && (
         <S.Suggestions>
           {SUGGESTIONS.map((text) => (
             <S.SuggestionChip key={text} onClick={() => handleSuggestion(text)}>
@@ -399,6 +474,16 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
           ))}
           <S.ClearButton onClick={clearChat}>Clear chat</S.ClearButton>
         </S.Suggestions>
+      )}
+
+      {!loading && pendingDraft && draftOptions?.options?.length > 0 && (
+        <S.OptionRow>
+          {draftOptions.options.map((opt) => (
+            <S.OptionChip key={opt} onClick={() => sendMessage(opt)}>
+              {opt}
+            </S.OptionChip>
+          ))}
+        </S.OptionRow>
       )}
 
       <S.InputArea>
@@ -411,7 +496,7 @@ const AIChat = ({ fullHeight = false, onAction, $widget = false }) => {
           </S.MicButton>
         )}
         <S.Input
-          placeholder={recording ? "Listening..." : "Ask about your finances..."}
+          placeholder={pendingDraft ? "Type your answer... (or 'cancel')" : recording ? "Listening..." : "Ask about your finances..."}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}

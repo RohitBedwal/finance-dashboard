@@ -4,6 +4,7 @@ import Sidebar from "../web/organisms/Sidebar/index";
 import NavigationShell from "./NavigationShell";
 import ChatWidget from "../web/organisms/ChatWidget";
 import Onboarding from "../web/organisms/Onboarding";
+import CardPrompt from "../web/organisms/CardPrompt";
 
 export const Layout = styled.div`
   display: grid;
@@ -36,6 +37,7 @@ const AppWrapper = ({ children }) => {
       {children}
       <ChatWidget />
       <Onboarding />
+      <CardPrompt />
     </Layout>
   );
 };

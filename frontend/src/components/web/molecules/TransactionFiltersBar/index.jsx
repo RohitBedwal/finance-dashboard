@@ -53,11 +53,7 @@ const defaultAmountOptions = [
 ];
 
 
-const defaultMethodOptions = [
-  { value: "Card", label: "Card" },
-  { value: "UPI", label: "UPI" },
-  { value: "Cash", label: "Cash" },
-];
+const defaultBankOptions = [];
 
 const defaultCategoryOptions = [
   { value: "Food", label: "Food" },
@@ -81,17 +77,17 @@ const TransactionFiltersBar = ({
   setFilters: controlledSetFilters,
   typeOptions = defaultTypeOptions,
   amountOptions = defaultAmountOptions,
-  methodOptions = defaultMethodOptions,
+  bankOptions = defaultBankOptions,
   categoryOptions = defaultCategoryOptions,
   statusOptions = defaultStatusOptions,
   typePlaceholder = "Type",
   amountPlaceholder = "Amount",
-  methodPlaceholder = "Method",
+  bankPlaceholder = "Bank",
   categoryPlaceholder = "Category",
   statusPlaceholder = "Status",
   showType = true,
   showAmount = true,
-  showMethod = true,
+  showBank = true,
   showCategory = true,
   showStatus = true,
 }) => {
@@ -103,7 +99,7 @@ const TransactionFiltersBar = ({
       type: null,
       amount: null,
       currency: null,
-      method: null,
+      bank: null,
       category: null,
       status: null,
     });
@@ -139,15 +135,15 @@ const TransactionFiltersBar = ({
         </FilterItem>
       )}
 
-      {showMethod && (
+      {showBank && (
         <FilterItem>
           <Select
-            placeholder={methodPlaceholder}
-            options={methodOptions}
-            value={filters.method?.value || ""}
+            placeholder={bankPlaceholder}
+            options={bankOptions}
+            value={filters.bank?.value || ""}
             isClearable
             onChange={(_, selected) =>
-              setFilters((prev) => ({ ...prev, method: selected || null }))
+              setFilters((prev) => ({ ...prev, bank: selected || null }))
             }
           />
         </FilterItem>

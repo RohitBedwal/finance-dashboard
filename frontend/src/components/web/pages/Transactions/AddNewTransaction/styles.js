@@ -98,6 +98,12 @@ export const Field = styled.div`
   }
 `;
 
+export const Hint = styled.p`
+  font-size: 12px;
+  color: var(--muted-text);
+  margin: 0;
+`;
+
 export const AddCategoryRow = styled.div`
   display: flex;
   gap: 8px;

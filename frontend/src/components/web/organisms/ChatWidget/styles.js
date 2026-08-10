@@ -42,6 +42,10 @@ export const FAB = styled.button`
       transform: rotate(90deg);
     }
   `}
+
+  @media (max-width: 768px) {
+    display: ${({ $isOpen }) => ($isOpen ? "none" : "flex")};
+  }
 `;
 
 export const Overlay = styled.div`
@@ -69,6 +73,15 @@ export const Window = styled.div`
 
   :root[data-theme="dark"] & {
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+  }
+
+  @media (max-width: 768px) {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: none;
   }
 `;
 

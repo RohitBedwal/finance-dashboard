@@ -49,7 +49,7 @@ async function handler(req, res) {
 
   if (req.method === "POST") {
     try {
-      const { amount, type, category, name, method, status, date, currency } = req.body;
+      const { amount, type, category, name, bank, status, date, currency } = req.body;
 
       if (!amount || !type) {
         return res.status(400).json({ message: "Amount and type are required" });
@@ -58,6 +58,25 @@ async function handler(req, res) {
       const numAmount = Number(String(amount).replace(/[^\d.]/g, ""));
       if (isNaN(numAmount) || numAmount < 0) {
         return res.status(400).json({ message: "Invalid amount" });
+      }
+
+      if (type === "Expense") {
+        const { data: allTx } = await supabase
+          .from("transactions")
+          .select("amount, type, bank")
+          .eq("user_id", userId);
+
+        const scope = (allTx || []).filter((t) => !bank || t.bank === bank);
+        const available = scope.reduce((sum, t) => {
+          const amt = Number(t.amount) || 0;
+          return String(t.type || "").toLowerCase() === "income" ? sum + amt : sum - amt;
+        }, 0);
+
+        if (numAmount > available) {
+          return res.status(400).json({
+            message: `Insufficient balance${bank ? ` for ${bank}` : ""}. Available: ₹${available.toLocaleString("en-IN")}.`,
+          });
+        }
       }
 
       let finalCategory = category;
@@ -90,7 +109,7 @@ async function handler(req, res) {
           type,
           category: finalCategory || "Other",
           name: name || null,
-          method: method || null,
+          bank: bank || null,
           status: status || "Successful",
           date: isoDate,
         })

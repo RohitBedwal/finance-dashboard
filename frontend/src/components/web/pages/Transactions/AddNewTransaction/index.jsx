@@ -4,17 +4,25 @@ import * as S from "./styles";
 import { categoryOptionsByType } from "./defaultCategories";
 import { useTransactionForm } from "./useTransactionForm";
 import Button from "../../../atoms/buttons";
+import { useData } from "../../../../../context/DataContext";
 
 
 const AddNewTransaction = ({ onClose }) => {
     const { form, handleChange, saveTransaction } =
         useTransactionForm();
 
+    const { cards } = useData();
+
     const [selectedType, setSelectedType] =
         useState(form.type || "Income");
 
     const categories =
         categoryOptionsByType[selectedType] || [];
+
+    const bankOptions = (cards || []).map((card) => {
+        const label = `${card.bank_name} ****${card.last4}`;
+        return { value: label, label };
+    });
 
     const handleSubmit = async () => {
     const success = await saveTransaction();
@@ -97,20 +105,21 @@ const AddNewTransaction = ({ onClose }) => {
                         </S.Field>
                     </S.FullRow>
 
-                    {/* METHOD */}
+                    {/* BANK */}
                     <S.Field>
-                        <label>Method</label>
+                        <label>Bank</label>
                         <Select
-                            options={[
-                                { value: "Card", label: "Card" },
-                                { value: "UPI", label: "UPI" },
-                                { value: "Cash", label: "Cash" },
-                            ]}
-                            value={form.method}
+                            options={bankOptions}
+                            value={form.bank}
+                            placeholder={bankOptions.length ? "Select bank" : "No saved cards yet"}
+                            isDisabled={!bankOptions.length}
                             onChange={(_, selected) =>
-                                handleChange("method", selected?.value || "")
+                                handleChange("bank", selected?.value || "")
                             }
                         />
+                        {!bankOptions.length && (
+                            <S.Hint>Add a card from the Dashboard to pick a bank.</S.Hint>
+                        )}
                     </S.Field>
 
                     {/* CATEGORY */}

@@ -71,6 +71,10 @@ export const InputArea = styled.div`
   padding: 12px;
   border-top: 1px solid var(--border-color);
   align-items: center;
+
+  @media (max-width: 768px) {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
 `;
 
 export const Input = styled.input`
@@ -157,6 +161,43 @@ export const Suggestions = styled.div`
   padding: 0 12px 8px;
 `;
 
+export const OptionRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 12px 8px;
+`;
+
+export const OptionChip = styled.button`
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--primary-300);
+  background: var(--primary-100);
+  color: var(--primary-600);
+  font-size: 11px;
+  font-weight: var(--fw-medium);
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--primary-600);
+    color: white;
+    border-color: var(--primary-600);
+  }
+
+  :root[data-theme="dark"] & {
+    background: rgba(132, 112, 255, 0.15);
+    border-color: rgba(132, 112, 255, 0.4);
+    color: var(--primary-400);
+
+    &:hover {
+      background: var(--primary-600);
+      color: white;
+    }
+  }
+`;
+
 export const SuggestionChip = styled.button`
   padding: 4px 8px;
   border-radius: 999px;
@@ -190,6 +231,36 @@ export const SuggestionChip = styled.button`
 
 export const ActionCard = styled.div`
   margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+`;
+
+export const DownloadButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: none;
+  background: var(--primary-600);
+  color: white;
+  font-size: 11px;
+  font-weight: var(--fw-medium);
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: var(--primary-700);
+  }
+
+  svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+  }
 `;
 
 export const ActionBadge = styled.div`

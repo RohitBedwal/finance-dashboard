@@ -20,7 +20,7 @@ const TransactionsTable = ({ transactions }) => {
     "date & time": "date",
     amount: "amount",
     "payment name": "name",
-    method: "method",
+    bank: "bank",
     category: "category",
     status: "status",
   };
@@ -174,10 +174,10 @@ const TransactionsTable = ({ transactions }) => {
                     (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </S.SortIcon>
               </th>
-              <th onClick={() => handleSort("method")}>
-                Method
+              <th onClick={() => handleSort("bank")}>
+                Bank
                 <S.SortIcon>
-                  {sortConfig.key === "method" &&
+                  {sortConfig.key === "bank" &&
                     (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </S.SortIcon>
               </th>
@@ -243,8 +243,8 @@ const TransactionsTable = ({ transactions }) => {
                 <S.MobileCardValue>{txn.name}</S.MobileCardValue>
               </S.MobileCardField>
               <S.MobileCardField>
-                <S.MobileCardLabel>Method</S.MobileCardLabel>
-                <S.MobileCardValue>{txn.method}</S.MobileCardValue>
+                <S.MobileCardLabel>Bank</S.MobileCardLabel>
+                <S.MobileCardValue>{txn.bank}</S.MobileCardValue>
               </S.MobileCardField>
             </S.MobileCardRow>
 

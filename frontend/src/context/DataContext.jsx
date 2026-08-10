@@ -3,12 +3,14 @@ import { useLocation } from "react-router-dom";
 import { getTransactions } from "../api/transactionApi";
 import { getBudgets } from "../api/budgetApi";
 import { getDashboardStats } from "../api/dashboardApi";
+import { getCards } from "../api/cardApi";
 
 const DataContext = createContext(null);
 
 export const DataProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
   const [budgets, setBudgets] = useState([]);
+  const [cards, setCards] = useState([]);
   const [stats, setStats] = useState({ income: 0, expense: 0, balance: 0, transactions: 0 });
   const [loading, setLoading] = useState(true);
   const hasFetched = useRef(false);
@@ -49,11 +51,23 @@ export const DataProvider = ({ children }) => {
     }
   }, []);
 
+  const fetchCards = useCallback(async () => {
+    try {
+      const res = await getCards();
+      const data = Array.isArray(res.data) ? res.data : [];
+      setCards(data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching cards:", error);
+      return [];
+    }
+  }, []);
+
   const fetchAll = useCallback(async () => {
     setLoading(true);
-    await Promise.all([fetchTransactions(), fetchBudgets(), fetchStats()]);
+    await Promise.all([fetchTransactions(), fetchBudgets(), fetchStats(), fetchCards()]);
     setLoading(false);
-  }, [fetchTransactions, fetchBudgets, fetchStats]);
+  }, [fetchTransactions, fetchBudgets, fetchStats, fetchCards]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -77,11 +91,13 @@ export const DataProvider = ({ children }) => {
       value={{
         transactions,
         budgets,
+        cards,
         stats,
         loading,
         refetchTransactions: fetchTransactions,
         refetchBudgets: fetchBudgets,
         refetchStats: fetchStats,
+        refetchCards: fetchCards,
         refetchAll: fetchAll,
       }}
     >

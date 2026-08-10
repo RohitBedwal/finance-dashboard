@@ -24,6 +24,7 @@ Rules:
 - Use these expense categories: ${EXPENSE_CATEGORIES.join(", ")}
 - Use these income categories: ${INCOME_CATEGORIES.join(", ")}
 - Extract merchant/description as "name"
+- Extract a "bank" value (bank name with masked last 4 digits, e.g. "HDFC ****1234") only if the user mentions a bank or card
 - Common Indian contexts: "chai", "auto", "rapido", "swiggy", "zomato", "irctc", "paytm", "phonepe", "gpay", "recharge", "electricity bill", "rent"
 - Return valid JSON only.`;
 
@@ -52,7 +53,7 @@ export default withAuth(async function handler(req, res) {
       type: ["Income", "Expense"].includes(result.type) ? result.type : "Expense",
       category: result.category || "Other",
       name: result.name || text.trim(),
-      method: result.method || null,
+      bank: result.bank || null,
       date: result.date || today,
       currency: "INR",
     };

@@ -9,8 +9,8 @@ export const getInsights = () =>
 export const getPredictions = () =>
   api.post("/ai/predict");
 
-export const chatWithAI = (question, history = []) =>
-  api.post("/ai/chat", { question, history });
+export const chatWithAI = (question, history = [], pendingDraft = null) =>
+  api.post("/ai/chat", { question, history, pendingDraft });
 
 export const transcribeAudio = (audioBase64) =>
   api.post("/ai/transcribe", { audio: audioBase64 });

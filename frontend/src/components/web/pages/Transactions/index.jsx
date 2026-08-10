@@ -30,11 +30,24 @@ const Transactions = () => {
 
   const normalizeType = (type) => String(type || "").trim().toLowerCase();
 
+  const bankOptions = useMemo(() => {
+    const seen = new Set();
+    const options = [];
+    (transactions || []).forEach((tx) => {
+      const bank = String(tx.bank || "").trim();
+      if (bank && !seen.has(bank)) {
+        seen.add(bank);
+        options.push({ value: bank, label: bank });
+      }
+    });
+    return options.sort((a, b) => a.label.localeCompare(b.label));
+  }, [transactions]);
+
   const filteredTransactions = useMemo(() => {
     return transactions.filter((tx) => {
       const txType = normalizeType(tx.type);
       const txAmount = parseAmount(tx.amount);
-      const txMethod = normalizeType(tx.method);
+      const txBank = normalizeType(tx.bank);
       const txCategory = normalizeType(tx.category);
       const txStatus = normalizeType(tx.status);
 
@@ -76,9 +89,9 @@ const Transactions = () => {
           return false;
         if (amountRange === "1000+" && !(txAmount > 1000)) return false;
       }
-      if(filters?.method?.value){
-        const methods = normalizeType(filters.method.value);
-        const isMatch = txMethod === methods;
+      if(filters?.bank?.value){
+        const banks = normalizeType(filters.bank.value);
+        const isMatch = txBank === banks;
         if (!isMatch) return false;
       }
       if(filters?.category?.value){
@@ -96,7 +109,7 @@ const Transactions = () => {
         const searchBase = [
           tx.id,
           tx.name,
-          tx.method,
+          tx.bank,
           tx.category,
           tx.status,
           tx.type,
@@ -122,6 +135,7 @@ const Transactions = () => {
       <TransactionsToolbar
         transactions={transactions}
         onDateFilter={handleDateFilter}
+        filterBarProps={{ bankOptions }}
       />
 
       <TransactionsTable transactions={filteredTransactions} />

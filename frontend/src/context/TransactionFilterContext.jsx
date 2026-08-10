@@ -12,7 +12,7 @@ export const TransactionFilterProvider = ({ children }) => {
       type: null,
       amount: null,
       currency: null,
-      method: null,
+      bank: null,
       category: null,
       status: null,
     }

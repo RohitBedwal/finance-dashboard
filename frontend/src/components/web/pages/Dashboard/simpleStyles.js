@@ -6,6 +6,49 @@ export const TopBar = styled.div`
   justify-content: space-between;
   margin-bottom: 10px;
   gap: 12px;
+  flex-wrap: wrap;
+`;
+
+export const TopControls = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+`;
+
+export const AddCardButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--color-bg);
+  color: var(--primary-600);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: var(--primary-400);
+    background: var(--primary-100);
+  }
+
+  :root[data-theme="dark"] & {
+    background: var(--gray-800);
+    border-color: var(--gray-700);
+    color: #ffffff;
+
+    &:hover {
+      border-color: var(--primary-400);
+      background: rgba(132, 112, 255, 0.15);
+      color: #ffffff;
+    }
+  }
 `;
 
 export const MonthSelector = styled.div`
@@ -52,7 +95,6 @@ export const TopRightInfo = styled.div`
   align-items: center;
   justify-content: center;
   width: fit-content;
-  margin-left: auto;
   min-height: 44px;
   padding: 0 16px;
   border-radius: 999px;
@@ -61,7 +103,6 @@ export const TopRightInfo = styled.div`
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
   color: var(--primary-600);
-  margin-bottom: 10px;
 
   :root[data-theme="dark"] & {
   
@@ -70,11 +111,7 @@ export const TopRightInfo = styled.div`
   }
 
   @media (max-width: 767px) {
-    // width: 100%;
     display: none;
-    // margin-left: 0;
-    justify-content: flex-start;
-    border-radius: 14px;
   }
 `;
 
@@ -83,6 +120,10 @@ export const ChartSection = styled.div`
   grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
   gap: 20px;
   margin-top: 24px;
+
+  > * {
+    min-width: 0;
+  }
 
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
@@ -196,6 +237,10 @@ export const BottomSection = styled.div`
   grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
   gap: 20px;
   margin-top: 24px;
+
+  > * {
+    min-width: 0;
+  }
 
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
@@ -343,6 +388,8 @@ export const MonthHistorySection = styled.div`
   padding: 18px;
   background: var(--color-bg);
   margin-top: 24px;
+  min-width: 0;
+  overflow-x: auto;
 
   @media (max-width: 767px) {
     padding: 12px;

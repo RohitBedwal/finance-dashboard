@@ -11,6 +11,7 @@ const SummaryCard = ({
   cardLast4,
   currency = "INR",
   stats,
+  compactMobile = false,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,14 +20,15 @@ const SummaryCard = ({
   const isAnalyticsPage = location.pathname === "/analytics";
 
   return (
-    <S.Container $isDetailed={isAnalyticsPage}>
+    <S.Container $isDetailed={isAnalyticsPage} $compactMobile={compactMobile}>
       <S.Top>
-        <S.Title $isDetailed={isAnalyticsPage}>{title}</S.Title>
+        <S.Title $isDetailed={isAnalyticsPage} $compactMobile={compactMobile}>{title}</S.Title>
 
         {isAnalyticsPage ? (
-          <S.CurrencyChip>{`${currency} `}</S.CurrencyChip>
+          <S.CurrencyChip $compactMobile={compactMobile}>{`${currency} `}</S.CurrencyChip>
         ) : (
           <S.RedirectButton
+            $compactMobile={compactMobile}
             onClick={() => navigate("/analytics")}
           >
             <svg width="25" height="25px">
@@ -36,7 +38,7 @@ const SummaryCard = ({
         )}
       </S.Top>
 
-      <S.Amount $isDetailed={isAnalyticsPage}>
+      <S.Amount $isDetailed={isAnalyticsPage} $compactMobile={compactMobile}>
         {amount}
         <span>.00</span>
       </S.Amount>
@@ -45,9 +47,11 @@ const SummaryCard = ({
         <>
           <S.AnalyticsRow>
             <S.ChangeRow $isDetailed={isAnalyticsPage}>
-              <Badge type={isPositive ? "success" : "danger"}>
-                {isPositive ? "↑" : "↓"} {Math.abs(change)}%
-              </Badge>
+              <S.BadgeWrap $compactMobile={compactMobile}>
+                <Badge type={isPositive ? "success" : "danger"}>
+                  {isPositive ? "↑" : "↓"} {Math.abs(change)}%
+                </Badge>
+              </S.BadgeWrap>
               {detail ? <S.Detail $isDetailed={isAnalyticsPage}>{detail}</S.Detail> : null}
             </S.ChangeRow>
 
@@ -69,9 +73,11 @@ const SummaryCard = ({
         </>
       ) : (
         <S.ChangeRow $isDetailed={isAnalyticsPage}>
-          <Badge type={isPositive ? "success" : "danger"}>
-            {isPositive ? "↑" : "↓"} {Math.abs(change)}%
-          </Badge>
+          <S.BadgeWrap $compactMobile={compactMobile}>
+            <Badge type={isPositive ? "success" : "danger"}>
+              {isPositive ? "↑" : "↓"} {Math.abs(change)}%
+            </Badge>
+          </S.BadgeWrap>
 
           <S.ChangeText $isDetailed={isAnalyticsPage}>vs last month</S.ChangeText>
         </S.ChangeRow>

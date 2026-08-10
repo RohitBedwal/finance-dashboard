@@ -40,8 +40,16 @@ app.all("/api/transactions/:id", (req, res) => handleRoute(req, res, "./api/tran
 app.all("/api/budgets", (req, res) => handleRoute(req, res, "./api/budgets/index.js"));
 app.all("/api/budgets/:id", (req, res) => handleRoute(req, res, "./api/budgets/[id].js"));
 
+// Card routes
+app.all("/api/cards", (req, res) => handleRoute(req, res, "./api/cards/index.js"));
+app.all("/api/cards/:id", (req, res) => handleRoute(req, res, "./api/cards/[id].js"));
+
 // Dashboard routes
 app.all("/api/dashboard/stats", (req, res) => handleRoute(req, res, "./api/dashboard/stats.js"));
+
+// Profile routes
+app.get("/api/profile", (req, res) => handleRoute(req, res, "./api/profile/index.js"));
+app.put("/api/profile", (req, res) => handleRoute(req, res, "./api/profile/index.js"));
 
 // AI routes
 app.all("/api/ai/parse-transaction", (req, res) => handleRoute(req, res, "./api/ai/parse-transaction.js"));

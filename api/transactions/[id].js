@@ -7,16 +7,52 @@ async function handler(req, res) {
 
   if (req.method === "PUT") {
     try {
-      const { amount, type, category, name, method, status, date } = req.body;
+      const { amount, type, category, name, bank, status, date } = req.body;
+
+      const { data: existing, error: existingError } = await supabase
+        .from("transactions")
+        .select("amount, type, bank")
+        .eq("id", id)
+        .eq("user_id", userId)
+        .single();
+
+      if (existingError || !existing) {
+        return res.status(404).json({ message: "Transaction not found" });
+      }
 
       const updates = {};
       if (amount !== undefined) updates.amount = Number(amount);
       if (type !== undefined) updates.type = type;
       if (category !== undefined) updates.category = category;
       if (name !== undefined) updates.name = name;
-      if (method !== undefined) updates.method = method;
+      if (bank !== undefined) updates.bank = bank;
       if (status !== undefined) updates.status = status;
       if (date !== undefined) updates.date = date;
+
+      const finalType = updates.type ?? existing.type;
+      const finalAmount = Number(updates.amount ?? existing.amount);
+      const finalBank = updates.bank !== undefined ? updates.bank : existing.bank;
+
+      if (finalType === "Expense") {
+        const { data: allTx } = await supabase
+          .from("transactions")
+          .select("id, amount, type, bank")
+          .eq("user_id", userId);
+
+        const scope = (allTx || []).filter(
+          (t) => t.id !== id && (!finalBank || t.bank === finalBank)
+        );
+        const available = scope.reduce((sum, t) => {
+          const amt = Number(t.amount) || 0;
+          return String(t.type || "").toLowerCase() === "income" ? sum + amt : sum - amt;
+        }, 0);
+
+        if (finalAmount > available) {
+          return res.status(400).json({
+            message: `Insufficient balance${finalBank ? ` for ${finalBank}` : ""}. Available: ₹${available.toLocaleString("en-IN")}.`,
+          });
+        }
+      }
 
       const { data, error } = await supabase
         .from("transactions")

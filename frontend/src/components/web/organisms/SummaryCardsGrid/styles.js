@@ -10,6 +10,7 @@ export const Container = styled.div`
   }
 
   @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(${({ $mobileColumns }) => $mobileColumns || 1}, 1fr);
+    gap: 12px;
   }
 `;

@@ -7,7 +7,7 @@ const TransactionRow = ({
   amount,
   type,
   name,
-  method,
+  bank,
   category,
   status,
   checkbox,
@@ -32,7 +32,7 @@ const TransactionRow = ({
 
       <td>{name}</td>
 
-      <td>{method}</td>
+      <td>{bank}</td>
 
       <td>{category}</td>
 
