@@ -28,6 +28,9 @@ async function handleRoute(req, res, modulePath) {
   }
 }
 
+// Health route
+app.all("/api/health", (req, res) => handleRoute(req, res, "./api/health.js"));
+
 // Auth routes
 app.all("/api/auth/register", (req, res) => handleRoute(req, res, "./api/auth/register.js"));
 app.all("/api/auth/login", (req, res) => handleRoute(req, res, "./api/auth/login.js"));
